@@ -26,4 +26,11 @@ public class Customer {
     public CreditCard getCreditCard(){
         return this.card;
     }
+
+    //Sign Up Setting, no need more setter methods.
+    public void signUpSet(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
 }
