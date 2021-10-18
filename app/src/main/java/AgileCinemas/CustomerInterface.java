@@ -16,6 +16,36 @@ public class CustomerInterface {
         viewings = Crud.getViewings();
     }
 
+    /**
+     * displaying login interface
+     */
+    public int displayLogin(){
+        return -1;
+    }
+
+
+    public boolean checkUsername(){
+        return false;
+    }
+
+    public boolean checkPassword(){
+        return false;
+    }
+
+    /**
+     * sign up
+     */
+    public Customer signUp(){
+        return null;
+    }
+
+    /**
+     * displaying available movies
+     */
+    public void displayMovies(){
+
+    }
+
     /** 
      * Getter methods
     */

@@ -6,6 +6,14 @@ public class Manager extends CinemaStaff {
         super(id);
     }
 
+    /**
+     * add a new manger to database
+     * @return
+     */
+    public void addToDatabase(){
+
+    }
+
     public boolean addCinemaStaff() {
         return false;
     }

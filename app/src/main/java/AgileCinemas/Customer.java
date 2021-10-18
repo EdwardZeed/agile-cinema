@@ -11,6 +11,19 @@ public class Customer {
         this.card = null;
     }
 
+    /**
+     * insert a new customer to database
+     */
+    public void addToDatabase(){
+
+    }
+
     // TODO: getter methods
-    
+    public String getUsername(){
+        return this.username;
+    }
+
+    public CreditCard getCreditCard(){
+        return this.card;
+    }
 }

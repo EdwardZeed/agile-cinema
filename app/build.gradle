@@ -37,6 +37,10 @@ tasks.named('test') {
     test.finalizedBy jacocoTestReport
 }
 
+run{
+    standardInput = System.in
+}
+
 jacocoTestReport { 
     reports { 
         html.enabled = true 

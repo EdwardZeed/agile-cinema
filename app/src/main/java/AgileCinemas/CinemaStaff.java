@@ -11,6 +11,13 @@ public class CinemaStaff {
     }
 
     /**
+     * add a new cinema staff to database
+     */
+    public void addToDatabase(){
+
+    }
+
+    /**
      * Getter methods
     */
     public int getId() { return this.id; }

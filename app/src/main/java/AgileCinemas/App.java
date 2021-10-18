@@ -5,10 +5,13 @@ package AgileCinemas;
 
 public class App {
     public String getGreeting() {
-        return "Hello World!";
+        return "Welcome to Cinema!";
     }
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        Cinema cinema = new Cinema();
+        cinema.runCinema();
     }
 }
