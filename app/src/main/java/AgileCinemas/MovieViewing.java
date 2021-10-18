@@ -52,4 +52,18 @@ public class MovieViewing {
     public void addToDatabse(){
         //Upload SQL after booking
     }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("+ synopsis: " + this.movie.getSynopsis() + "\n");
+        sb.append("+ classification: " + this.movie.getClassification() + "\n");
+        sb.append("+ release date: " + this.movie.getReleaseDate() + "\n");
+        sb.append("+ director: " + this.movie.getDirector() + "\n");
+        sb.append("+ cast: " + this.movie.getCast() + "\n");
+        sb.append("+ upcoming time: " + this.time + "\n");
+        sb.append("+ screen size: " + this.screenSize + "\n");
+        return sb.toString();
+    }
+
+
 }

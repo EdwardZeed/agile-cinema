@@ -55,7 +55,13 @@ public class CustomerInterface {
      * displaying available movies
      */
     public void displayMovies(){
-
+        ArrayList<MovieViewing> movieSessions = Crud.getViewings();
+        for (MovieViewing mv : movieSessions){
+            System.out.println(mv.toString());
+            System.out.println("+-----------------------------------+");
+            System.out.println(mv.toString());
+            System.out.println("+-----------------------------------+");
+        }
     }
 
     /** 
