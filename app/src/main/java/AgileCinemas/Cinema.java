@@ -81,6 +81,14 @@ public class Cinema{
         boolean login = false;
         if (CI.wishToLogin()) {
             login = userLogin();
+            System.out.println("Do you wish to book? Y/N");
+            Scanner wishbook = new Scanner(System.in);
+            String wb = wishbook.nextLine();
+            if(wb.equals("Y")){
+                CI.book_with_session();
+            }else{
+                // display movies
+            }
         }
         //User wish not to log in, do the operations of the Guest.
         else {
@@ -95,9 +103,32 @@ public class Cinema{
                 Customer newCustomer = CI.signUp();
                 //.....update to database
                 //Let user stay logged in
-                login = true;}
+                login = true;
+                System.out.println("Do you wish to book? Y/N");
+                Scanner wishbook = new Scanner(System.in);
+                String wb = wishbook.nextLine();
+                if(wb.equals("Y")){
+                    CI.book_with_session();
+                }else{
+                    // display movies
+                }
+            }
             //User wish to log in
-            else if(userInput.nextLine().equals("2")){login = userLogin();}
+            else if(userInput.nextLine().equals("2")){
+                login = userLogin();
+                if(login){
+                    System.out.println("Do you wish to book? Y/N");
+                    Scanner wishbook = new Scanner(System.in);
+                    String wb = wishbook.nextLine();
+                    if(wb.equals("Y")){
+                        CI.book_with_session();
+                    }else{
+                        // display movies
+                    }
+                }else{
+                    // display movies or ask for login again?
+                }
+            }
             //Other options
             else{
                 System.out.println("Sorry, more features are not available yet.");
