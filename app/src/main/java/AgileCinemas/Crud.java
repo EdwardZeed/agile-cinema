@@ -63,12 +63,14 @@ public class Crud {
         // Access database
         return null;
     }
+
     //Check arg with database, return false if not exit, otherwise return true.
     public static boolean checkUsernameExist(String username){
         return username.equals("soft2412");
     }
+
     //Check arg(password) with database, return false if not exit, otherwise return true.
-    public static boolean checkPasswordExist(String password){
+    public static boolean checkPasswordWithUsername(String username, String password){
         return password.equals("1508");
     }
 
