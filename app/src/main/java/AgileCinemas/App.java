@@ -5,7 +5,7 @@ package AgileCinemas;
 
 public class App {
     public String getGreeting() {
-        return "Welcome to Cinema!";
+        return "Welcome to the AGILE Cinemas interface";
     }
 
     public static void main(String[] args) {
