@@ -94,7 +94,6 @@ public class CustomerInterface {
         // Ask for password
         String password = PasswordField.readPassword("Enter password: ");
 
-
         // Valid username and password together
         boolean usernameExists = Crud.checkUsernameExist(username);
         boolean passwordCorrect = Crud.checkPasswordWithUsername(username, password);
@@ -120,8 +119,8 @@ public class CustomerInterface {
         }
         // Wrong username and password
         else {
-            System.out.println("That username and password is incorrect.\nDo you wish to try again? Y/N ");
-            if(userInput.nextLine().equalsIgnoreCase("y")){
+            System.out.println("That username and password is incorrect.\nDo you wish to try again?  Y/N");
+            if(userInput.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
                 userLogin();
             }
             return false; //User wish to quit.
@@ -170,7 +169,6 @@ public class CustomerInterface {
      * displaying available movies
      */
     public void displayMovies(){
-        System.out.println("<VIEW MOVIES>");
         new Crud().retrieve_upcoming_sessions();
     }
 
@@ -199,11 +197,8 @@ public class CustomerInterface {
                 } else {
                     return askSignUp(); // calls signUp()
                 }
-
             }
-        }else{
-            return false;
-        }
+        } else { return false; }
     }
 
     /**
