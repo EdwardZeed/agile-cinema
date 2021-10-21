@@ -1,5 +1,8 @@
 package AgileCinemas;
 
+import AgileCinemas.PasswdMask.PasswordField;
+
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -89,8 +92,9 @@ public class CustomerInterface {
         System.out.println("Please enter your username:");
         String username = userInput.nextLine();
         // Ask for password
-        System.out.println("Please enter your password:");
-        String password = userInput.nextLine();
+        String password = PasswordField.readPassword("Enter password: ");
+
+
         // Valid username and password together
         boolean usernameExists = Crud.checkUsernameExist(username);
         boolean passwordCorrect = Crud.checkPasswordWithUsername(username, password);
