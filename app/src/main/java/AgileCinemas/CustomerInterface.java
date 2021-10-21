@@ -37,6 +37,7 @@ public class CustomerInterface {
     public ArrayList<MovieViewing> getViewings() {
         return this.viewings;
     }
+    public Customer getCustomer() { return this.customer; }
 
     /*
      * Customer Interfaces(Contain both customer and guest)
