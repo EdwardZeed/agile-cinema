@@ -4,24 +4,29 @@ public class MovieViewing {
     private Movie movie;
     private String time;
     private String location;
+    private String dayOfWeek;
     private int totalSeats;
     private int bookedSeats;
     private int availableSeats;
-    private ScreenSize screenSize;
+    private String screenSize;
     //May need duration of movie?
 
     /** 
      * Constructor for a movie viewing
     */
-    public MovieViewing(Movie movie) {
+    public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize) {
         this.movie = movie;
+        this.dayOfWeek = dayOfWeek;
+        this.time = time;
+        this.location = location;
+        this.screenSize = screenSize;
     }
 
     // TODO: getter methods
 
     public String getTime(){
         // From Crud
-        return null;
+        return time;
     }
 
     public String getLocation(){
@@ -29,7 +34,7 @@ public class MovieViewing {
         return location;
     }
 
-    public ScreenSize getScreenSize(){
+    public String  getScreenSize(){
         // From Crud
         return screenSize;
     }
@@ -52,18 +57,4 @@ public class MovieViewing {
     public void addToDatabse(){
         //Upload SQL after booking
     }
-
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("+ synopsis: " + this.movie.getSynopsis() + "\n");
-        sb.append("+ classification: " + this.movie.getClassification() + "\n");
-        sb.append("+ release date: " + this.movie.getReleaseDate() + "\n");
-        sb.append("+ director: " + this.movie.getDirector() + "\n");
-        sb.append("+ cast: " + this.movie.getCast() + "\n");
-        sb.append("+ upcoming time: " + this.time + "\n");
-        sb.append("+ screen size: " + this.screenSize + "\n");
-        return sb.toString();
-    }
-
-
 }

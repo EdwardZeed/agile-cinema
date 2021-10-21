@@ -2,8 +2,8 @@ package AgileCinemas;
 
 public class Manager extends CinemaStaff {
     
-    public Manager(int id) {
-        super(id);
+    public Manager(String username, String password) {
+        super(username, password);
     }
 
     /**
