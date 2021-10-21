@@ -5,6 +5,7 @@ import AgileCinemas.PasswdMask.PasswordField;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CustomerInterface {
@@ -477,5 +478,74 @@ public class CustomerInterface {
         }
 
         return false;
+    }
+
+    public Map<Integer, MovieViewing> toHashMap(){
+        ArrayList<MovieViewing> MV = getViewings();
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        for(int i = 1; i <= MV.size(); i++){
+            movies.put(i, MV.get(i-1));
+        }
+        return movies;
+    }
+    
+    public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m){
+        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
+        // Let the user choose the movie;
+        Scanner userIn = new Scanner(System.in);
+        String moviename = userIn.nextLine().toLowerCase();
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        int j = 1;
+        for(int i = 1; i <= m.size(); i++){
+            if(m.get(i).getMovie().getTitle().toLowerCase().equals(moviename)){
+
+                movies.put(j, m.get(i));
+
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                j += 1;
+            }
+        }
+        return movies;
+    }
+
+    public Map<Integer, MovieViewing> filter_with_location(Map<Integer, MovieViewing> m){
+        System.out.println("Filter the movies by location, Please type in the movir you would like to search");
+        // Let the user choose the movie;
+        Scanner userIn = new Scanner(System.in);
+        String location = userIn.nextLine().toLowerCase();
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        int j = 1;
+        for(int i = 1; i <= m.size(); i++){
+            if(m.get(i).getLocation().toLowerCase().equals(location)){
+
+                movies.put(j, m.get(i));
+
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                j += 1;
+            }
+        }
+        return movies;
+    }
+
+    public Map<Integer, MovieViewing> filter_with_time(Map<Integer, MovieViewing> m){
+        System.out.println("Filter the movies by time, Please type in the movir you would like to search");
+        // Let the user choose the movie;
+        Scanner userIn = new Scanner(System.in);
+        String dow = userIn.nextLine().toLowerCase();
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        int j = 1;
+        for(int i = 1; i <= m.size(); i++){
+            if(m.get(i).getDayOfWeek().toLowerCase().equals(dow)){
+
+                movies.put(j, m.get(i));
+
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                j += 1;
+            }
+        }
+        return movies;
     }
 }
