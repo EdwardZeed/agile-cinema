@@ -9,8 +9,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println("The Current Viewing Sessions Include: ");
-        new Crud().retrieve_upcoming_sessions();
+
 
         System.out.println("This was a test for Paul");
 

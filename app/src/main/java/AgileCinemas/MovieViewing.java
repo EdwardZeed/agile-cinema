@@ -4,24 +4,29 @@ public class MovieViewing {
     private Movie movie;
     private String time;
     private String location;
+    private String dayOfWeek;
     private int totalSeats;
     private int bookedSeats;
     private int availableSeats;
-    private ScreenSize screenSize;
+    private String screenSize;
     //May need duration of movie?
 
     /** 
      * Constructor for a movie viewing
     */
-    public MovieViewing(Movie movie) {
+    public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize) {
         this.movie = movie;
+        this.dayOfWeek = dayOfWeek;
+        this.time = time;
+        this.location = location;
+        this.screenSize = screenSize;
     }
 
     // TODO: getter methods
 
     public String getTime(){
         // From Crud
-        return null;
+        return time;
     }
 
     public String getLocation(){
@@ -29,7 +34,7 @@ public class MovieViewing {
         return location;
     }
 
-    public ScreenSize getScreenSize(){
+    public String  getScreenSize(){
         // From Crud
         return screenSize;
     }
