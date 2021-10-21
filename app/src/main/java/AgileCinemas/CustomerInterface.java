@@ -1,5 +1,8 @@
 package AgileCinemas;
 
+import AgileCinemas.PasswdMask.PasswordField;
+
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -10,9 +13,9 @@ public class CustomerInterface {
     private ArrayList<MovieViewing> viewings;
     private Customer customer; // If null, guest. If Customer, logged in.
 
-    /** 
+    /**
      * Constructor for the Customer Interface
-    */
+     */
     public CustomerInterface() {
         cinemaLocations = Crud.getViewingLocations();
         moviesShowing = Crud.getMoviesShowing();
@@ -20,16 +23,16 @@ public class CustomerInterface {
         this.customer = null;
     }
 
-    /** 
+    /**
      * Getter methods
-    */
+     */
     public ArrayList<String> getCinemaLocations() { return this.cinemaLocations; }
     public ArrayList<Movie> getMoviesShowing() { return this.moviesShowing; }
     public ArrayList<MovieViewing> getViewings() { return this.viewings; }
 
     /*
-    * Customer Interfaces(Contain both customer and guest)
-    */
+     * Customer Interfaces(Contain both customer and guest)
+     */
     public void runCustomerInterface() {
         // Welcome screen
         welcomeScreen();
@@ -89,8 +92,9 @@ public class CustomerInterface {
         System.out.println("Please enter your username:");
         String username = userInput.nextLine();
         // Ask for password
-        System.out.println("Please enter your password:");
-        String password = userInput.nextLine();
+        String password = PasswordField.readPassword("Enter password: ");
+
+
         // Valid username and password together
         boolean usernameExists = Crud.checkUsernameExist(username);
         boolean passwordCorrect = Crud.checkPasswordWithUsername(username, password);
@@ -127,7 +131,7 @@ public class CustomerInterface {
     /**
      * Ask if user would like to sign up
      * @return if account was created
-    */
+     */
     public boolean askSignUp() {
         System.out.println("Would you like to create an AGILE Cinemas account?  Y/N");
         Scanner userInput = new Scanner(System.in);
@@ -173,7 +177,7 @@ public class CustomerInterface {
     /**
      * Only let user book a movie if they are logged
      * @return
-    */
+     */
     public boolean askToBook() {
         System.out.println("Do you wish to book a movie?  Y/N");
         Scanner wishbook = new Scanner(System.in);
@@ -188,7 +192,7 @@ public class CustomerInterface {
             else {
                 System.out.println("You must be logged into an account to book.");
                 // Do you have an account? / Wish to log in?
-                boolean logInWish = wishToLogin();                
+                boolean logInWish = wishToLogin();
                 // Do you wish to create an account?
                 if (logInWish) {
                     return userLogin(); // if logged in, this.customer is non-null
@@ -477,12 +481,6 @@ public class CustomerInterface {
             }
         }
 
-
-
-
         return false;
     }
-
-
-
 }

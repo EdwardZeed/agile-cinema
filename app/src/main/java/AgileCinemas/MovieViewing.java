@@ -16,15 +16,13 @@ public class MovieViewing {
     /** 
      * Constructor for a movie viewing
     */
+
     public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize, int backseats, int middleseats,int frontseats) {
         this.movie = movie;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
         this.location = location;
         this.screenSize = screenSize;
-        this.backseats = backseats;
-        this.middleseats = middleseats;
-        this.frontseats = frontseats;
     }
 
     // TODO: getter methods

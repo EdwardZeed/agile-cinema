@@ -78,6 +78,7 @@ public class Crud {
             String sql = "SELECT m.id, m.name, m.synopsis, m.rating, m.date_release, m.director, m.cast, v.day_week, v.session_time, v.location, v.screen_type, v.backseats_remaining, v.middleseats_remaining, v.frontseats_remaining " +
                     "from cinemas.dbo.movies m join cinemas.dbo.viewings v on m.id = v.movie_id ;";
 
+
             resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()){
