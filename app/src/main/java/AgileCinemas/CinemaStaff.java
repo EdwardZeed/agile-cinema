@@ -1,13 +1,17 @@
 package AgileCinemas;
 
 public class CinemaStaff {
-    private int id; // may want this as a String
+    private int id; // do we need this??
+    private String username;
+    private String password;
 
     /**
      * Constructor for cinema staff
     */
-    public CinemaStaff(int id) {
-        this.id = id;
+    public CinemaStaff(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.id = 0; // Call crud method - do we need id??
     }
 
     /**
