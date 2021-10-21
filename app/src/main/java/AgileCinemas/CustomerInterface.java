@@ -206,154 +206,283 @@ public class CustomerInterface {
      * book session available to customer
      */
     public boolean book_with_session(){
-//        System.out.println("Please start booking");
-//        System.out.println("The following are the movies currently showing.");
-//        displayMovies();
-//        System.out.println("Please Choose the movie you would like to see");
-//        // Let the user choose the movie;
-//        Scanner userIn = new Scanner(System.in);
-//        String moviename = userIn.nextLine().toLowerCase();
-//        HashMap<Integer, Movie> movies = new HashMap<Integer, Movie>();
-//        //  filter by movie name
-//        for(int i = 1; i <= getMoviesShowing().size(); i++){
-//            if(getMoviesShowing().get(i-1).getTitle().toLowerCase().equals(moviename)){
-//                movies.put(i, getMoviesShowing().get(i));
-//                System.out.println("ID: " + String.valueOf(i) + " " + getMoviesShowing().get(i).getTitle());
-//            }
-//        }
-//        // If nothing matches. go back or cancel
-//        if(movies.size() == 0){
-//            System.out.println("Sorry, No such movie exists");
-//            System.out.println("If you want to try again, please type '1'");
-//            System.out.println("If you wan to cancel, please type 'c'");
-//            String option = userIn.nextLine();
-//            if(option.equals("1")){
-//                book_with_session();
-//            }else{
-//
-//                System.out.println("Thank you, you will log out");
-//                //log out
-//                return false;
-//            }
-//        }
-//        // choose film or go further or cancel
-//        System.out.println("You can choose the session you like by typing in the ID");
-//        System.out.println("If you want to filter further. Please press '0'");
-//        System.out.println("If you wan to cancel, please type 'c'");
-//        while (true) {
-//            String choose = userIn.nextLine();
-//            try {
-//                int choose_int = Integer.parseInt(choose);
-//                if(choose_int == 0){
-//                    break;
-//                }
-//                Movie choosen_movie = movies.get(choose_int);
-//                MovieViewing MV = new MovieViewing(choosen_movie);
-//                //upload the booking detail
-//                System.out.println("Thanks for booking " + choosen_movie.getTitle() + " at " + MV.getLocation() + " at " + MV.getTime());
-//                return true;
-//            } catch (Exception e) {
-//                if(choose.equals("c")){
-//                    //log out
-//                    return false;
-//                }
-//                System.out.println("Please enter a number");
-//            }
-//        }
-//
-//        // Let the user choose the location;
-//        System.out.println("Please choose The location ");
-//        String location = userIn.nextLine().toLowerCase();
-//
-//        for(int i = 1; i <= movies.size() - 1; i++){
-//            MovieViewing MV = new MovieViewing(movies.get(i));
-//            if(!location.equals(MV.getLocation().toLowerCase())){
-//                movies.remove(i);
-//            }
-//        }
-//        // If nothing matches. go back or cancel
-//        if(movies.size() == 0){
-//            System.out.println("Sorry, No such movie exists");
-//            System.out.println("If you want to try again, please type '1'");
-//            System.out.println("If you wan to cancel, please type 'c'");
-//            String option = userIn.nextLine();
-//            if(option.equals("1")){
-//                book_with_session();
-//            }else{
-//
-//                System.out.println("Thank you, you will log out");
-//                //log out
-//                return false;
-//            }
-//        }
-//        // choose movie or cancel or go further
-//        System.out.println("You can choose the session you like by typing in the ID");
-//        System.out.println("If you want to filter further. Please press '0'");
-//        System.out.println("If you wan to cancel, please type 'c'");
-//        while (true) {
-//            String choose = userIn.nextLine();
-//            try {
-//                int choose_int = Integer.parseInt(choose);
-//                if(choose_int == 0){
-//                    break;
-//                }
-//                Movie choosen_movie = movies.get(choose_int);
-//                MovieViewing MV = new MovieViewing(choosen_movie);
-//                //upload the booking detail
-//                System.out.println("Thanks for booking " + choosen_movie.getTitle() + " at " + MV.getLocation() + " at " + MV.getTime());
-//                return true;
-//            } catch (Exception e) {
-//                if(choose.equals("c")){
-//                    //log out
-//                    return false;
-//                }
-//                System.out.println("Please enter a valid number");
-//            }
-//        }
-//        // choose time
-//        System.out.println("Please choose The time ");
-//        String time = userIn.nextLine().toLowerCase();
-//
-//        for(int i = 1; i <= movies.size() - 1; i++){
-//            MovieViewing MV = new MovieViewing(movies.get(i));
-//            if(!time.equals(MV.getTime().toLowerCase())){
-//                movies.remove(i);
-//            }
-//        }
-//        if(movies.size() == 0){
-//            System.out.println("Sorry, No such movie exists");
-//            System.out.println("If you want to try again, please type '1'");
-//            System.out.println("If you wan to cancel, please type 'c'");
-//            String option = userIn.nextLine();
-//            if(option.equals("1")){
-//                book_with_session();
-//            }else{
-//
-//                System.out.println("Thank you, you will log out");
-//                //log out
-//                return false;
-//            }
-//        }
-//        // choose movie or cancel
-//        System.out.println("You can choose the session you like by typing in the ID");
-//        System.out.println("If you want to cancel, please type 'c'");
-//        while (true) {
-//            String choose = userIn.nextLine();
-//            try {
-//                int choose_int = Integer.parseInt(choose);
-//                Movie choosen_movie = movies.get(choose_int);
-//                MovieViewing MV = new MovieViewing(choosen_movie);
-//                //upload the booking detail
-//                System.out.println("Thanks for booking " + choosen_movie.getTitle() + " at " + MV.getLocation() + " at " + MV.getTime());
-//                return true;
-//            } catch (Exception e) {
-//                if(choose.equals("c")){
-//                    //log out
-//                    return false;
-//                }
-//                System.out.println("Please enter a valid number");
-//            }
-//        }
+        System.out.println("Please start booking");
+        System.out.println("The following are the movies currently showing.");
+        displayMovies();
+        System.out.println("Please Choose the movie you would like to see BY TYPING THE TITLE OF THE MOVIE FIRST");
+        // Let the user choose the movie;
+        Scanner userIn = new Scanner(System.in);
+        String moviename = userIn.nextLine().toLowerCase();
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        ArrayList<MovieViewing> MV = getViewings();
+        int j = 1;
+        for(int i = 1; i <= MV.size(); i++){
+            if(MV.get(i-1).getMovie().getTitle().toLowerCase().equals(moviename)){
+
+                movies.put(j, MV.get(i-1));
+
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                j += 1;
+            }
+        }
+        // If nothing matches. go back or cancel
+        if(movies.size() == 0){
+            System.out.println("Sorry, No such movie exists");
+            System.out.println("If you want to try again, please type '1'");
+            System.out.println("If you wan to cancel, please type 'c'");
+            String option = userIn.nextLine();
+            if(option.equals("1")){
+                book_with_session();
+            }else{
+
+                System.out.println("Thank you, you will log out");
+                //log out
+                return false;
+            }
+        }
+        // choose film or go further or cancel
+        System.out.println("You can choose the session you like by typing in the ID for test 1 ");
+        System.out.println("If you want to filter further. Please press '0' for test 1");
+        System.out.println("If you wan to cancel, please type 'c' for test 1");
+        while (true) {
+            String choose = userIn.nextLine();
+            try {
+                int choose_int = Integer.parseInt(choose);
+                if(choose_int == 0){
+                    break;
+                }
+                String a = new String();
+                MovieViewing choosen_movie = movies.get(choose_int);
+                while(true) {
+                    // show the available seats in each area'
+                    System.out.println("Available Front Seats: " + choosen_movie.getFrontseats());
+                    System.out.println("Available Middle Seats: " + choosen_movie.getMiddleseats());
+                    System.out.println("Available Back Seats: " + choosen_movie.getBackseats());
+                    System.out.println("Please select the area where you want to be seated");
+                    System.out.println("Type 1: Front");
+                    System.out.println("Type 2: Middle");
+                    System.out.println("Type 3: Back");
+                    System.out.println("Type c: Cancel");
+                    String area = userIn.nextLine();
+                    if (area.equalsIgnoreCase("1")) {
+                        //check enough seats
+                        a = "Front";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("2")) {
+                        //check enough seats
+                        a = "Middle";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("3")) {
+                        //check enough seats
+                        a = "Back";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("c")) {
+                        a = "cancel";
+                        break;
+                    }
+                }
+
+                //upload the booking detail
+                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Location: "+ choosen_movie.getLocation());
+                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
+                System.out.println("Area: " + a);
+                return true;
+            } catch (Exception e) {
+                if(choose.equals("c")){
+                    //log out
+                    return false;
+                }
+                System.out.println("Please enter a number");
+            }
+        }
+
+
+        //Filter by location
+        System.out.println("Please choose a location");
+        String location = userIn.nextLine().toLowerCase();
+        HashMap<Integer, MovieViewing> movies_l = new HashMap<Integer, MovieViewing>();
+        movies_l = movies;
+        int index = 1;
+        for(int i = 1; i <= movies_l.size(); i++){
+            if(movies_l.get(i).getLocation().equalsIgnoreCase(location)){
+                movies_l.put(index, movies.get(i));
+                System.out.println("ID: " + String.valueOf(index) + " " + movies_l.get(index).getMovie().getTitle() + " " + movies_l.get(index).getLocation() + " " + movies_l.get(index).getDayOfWeek() + " " + movies_l.get(index).getTime() + "     Available Front Seats: " + movies_l.get(index).getFrontseats() + "     Available Middle Seats: " + movies_l.get(index).getMiddleseats() + "     Available Back Seats: " + movies_l.get(index).getBackseats());
+                index += 1;
+            }
+        }
+
+        // If nothing matches. go back or cancel
+        if(movies_l.size() == 0){
+            System.out.println("Sorry, No such movie exists");
+            System.out.println("If you want to try again, please type '1'");
+            System.out.println("If you wan to cancel, please type 'c'");
+            String option = userIn.nextLine();
+            if(option.equals("1")){
+                book_with_session();
+            }else{
+
+                System.out.println("Thank you, you will log out");
+                //log out
+                return false;
+            }
+        }
+
+        // choose film or go further or cancel
+        System.out.println("You can choose the session you like by typing in the ID for test 2");
+        System.out.println("If you want to filter further. Please press '0' for test 2");
+        System.out.println("If you wan to cancel, please type 'c' for test 2");
+        while (true) {
+            String choose = userIn.nextLine();
+            try {
+                int choose_int = Integer.parseInt(choose);
+                if(choose_int == 0){
+                    break;
+                }
+                String a = new String();
+                MovieViewing choosen_movie = movies.get(choose_int);
+                System.out.println("Available Front Seats: " + choosen_movie.getFrontseats());
+                System.out.println("Available Middle Seats: " + choosen_movie.getMiddleseats());
+                System.out.println("Available Back Seats: " + choosen_movie.getBackseats());
+                System.out.println("Please select the area where you want to be seated");
+                System.out.println("Type 1: Front");
+                System.out.println("Type 2: Middle");
+                System.out.println("Type 3: Back");
+                System.out.println("Type c: Cancel");
+                while(true) {
+                    String area = userIn.nextLine();
+                    if (area.equalsIgnoreCase("1")) {
+                        //check enough seats
+                        a = "Front";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("2")) {
+                        //check enough seats
+                        a = "Middle";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("3")) {
+                        //check enough seats
+                        a = "Back";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("c")) {
+                        a = "cancel";
+                        break;
+                    }
+                }
+                //upload the booking detail
+                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Location: "+ choosen_movie.getLocation());
+                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
+                System.out.println("Area: " + a);
+                return true;
+            } catch (Exception e) {
+                if(choose.equals("c")){
+                    //log out
+                    return false;
+                }
+                System.out.println("Please enter a valid number");
+            }
+        }
+
+        //Filter by dayofWeek
+        System.out.println("Please choose one day of this week");
+        String dow = userIn.nextLine().toLowerCase();
+        HashMap<Integer, MovieViewing> movies_dow = new HashMap<Integer, MovieViewing>();
+        movies_dow = movies_l;
+        int index_j = 1;
+        for(int i = 1; i <= movies_l.size(); i++){
+            if(movies_dow.get(i).getDayOfWeek().equalsIgnoreCase(dow)){
+                movies_dow.put(index_j, movies.get(i));
+                System.out.println("ID: " + String.valueOf(index_j) + " " + movies_dow.get(index_j).getMovie().getTitle() + " " + movies_dow.get(index_j).getLocation() + " " + movies_dow.get(index_j).getDayOfWeek() + " " + movies_dow.get(index_j).getTime()+ "     Available Front Seats: " + movies_dow.get(index_j).getFrontseats() + "     Available Middle Seats: " + movies_dow.get(index_j).getMiddleseats() + "     Available Back Seats: " + movies_dow.get(index_j).getBackseats());
+                index_j += 1;
+            }
+        }
+
+        // If nothing matches. go back or cancel
+        if(movies_l.size() == 0){
+            System.out.println("Sorry, No such movie exists");
+            System.out.println("If you want to try again, please type '1'");
+            System.out.println("If you wan to cancel, please type 'c'");
+            String option = userIn.nextLine();
+            if(option.equals("1")){
+                book_with_session();
+            }else{
+
+                System.out.println("Thank you, you will log out");
+                //log out
+                return false;
+            }
+        }
+
+        // choose film or go further or cancel
+        System.out.println("You can choose the session you like by typing in the ID");
+        System.out.println("If you wan to cancel, please type 'c'");
+        while (true) {
+            String choose = userIn.nextLine();
+            try {
+                int choose_int = Integer.parseInt(choose);
+                if(choose_int == 0){
+                    break;
+                }
+                String a = new String();
+                MovieViewing choosen_movie = movies.get(choose_int);
+                System.out.println("Available Front Seats: " + choosen_movie.getFrontseats());
+                System.out.println("Available Middle Seats: " + choosen_movie.getMiddleseats());
+                System.out.println("Available Back Seats: " + choosen_movie.getBackseats());
+                System.out.println("Please select the area where you want to be seated");
+                System.out.println("Type 1: Front");
+                System.out.println("Type 2: Middle");
+                System.out.println("Type 3: Back");
+                System.out.println("Type c: Cancel");
+                while(true) {
+                    String area = userIn.nextLine();
+                    if (area.equalsIgnoreCase("1")) {
+                        //check enough seats
+                        a = "Front";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("2")) {
+                        //check enough seats
+                        a = "Middle";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("3")) {
+                        //check enough seats
+                        a = "Back";
+                        break;
+                    }
+                    if (area.equalsIgnoreCase("c")) {
+                        a = "cancel";
+                        break;
+                    }
+                }
+                //upload the booking detail
+                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Location: "+ choosen_movie.getLocation());
+                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
+                System.out.println("Area: " + a);
+                return true;
+            } catch (Exception e) {
+                if(choose.equals("c")){
+                    //log out
+                    return false;
+                }
+                System.out.println("Please enter a valid number");
+            }
+        }
+
+
+
+
         return false;
     }
+
+
+
 }
