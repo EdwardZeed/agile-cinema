@@ -117,5 +117,4 @@ public class Crud {
         ArrayList<MovieViewing> sessions = Crud.getViewings();
         System.out.println(sessions.toString());
     }
-
 }

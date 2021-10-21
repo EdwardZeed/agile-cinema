@@ -23,6 +23,9 @@ public class MovieViewing {
         this.time = time;
         this.location = location;
         this.screenSize = screenSize;
+        this.backseats = backseats;
+        this.middleseats = middleseats;
+        this.frontseats = frontseats;
     }
 
     // TODO: getter methods
