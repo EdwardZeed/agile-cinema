@@ -13,9 +13,10 @@ public class MovieViewing {
     private String screenSize;
     //May need duration of movie?
 
-    /** 
+    /**
      * Constructor for a movie viewing
     */
+
 
     public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize, int backseats, int middleseats,int frontseats) {
         this.movie = movie;
