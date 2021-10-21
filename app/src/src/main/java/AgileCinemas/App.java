@@ -10,6 +10,10 @@ public class App {
 
     public static void main(String[] args) {
 
+
+        System.out.println("This was a test for Paul");
+
+
         System.out.println(new App().getGreeting());
 
         Cinema cinema = new Cinema();

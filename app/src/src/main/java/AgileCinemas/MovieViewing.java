@@ -6,39 +6,23 @@ public class MovieViewing {
     private String location;
     private String dayOfWeek;
     private int totalSeats;
-    private int frontseats;
-    private int middleseats;
-    private int backseats;
+    private int bookedSeats;
     private int availableSeats;
     private String screenSize;
     //May need duration of movie?
 
-    /**
+    /** 
      * Constructor for a movie viewing
     */
-
-
-    public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize, int backseats, int middleseats,int frontseats) {
+    public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize) {
         this.movie = movie;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
         this.location = location;
         this.screenSize = screenSize;
-        this.backseats = backseats;
-        this.middleseats = middleseats;
-        this.frontseats = frontseats;
     }
 
     // TODO: getter methods
-
-
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
 
     public String getTime(){
         // From Crud
@@ -65,16 +49,9 @@ public class MovieViewing {
         return availableSeats;
     }
 
-    public int getBackseats() {
-        return backseats;
-    }
-
-    public int getFrontseats() {
-        return frontseats;
-    }
-
-    public int getMiddleseats() {
-        return middleseats;
+    public int getBookedSeats() {
+        //From Crud
+        return bookedSeats;
     }
 
     public void addToDatabse(){
