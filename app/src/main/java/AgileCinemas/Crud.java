@@ -103,14 +103,70 @@ public class Crud {
         return sessions;
     }
 
-    //Check arg with database, return false if not exit, otherwise return true.
+    /**
+     * Queries whether the given username is in the database
+     * @param username given username to query with database
+     * @return true if username found, otherwise false
+    */
     public static boolean checkUsernameExist(String username){
-        return username.equals("soft2412");
+        Connection conn = null;
+		ResultSet resultSet = null;
+		String result = null;
+		try {
+			// Connect to DB
+			conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+			Statement statement = conn.createStatement();
+			// Create and Run Query
+			String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s'";
+			resultSet = statement.executeQuery(String.format(usernameExistQuery, username));
+			// Print Result
+			while(resultSet.next()) {
+				result = resultSet.getString(1); // null is doesn't exist
+			}
+		}
+		catch (SQLException e){
+			throw new Error("Problem", e);
+		} finally {
+			try{
+				if (conn!=null){
+					conn.close();
+				}
+			} catch (SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+        return (result != null); // non-null if username found, else is null
     }
 
     //Check arg(password) with database, return false if not exit, otherwise return true.
     public static boolean checkPasswordWithUsername(String username, String password){
-        return password.equals("1508");
+        Connection conn = null;
+		ResultSet resultSet = null;
+		String result = null;
+		try {
+			// Connect to DB
+			conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+			Statement statement = conn.createStatement();
+			// Create and Run Query
+			String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s' AND password = '%s'";
+			resultSet = statement.executeQuery(String.format(usernameExistQuery, username, password));
+			// Print Result
+			while(resultSet.next()) {
+				result = resultSet.getString(1); // null is doesn't exist
+			}
+		}
+		catch (SQLException e){
+			throw new Error("Problem", e);
+		} finally {
+			try{
+				if (conn!=null){
+					conn.close();
+				}
+			} catch (SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+        return (result != null); // non-null if username + password found, else is null
     }
 
     public static void main(String[] args) {
