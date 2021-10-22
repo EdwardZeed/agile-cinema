@@ -10,27 +10,21 @@ public class Cinema{
     //Confirm the identity of the current user.
     /**
      * prompt user to choose which system to login
-     * @return number 1 represents the customer interface, number 2 represents the staff interface
+     * to enter the staff interface, they must enter the staff code
      */
-    public int displayOptions(){
-            //Initialize the Scanner object.
-            Scanner userIn = new Scanner(System.in);
-            //Display Options
-            System.out.println("Normal User Please Enter 1.\nStaff User Please Enter 2.");
-        return userIn.nextInt();
-    }
-
-    //Check Option
     public boolean isStaff(){
-        int userInput = displayOptions();
-        //Check if valid input
-        if(userInput == 1 || userInput == 2){
+        //Initialize the Scanner object.
+        Scanner userIn = new Scanner(System.in);
+        //Display Options
+        System.out.println("If you are a staff member, please enter the staff code. If you are a customer, please enter any other key.");
+        String userInput = userIn.nextLine();
+        //Check if entered staff code
+        if(userInput.equals("12345")){
             //return true if user is a staff.
-            return userInput != 1;
+            return true;
         }
-        //Input is neither 1 nor 2, take the input from user again.
-        System.out.println("Invalid input, please try again.");
-        return isStaff();
+        //Input is not staff code, normal user
+        return false;
     }
 
     //Identify the user. Check if staff or customer.
