@@ -16,8 +16,8 @@ public class CustomerInterface {
      * Constructor for the Customer Interface
      */
     public CustomerInterface() {
-        cinemaLocations = Crud.getViewingLocations();
-        moviesShowing = Crud.getMoviesShowing();
+        cinemaLocations = Crud.getViewingLocations(); // extract this from viewings
+        moviesShowing = null; // extract this from viewings
         viewings = Crud.getViewings();
         this.customer = null;
     }
@@ -180,7 +180,27 @@ public class CustomerInterface {
      * displaying available movies
      */
     public void displayMovies() {
-        new Crud().retrieve_upcoming_sessions();
+        // new Crud().retrieve_upcoming_sessions();
+        for (MovieViewing viewing : this.viewings) {
+            // Display title
+            System.out.println(viewing.getMovie().getTitle());
+            // Display synopsis
+            System.out.println("    Synopsis: " + viewing.getMovie().getTitle());
+            // Display classification
+            System.out.println("    Classification: " + viewing.getMovie().getClassification());
+            // Display release date
+            System.out.println("    Release date: " + viewing.getMovie().getReleaseDate());
+            // Display director
+            System.out.println("    Director: " + viewing.getMovie().getDirector());
+            // Display cast 
+            System.out.println("    Cast: " + viewing.getMovie().getCast());
+            // Display upcoming times
+            System.out.println("    Day: " + viewing.getDayOfWeek());
+            System.out.println("    Time: " + viewing.getTime());
+            // Display screen size
+            System.out.println("    Screen size: " + viewing.getScreenSize());
+            System.out.println();
+        }
     }
 
     /**
