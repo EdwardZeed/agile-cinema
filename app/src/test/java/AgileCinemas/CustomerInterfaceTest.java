@@ -158,6 +158,11 @@ public class CustomerInterfaceTest {
         assertFalse(wishesToLogin);
     }
 
+    @Test
+    public void displayOptionsTest() {
+        CustomerInterface testCI = new CustomerInterface();
+        assertTrue(testCI.displayMovies());
+    }
 
-    
+
 }
