@@ -157,22 +157,27 @@ public class CustomerInterface {
     public boolean signUp() {
         Scanner userInput = new Scanner(System.in);
         //Display message
-        System.out.println("Thanks for creating account with us.  Please follow the instructions.");
+        System.out.println("To create an account, please follow the instructions.");
         System.out.println("\n\nPlease enter the username that you want to add:");
         String usernameIn = userInput.nextLine();
-        usernameIn = userInput.nextLine();
+        boolean i = Crud.checkUsernameExist(usernameIn);
         //Username is not unique, ask if user want to try again.
-        if (Crud.checkUsernameExist(usernameIn)) {
+
+        if (i == true) {
             System.out.println("The username already exists.\nDo you wish to try again?  Y/N.");
             if (userInput.nextLine().equalsIgnoreCase("Y")) {
                 return signUp();
             }
         }
-        //Username is valid,ask user Enter the Pin.
-        System.out.println("Please enter the password.");
-        String passwordIn = userInput.nextLine();
-        //Both username and password valid, return a Customer object.
-        this.customer = new Customer(usernameIn, passwordIn);
+        else {
+            //Username is valid,ask user Enter the Password.
+            System.out.println("Please enter the password.");
+            String passwordIn = userInput.nextLine();
+            //Both username and password valid, return a Customer object.
+            Crud.create_new_user(usernameIn, passwordIn);
+            this.customer = new Customer(usernameIn, passwordIn);
+        }
+
         return true;
     }
 
