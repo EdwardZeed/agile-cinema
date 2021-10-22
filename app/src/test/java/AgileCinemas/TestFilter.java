@@ -6,8 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFilter {
     @Test
@@ -23,10 +22,8 @@ public class TestFilter {
         CustomerInterface CI = new CustomerInterface();
         Map<Integer, MovieViewing> sessions = CI.toHashMap();
 
-        InputStream stdin = new ByteArrayInputStream("inside out".getBytes());
-        System.setIn(stdin);
 
-        Map<Integer, MovieViewing> filtered = CI.filter_with_name(sessions);
+        Map<Integer, MovieViewing> filtered = CI.filter_with_name(sessions,"inside out");
         assertNotNull(filtered);
         assertEquals(5, filtered.size());
     }
@@ -36,10 +33,7 @@ public class TestFilter {
         CustomerInterface CI = new CustomerInterface();
         Map<Integer, MovieViewing> sessions = CI.toHashMap();
 
-        InputStream stdin = new ByteArrayInputStream("burwood".getBytes());
-        System.setIn(stdin);
-
-        Map<Integer, MovieViewing> filtered = CI.filter_with_location(sessions);
+        Map<Integer, MovieViewing> filtered = CI.filter_with_location(sessions,"burwood");
         assertNotNull(filtered);
         assertEquals(2, filtered.size());
     }
@@ -49,10 +43,7 @@ public class TestFilter {
         CustomerInterface CI = new CustomerInterface();
         Map<Integer, MovieViewing> sessions = CI.toHashMap();
 
-        InputStream stdin = new ByteArrayInputStream("Monday".getBytes());
-        System.setIn(stdin);
-
-        Map<Integer, MovieViewing> filtered = CI.filter_with_time(sessions);
+        Map<Integer, MovieViewing> filtered = CI.filter_with_time(sessions,"Monday");
         assertNotNull(filtered);
         assertEquals(2, filtered.size());
     }
@@ -62,22 +53,52 @@ public class TestFilter {
         CustomerInterface CI = new CustomerInterface();
         Map<Integer, MovieViewing> sessions = CI.toHashMap();
 
-        InputStream stdin1 = new ByteArrayInputStream("There Will Be Blood".getBytes());
-        InputStream stdin2 = new ByteArrayInputStream("Thursday".getBytes());
-        InputStream stdin3 = new ByteArrayInputStream("Hornsby".getBytes());
-
-        System.setIn(stdin1);
-        Map<Integer, MovieViewing> filtered1 = CI.filter_with_name(sessions);
+        Map<Integer, MovieViewing> filtered1 = CI.filter_with_name(sessions,"There Will Be Blood");
         assertEquals(2, filtered1.size());
 
-        System.setIn(stdin2);
-        Map<Integer, MovieViewing> filtered2 = CI.filter_with_time(filtered1);
+        Map<Integer, MovieViewing> filtered2 = CI.filter_with_time(filtered1,"Thursday");
         assertEquals(1, filtered2.size());
 
-        System.setIn(stdin3);
-        Map<Integer, MovieViewing> filtered3 = CI.filter_with_location(filtered2);
+        Map<Integer, MovieViewing> filtered3 = CI.filter_with_location(filtered2,"Hornsby");
 
         assertNotNull(filtered3);
         assertEquals(1, filtered3.size());
+    }
+
+    @Test
+    public void testMovieViewing(){
+        CustomerInterface CI = new CustomerInterface();
+        Map<Integer, MovieViewing> sessions = CI.toHashMap();
+        MovieViewing MV = sessions.get(1);
+        InputStream stdin1 = new ByteArrayInputStream("1".getBytes());
+        InputStream stdin2 = new ByteArrayInputStream("2".getBytes());
+        InputStream stdin3 = new ByteArrayInputStream("3".getBytes());
+        InputStream stdin4 = new ByteArrayInputStream("c".getBytes());
+
+        System.setIn(stdin1);
+        assertEquals("Front", CI.bookSeats(MV));
+
+        System.setIn(stdin2);
+        assertEquals("Middle", CI.bookSeats(MV));
+
+        System.setIn(stdin3);
+        assertEquals("Back", CI.bookSeats(MV));
+
+        System.setIn(stdin4);
+        assertEquals("Cancel", CI.bookSeats(MV));
+    }
+
+    @Test
+    public void testBook(){
+//        CustomerInterface CI = new CustomerInterface();
+//        Map<Integer, MovieViewing> sessions = CI.toHashMap();
+//        InputStream stdin1 = new ByteArrayInputStream("There Will Be Blood".getBytes());
+//        InputStream stdin2 = new ByteArrayInputStream("1".getBytes());
+//        InputStream stdin3 = new ByteArrayInputStream("2".getBytes());
+//        System.setIn(stdin1);
+//        System.setIn(stdin2);
+//        System.setIn(stdin3);
+//        assertTrue(CI.book_with_session());
+
     }
 }
