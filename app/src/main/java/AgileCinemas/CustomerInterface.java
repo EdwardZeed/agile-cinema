@@ -2,10 +2,9 @@ package AgileCinemas;
 
 import AgileCinemas.PasswdMask.PasswordField;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 public class CustomerInterface {
     private ArrayList<String> cinemaLocations;
@@ -223,12 +222,12 @@ public class CustomerInterface {
         System.out.println("Please start booking");
         System.out.println("The following are the movies currently showing.");
         displayMovies();
-        System.out.println("Please Choose the movie you would like to see BY TYPING THE TITLE OF THE MOVIE FIRST");
         // Let the user choose the movie;
+        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
         Scanner userIn = new Scanner(System.in);
-
+        String moviename = userIn.nextLine().toLowerCase();
         Map<Integer, MovieViewing> sessions = this.toHashMap();
-        Map<Integer, MovieViewing> movies = this.filter_with_name(sessions);
+        Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
         // If nothing matches. go back or cancel
         if (movies.size() == 0) {
             System.out.println("Sorry, No such movie exists");
@@ -276,7 +275,9 @@ public class CustomerInterface {
 
 
         //Filter by location
-        Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies);
+        System.out.println("Filter the movies by location, Please type in the movie you would like to search");
+        String location = userIn.nextLine().toLowerCase();
+        Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies,location);
 
         // If nothing matches. go back or cancel
         if (movies_l.size() == 0) {
@@ -324,8 +325,9 @@ public class CustomerInterface {
         }
 
         //Filter by dayofWeek
-
-        Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l);
+        System.out.println("Filter the movies by time, Please type in the movie you would like to search");
+        String dow = userIn.nextLine().toLowerCase();
+        Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l,dow);
 
         // If nothing matches. go back or cancel
         if (movies_dow.size() == 0) {
@@ -415,16 +417,13 @@ public class CustomerInterface {
         return movies;
     }
 
-    public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m) {
-        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
+    public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m, String moviename) {
         // Let the user choose the movie;
-        Scanner userIn = new Scanner(System.in);
-        String moviename = userIn.nextLine().toLowerCase();
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         //  filter by movie name
         int j = 1;
         for (int i = 1; i <= m.size(); i++) {
-            if (m.get(i).getMovie().getTitle().toLowerCase().equals(moviename)) {
+            if (m.get(i).getMovie().getTitle().toLowerCase().equalsIgnoreCase(moviename)) {
 
                 movies.put(j, m.get(i));
 
@@ -435,16 +434,13 @@ public class CustomerInterface {
         return movies;
     }
 
-    public Map<Integer, MovieViewing> filter_with_location(Map<Integer, MovieViewing> m) {
-        System.out.println("Filter the movies by location, Please type in the movie you would like to search");
+    public Map<Integer, MovieViewing> filter_with_location(Map<Integer, MovieViewing> m, String location) {
         // Let the user choose the movie;
-        Scanner userIn = new Scanner(System.in);
-        String location = userIn.nextLine().toLowerCase();
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         //  filter by movie name
         int j = 1;
         for (int i = 1; i <= m.size(); i++) {
-            if (m.get(i).getLocation().toLowerCase().equals(location)) {
+            if (m.get(i).getLocation().toLowerCase().equalsIgnoreCase(location)) {
 
                 movies.put(j, m.get(i));
 
@@ -455,16 +451,13 @@ public class CustomerInterface {
         return movies;
     }
 
-    public Map<Integer, MovieViewing> filter_with_time(Map<Integer, MovieViewing> m) {
-        System.out.println("Filter the movies by time, Please type in the movir you would like to search");
+    public Map<Integer, MovieViewing> filter_with_time(Map<Integer, MovieViewing> m, String dow) {
         // Let the user choose the movie;
-        Scanner userIn = new Scanner(System.in);
-        String dow = userIn.nextLine().toLowerCase();
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         //  filter by movie name
         int j = 1;
         for (int i = 1; i <= m.size(); i++) {
-            if (m.get(i).getDayOfWeek().toLowerCase().equals(dow)) {
+            if (m.get(i).getDayOfWeek().toLowerCase().equalsIgnoreCase(dow)) {
 
                 movies.put(j, m.get(i));
 
@@ -474,5 +467,6 @@ public class CustomerInterface {
         }
         return movies;
     }
+
 
 }
