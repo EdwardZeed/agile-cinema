@@ -179,7 +179,7 @@ public class CustomerInterface {
     /**
      * displaying available movies
      */
-    public void displayMovies() {
+    public boolean displayMovies() {
         // new Crud().retrieve_upcoming_sessions();
         for (MovieViewing viewing : this.viewings) {
             // Display title
@@ -201,6 +201,7 @@ public class CustomerInterface {
             System.out.println("    Screen size: " + viewing.getScreenSize());
             System.out.println();
         }
+        return true;
     }
 
     /**
