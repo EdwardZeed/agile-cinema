@@ -88,7 +88,7 @@ public class CustomerInterface {
      */
     //Check if user wish to log in
     public boolean wishToLogin() {
-        System.out.println("Do you have an exiting AGILE Cinemas account you would like to log in with?  Y/N");
+        System.out.println("Do you have an existing AGILE Cinemas account you would like to log in with?  Y/N");
         Scanner userInput = new Scanner(System.in);
         return userInput.nextLine().equalsIgnoreCase("y");
     }
