@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +67,7 @@ public class TestFilter {
     }
 
     @Test
-    public void testMovieViewing(){
+    public void testbookseats(){
         CustomerInterface CI = new CustomerInterface();
         Map<Integer, MovieViewing> sessions = CI.toHashMap();
         MovieViewing MV = sessions.get(1);
@@ -89,16 +90,30 @@ public class TestFilter {
     }
 
     @Test
-    public void testBook(){
-//        CustomerInterface CI = new CustomerInterface();
-//        Map<Integer, MovieViewing> sessions = CI.toHashMap();
-//        InputStream stdin1 = new ByteArrayInputStream("There Will Be Blood".getBytes());
-//        InputStream stdin2 = new ByteArrayInputStream("1".getBytes());
-//        InputStream stdin3 = new ByteArrayInputStream("2".getBytes());
-//        System.setIn(stdin1);
-//        System.setIn(stdin2);
-//        System.setIn(stdin3);
-//        assertTrue(CI.book_with_session());
+    public void testFilteroutput_inbook(){
+        CustomerInterface CI = new CustomerInterface();
+        Map<Integer, MovieViewing> sessions = CI.toHashMap();
+        InputStream stdin1 = new ByteArrayInputStream("0".getBytes());
+        InputStream stdin3 = new ByteArrayInputStream("c".getBytes());
 
+        System.setIn(stdin1);
+        assertEquals(0, CI.printoutfilter_inbook(sessions));
+
+        System.setIn(stdin3);
+        assertEquals(2, CI.printoutfilter_inbook(sessions));
     }
+
+    @Test
+    public void testcheckmap(){
+        CustomerInterface CI = new CustomerInterface();
+        Map<Integer, MovieViewing> sessions = new HashMap<>();
+        InputStream stdin1 = new ByteArrayInputStream("c".getBytes());
+
+        System.setIn(stdin1);
+        assertFalse(CI.checkHashmapSize(sessions));
+
+        Map<Integer, MovieViewing> sessions_1 = CI.toHashMap();
+        assertTrue(CI.checkHashmapSize(sessions_1));
+    }
+
 }

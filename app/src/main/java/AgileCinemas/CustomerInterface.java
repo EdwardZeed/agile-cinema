@@ -255,48 +255,14 @@ public class CustomerInterface {
         Map<Integer, MovieViewing> sessions = this.toHashMap();
         Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
         // If nothing matches. go back or cancel
-        if (movies.size() == 0) {
-            System.out.println("Sorry, No such movie exists");
-            System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
-            String option = userIn.nextLine();
-            if (option.equals("1")) {
-                book_with_session();
-            } else {
-
-                System.out.println("Thank you, you will log out");
-                //log out
-                return false;
-            }
+        if (!checkHashmapSize(movies)) {
+            return false;
         }
         // choose film or go further or cancel
-        System.out.println("You can choose the session you like by typing in the ID ");
-        System.out.println("If you want to filter further. Please press '0' ");
-        System.out.println("If you wan to cancel, please type 'c' ");
-        while (true) {
-            String choose = userIn.nextLine();
-            try {
-                int choose_int = Integer.parseInt(choose);
-                if (choose_int == 0) {
-                    break;
-                }
-                String a = new String();
-                MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
-
-                //upload the booking detail
-                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
-                System.out.println("Location: " + choosen_movie.getLocation());
-                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
-                System.out.println("Area: " + a);
-                return true;
-            } catch (Exception e) {
-                if (choose.equals("c")) {
-                    //log out
-                    return false;
-                }
-                System.out.println("Please enter a valid number");
-            }
+        if(printoutfilter_inbook(movies) == 1){
+            return true;
+        }else if(printoutfilter_inbook(movies) == 2){
+            return false;
         }
 
 
@@ -306,48 +272,15 @@ public class CustomerInterface {
         Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies,location);
 
         // If nothing matches. go back or cancel
-        if (movies_l.size() == 0) {
-            System.out.println("Sorry, No such movie exists");
-            System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
-            String option = userIn.nextLine();
-            if (option.equals("1")) {
-                book_with_session();
-            } else {
-
-                System.out.println("Thank you, you will log out");
-                //log out
-                return false;
-            }
+        if (!checkHashmapSize(movies_l)) {
+            return false;
         }
 
         // choose film or go further or cancel
-        System.out.println("You can choose the session you like by typing in the ID ");
-        System.out.println("If you want to filter further. Please press '0' ");
-        System.out.println("If you wan to cancel, please type 'c' ");
-        while (true) {
-            String choose = userIn.nextLine();
-            try {
-                int choose_int = Integer.parseInt(choose);
-                if (choose_int == 0) {
-                    break;
-                }
-                String a = new String();
-                MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
-                //upload the booking detail
-                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
-                System.out.println("Location: " + choosen_movie.getLocation());
-                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
-                System.out.println("Area: " + a);
-                return true;
-            } catch (Exception e) {
-                if (choose.equals("c")) {
-                    //log out
-                    return false;
-                }
-                System.out.println("Please enter a valid number");
-            }
+        if(printoutfilter_inbook(movies_l) == 1){
+            return true;
+        }else if(printoutfilter_inbook(movies_l) == 2){
+            return false;
         }
 
         //Filter by dayofWeek
@@ -356,50 +289,20 @@ public class CustomerInterface {
         Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l,dow);
 
         // If nothing matches. go back or cancel
-        if (movies_dow.size() == 0) {
-            System.out.println("Sorry, No such movie exists");
-            System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
-            String option = userIn.nextLine();
-            if (option.equals("1")) {
-                book_with_session();
-            } else {
-
-                System.out.println("Thank you, you will log out");
-                //log out
-                return false;
-            }
+        if (!checkHashmapSize(movies_dow)) {
+            return false;
         }
 
         // choose film or go further or cancel
         System.out.println("You can choose the session you like by typing in the ID");
         System.out.println("If you wan to cancel, please type 'c'");
-        while (true) {
-            String choose = userIn.nextLine();
-            try {
-                int choose_int = Integer.parseInt(choose);
-                if (choose_int == 0) {
-                    break;
-                }
-                String a = new String();
-                MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
-                //upload the booking detail
-                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
-                System.out.println("Location: " + choosen_movie.getLocation());
-                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
-                System.out.println("Area: " + a);
-                return true;
-            } catch (Exception e) {
-                if (choose.equals("c")) {
-                    //log out
-                    return false;
-                }
-                System.out.println("Please enter a valid number");
-            }
+        if(printoutfilter_inbook(movies_dow) == 1){
+            return true;
+        }else if(printoutfilter_inbook(movies_dow) == 2){
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public String bookSeats(MovieViewing choosen_movie){
@@ -494,5 +397,55 @@ public class CustomerInterface {
         return movies;
     }
 
+    public boolean checkHashmapSize(Map<Integer,MovieViewing> m){
+        if (m.size() == 0) {
+            System.out.println("Sorry, No such movie exists");
+            System.out.println("If you want to try again, please type '1'");
+            System.out.println("If you wan to cancel, please type 'c'");
+            Scanner userIn = new Scanner(System.in);
+            String option = userIn.nextLine();
+            if (option.equals("1")) {
+                book_with_session();
+            } else {
+
+                System.out.println("Thank you, you will log out");
+                //log out
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int printoutfilter_inbook(Map<Integer,MovieViewing> movies){
+        System.out.println("You can choose the session you like by typing in the ID ");
+        System.out.println("If you want to filter further. Please press '0' ");
+        System.out.println("If you wan to cancel, please type 'c' ");
+        Scanner userIn = new Scanner(System.in);
+        while (true) {
+            String choose = userIn.nextLine();
+            try {
+                int choose_int = Integer.parseInt(choose);
+                if (choose_int == 0) {
+                    return 0;
+                }
+                String a = new String();
+                MovieViewing choosen_movie = movies.get(choose_int);
+                a = this.bookSeats(choosen_movie);
+
+                //upload the booking detail
+                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Location: " + choosen_movie.getLocation());
+                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
+                System.out.println("Area: " + a);
+                return 1;
+            } catch (Exception e) {
+                if (choose.equals("c")) {
+                    //log out
+                    return 2;
+                }
+                System.out.println("Please enter a valid number");
+            }
+        }
+    }
 
 }
