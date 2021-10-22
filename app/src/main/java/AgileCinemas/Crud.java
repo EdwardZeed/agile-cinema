@@ -64,18 +64,28 @@ public class Crud {
     public static boolean checkUsernameExist(String username){
         Connection conn = null;
 		ResultSet resultSet = null;
-		String result = null;
+		int result = 0;
+		boolean captain;
 		try {
 			// Connect to DB
 			conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
 			Statement statement = conn.createStatement();
 			// Create and Run Query
-			String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s'";
-			resultSet = statement.executeQuery(String.format(usernameExistQuery, username));
+			//String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s'";
+			String check_username = "Select COUNT(*) from cinemas.dbo.customers where user_name LIKE " + "'" +
+                    username + "'" + ";";
+			resultSet = statement.executeQuery(check_username);
 			// Print Result
 			while(resultSet.next()) {
-				result = resultSet.getString(1); // null is doesn't exist
+			    int i = Integer.parseInt(resultSet.getString(1));
+			    result = i;
 			}
+			if(result == 1){
+			    captain = true;
+            }
+			else{
+			    captain = false;
+            }
 		}
 		catch (SQLException e){
 			throw new Error("Problem", e);
@@ -88,7 +98,7 @@ public class Crud {
 				System.out.println(ex.getMessage());
 			}
 		}
-        return (result != null); // non-null if username found, else is null
+        return captain;
     }
 
     //Check arg(password) with database, return false if not exit, otherwise return true.
@@ -122,8 +132,34 @@ public class Crud {
         return (result != null); // non-null if username + password found, else is null
     }
 
+    public static void create_new_user(String username, String password){
+        Connection conn = null;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String insert_new_User = "INSERT INTO cinemas.dbo.customers (user_name, password) " +
+                    "VALUES ( '" + username + "', '" + password + "');";
+            statement.executeUpdate(insert_new_User);
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
     public static void main(String[] args) {
         ArrayList<MovieViewing> sessions = Crud.getViewings();
         System.out.println(sessions.toString());
     }
+
+
 }
