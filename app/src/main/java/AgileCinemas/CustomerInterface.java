@@ -261,9 +261,11 @@ public class CustomerInterface {
             return false;
         }
         // choose film or go further or cancel
-        if(printoutfilter_inbook(movies) == 1){
+        System.out.println("If you want to filter further. Please press '0' ");
+        int test_movies = printoutfilter_inbook(movies);
+        if(test_movies == 1){
             return true;
-        }else if(printoutfilter_inbook(movies) == 2){
+        }else if(test_movies == 2){
             return false;
         }
 
@@ -279,9 +281,11 @@ public class CustomerInterface {
         }
 
         // choose film or go further or cancel
-        if(printoutfilter_inbook(movies_l) == 1){
+        System.out.println("If you want to filter further. Please press '0' ");
+        int test_location = printoutfilter_inbook(movies_l);
+        if(test_location == 1){
             return true;
-        }else if(printoutfilter_inbook(movies_l) == 2){
+        }else if(test_location == 2){
             return false;
         }
 
@@ -296,11 +300,10 @@ public class CustomerInterface {
         }
 
         // choose film or go further or cancel
-        System.out.println("You can choose the session you like by typing in the ID");
-        System.out.println("If you wan to cancel, please type 'c'");
-        if(printoutfilter_inbook(movies_dow) == 1){
+        int test_dow = printoutfilter_inbook(movies_dow);
+        if(test_dow == 1){
             return true;
-        }else if(printoutfilter_inbook(movies_dow) == 2){
+        }else if(test_dow == 2){
             return false;
         }
 
@@ -420,7 +423,6 @@ public class CustomerInterface {
 
     public int printoutfilter_inbook(Map<Integer,MovieViewing> movies){
         System.out.println("You can choose the session you like by typing in the ID ");
-        System.out.println("If you want to filter further. Please press '0' ");
         System.out.println("If you wan to cancel, please type 'c' ");
         Scanner userIn = new Scanner(System.in);
         while (true) {
