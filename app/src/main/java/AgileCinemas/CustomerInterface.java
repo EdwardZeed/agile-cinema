@@ -189,6 +189,8 @@ public class CustomerInterface {
         for (MovieViewing viewing : this.viewings) {
             // Display title
             System.out.println(viewing.getMovie().getTitle());
+            // Display location
+            System.out.println("    Cinema location: " + viewing.getLocation());
             // Display synopsis
             System.out.println("    Synopsis: " + viewing.getMovie().getTitle());
             // Display classification
