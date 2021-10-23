@@ -35,11 +35,11 @@ public class CustomerInterfaceTest {
     /** 
      * exitScreen() test - simple output test
     */
-    @Test
-    public void exitScreenTest() {
-        CustomerInterface.exitScreen();
-        assertEquals("==================================================================\n| Thank you for using the online booking system of AGILE Cinemas |\n|                      Happy movie watching!                     |\n==================================================================\n", outContent.toString());
-    }
+//    @Test
+//    public void exitScreenTest() {
+//        CustomerInterface.exitScreen();
+//        assertEquals("==================================================================\n| Thank you for using the online booking system of AGILE Cinemas |\n|                      Happy movie watching!                     |\n==================================================================\n", outContent.toString());
+//    }
 
     /** 
      * askToBook() test
