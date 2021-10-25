@@ -38,6 +38,9 @@ public class CustomerInterface {
     }
     public Customer getCustomer() { return this.customer; }
 
+    // Setter for testing
+    public void setCustomer(Customer customer) { this.customer = customer; }
+
     /*
      * Customer Interfaces(Contain both customer and guest)
      */
@@ -90,7 +93,7 @@ public class CustomerInterface {
     public boolean wishToLogin() {
         System.out.println("Do you have an existing AGILE Cinemas account you would like to log in with?  Y/N");
         Scanner userInput = new Scanner(System.in);
-        return userInput.nextLine().equalsIgnoreCase("y");
+        return userInput.nextLine().toUpperCase().equalsIgnoreCase("Y");
     }
 
     //Login Module, it will ask user if they want to try again when username not match.
@@ -115,7 +118,12 @@ public class CustomerInterface {
         else if (usernameExists && !passwordCorrect) {
             for (int i = 1; i <= 3; i++) {
                 System.out.println(String.format("Invalid password, please try again. You have %d more attempts before you will continue as a guest.", 4 - i));
+                System.out.println("If you wish to cancel and continue as a guest immediately, type 'c'");
                 password = userInput.nextLine();
+                // Cancel and continue as guest
+                if (password.equals("c")) {
+                    return false;
+                }
                 passwordCorrect = Crud.checkPasswordWithUsername(username, password);
                 if (passwordCorrect) { // Correct password entered
                     this.customer = new Customer(username, password);
@@ -164,9 +172,13 @@ public class CustomerInterface {
         //Username is not unique, ask if user want to try again.
 
         if (i == true) {
-            System.out.println("The username already exists.\nDo you wish to try again?  Y/N.");
+            System.out.println("The username already exists.\nDo you wish to try again?  Y/N");
             if (userInput.nextLine().equalsIgnoreCase("Y")) {
                 return signUp();
+            }
+            else {
+                System.out.println("Continuing as a guest...");
+                return false;
             }
         }
         else {
@@ -188,7 +200,7 @@ public class CustomerInterface {
         // new Crud().retrieve_upcoming_sessions();
         for (MovieViewing viewing : this.viewings) {
             // Display title
-            System.out.println(viewing.getMovie().getTitle());
+            System.out.println("\n" + viewing.getMovie().getTitle());
             // Display location
             System.out.println("    Cinema location: " + viewing.getLocation());
             // Display synopsis
@@ -406,7 +418,7 @@ public class CustomerInterface {
         if (m.size() == 0) {
             System.out.println("Sorry, No such movie exists");
             System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
+            System.out.println("If you want to cancel, please type 'c'");
             Scanner userIn = new Scanner(System.in);
             String option = userIn.nextLine();
             if (option.equals("1")) {
@@ -423,7 +435,7 @@ public class CustomerInterface {
 
     public int printoutfilter_inbook(Map<Integer,MovieViewing> movies){
         System.out.println("You can choose the session you like by typing in the ID ");
-        System.out.println("If you wan to cancel, please type 'c' ");
+        System.out.println("If you want to cancel, please type 'c' ");
         Scanner userIn = new Scanner(System.in);
         while (true) {
             String choose = userIn.nextLine();
@@ -450,6 +462,98 @@ public class CustomerInterface {
                 System.out.println("Please enter a valid number");
             }
         }
+    }
+
+    /**
+     * Runs payment by credit card
+     * @return true if payment successful, else returns false
+    */
+    public boolean payWithCreditCard() {
+        // Get credit card details
+        String cardName = null;
+        String cardNum = null;
+        // Check if user has saved credit card details
+        if (usePreSavedCardDetails()) {
+            cardName = this.customer.getCreditCardName();
+            cardNum = this.customer.getCreditCardNum();
+        } else {
+            cardNum = inputCreditCardNumber();
+            cardName = inputCreditCardName();
+        }
+        // Check if details are valid
+        if (Crud.is_creditCard_valid(cardName, cardNum)) {
+            // Successful payment, ask if want to save details
+            System.out.println("Success! You have purchased your movie tickets!");
+            // TODO: actually update transaction and database, etc...
+            if (!this.customer.hasSavedCreditCard()) {
+                if (askSaveCreditCard(cardName, cardNum)) {
+                    Crud.saveCreditCard(cardName, cardNum);
+                }
+            }
+            return true;
+        }
+        // Invalid credit card details added
+        System.out.println("Sorry, those credit card details are invalid");
+        return false;
+    }
+
+    /**
+     * TODO: Receives the user's credit card name and number from input
+     * @return credit card number and name
+    */
+    public String inputCreditCardNumber() {
+        Scanner userIn = new Scanner(System.in);
+        // TODO: hide credit card number with *
+        System.out.println("Please enter your credit card number:");
+        String cardNum = userIn.nextLine();
+        return cardNum;
+    }
+
+    /**
+     * Receives the user's credit card name and number from input
+     * @return credit card number and name
+    */
+    public String inputCreditCardName() {
+        Scanner userIn = new Scanner(System.in);
+        System.out.println("Please enter the name on your credit card:");
+        String cardName = userIn.nextLine();
+        return cardName;
+    }
+
+    /**
+     * Checks if pre-saved credit card details exist and, if so, checks if user wants to use them
+     * @return true if pre-saved details should be used, else returns false
+    */
+    public boolean usePreSavedCardDetails() {
+        // Check if user has saved credit card details
+        if (this.customer.hasSavedCreditCard()) {
+            System.out.println(String.format("Credit card number: %s\nCredit card name: %s", this.customer.getCreditCardNum(), this.customer.getCreditCardName()));
+            System.out.println("Do you wish to proceed with these saved credit card details?  Y/N");
+            Scanner userIn = new Scanner(System.in);
+            if (userIn.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
+                // User proceeds with saved details
+                return true;
+            }
+            return false; // User does not want to use saved details
+        }
+        return false;
+    }
+    
+    /**
+     * Asks user if they would like to save their credit card details
+     * @param cardName the card name to enter
+     * @param cardNum the card number to enter
+     * @return true if credit card details were saved, false else
+    */
+    public boolean askSaveCreditCard(String cardName, String cardNum) {
+        System.out.println("Would you like to save your credit card details for a faster booking process next time?  Y/N");
+        Scanner userIn = new Scanner(System.in);
+        if (userIn.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
+            this.customer.setCreditCardName(cardName);
+            this.customer.setCreditCardNum(cardNum);
+            return true;
+        }
+        return false; // details not saved
     }
 
 }
