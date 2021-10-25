@@ -4,6 +4,141 @@ import java.util.ArrayList;
 
 public class Crud {
 
+    // TODO Check Credit Card Provided is Valid
+
+    public static boolean is_creditCard_valid(String name, String card_number){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String creditCardExistsQuery = "SELECT COUNT(*) FROM cinemas.dbo.credit_cards " +
+                    "WHERE name LIKE '%s' AND card_number LIKE '%s'";
+            resultSet = statement.executeQuery(String.format(creditCardExistsQuery, name, card_number));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 1){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
+    // TODO Check Gift Card Provided is Valid
+
+    public static boolean is_giftCard_exist(String card_number){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String giftCardExistsQuery = "SELECT COUNT(*) FROM cinemas.dbo.gift_cards " +
+                    "WHERE Card_Number LIKE '%s'";
+            resultSet = statement.executeQuery(String.format(giftCardExistsQuery, card_number));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 1){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
+    // TODO Check Gift Card Provided is Redeemable
+
+    public static boolean is_giftCard_redeemable(String card_number){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String giftCardRedeemableQuery = "SELECT IS_REDEEMED FROM cinemas.dbo.gift_cards " +
+                    "WHERE Card_Number LIKE '%s'";
+            resultSet = statement.executeQuery(String.format(giftCardRedeemableQuery, card_number));
+            // Print Result
+            int i = 1;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 0){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
+    // TODO Check if Customer has CREDIT CARD Stored
+    // TODO INSERT CREDIT CARD Details TO CUSTOMER
+    // TODO INSERT TRANSACTION DATA
+    // TODO Return Last Transaction ID - i.e ticket_id
+    // TODO Alter Viewings Table Based On Transaction (Seats Available)
+    // TODO Check if Staff ID is Valid
+    // TODO Check if Staff ID is Active
+    // TODO Check if Staff IS is Manager
+    // TODO Create Method to Insert New Viewings
+
+
+
     // TODO
     public static ArrayList<String> getViewingLocations() {
         // Access database
