@@ -41,11 +41,25 @@ public class CrudTest {
     public void lastTransactionID(){
         assertEquals(0, Crud.last_transactionID("transactions_test"));
     }
-        // TODO Alter Viewings Table Based On Transaction (Seats Available)
+
         // TODO Check if Staff ID is Valid
+    public void testStaffIDValidity(){
+        assertTrue(Crud.is_staffID_valid("1234"));
+    }
         // TODO Check if Staff ID is Active
+    public void testStaffActive(){
+        assertTrue(Crud.isStaffActive("1234"));
+        assertFalse(Crud.isStaffActive("1555"));
+    }
+
         // TODO Check if Staff IS is Manager
-        // TODO Create Method to Insert New Viewings (Do I create a method to select a viewing)?
+    public void testisManager(){
+        assertTrue(Crud.isManager("1636"));
+        assertFalse(Crud.isManager("1234"));
+    }
+
+        // TODO Create Method to Insert New Viewings
+        // TODO Alter Viewings Table Based On Transaction (Seats Available)
 
 
     /** 

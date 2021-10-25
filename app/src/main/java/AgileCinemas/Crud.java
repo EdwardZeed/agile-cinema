@@ -274,13 +274,132 @@ public class Crud {
 
     }
 
-    // TODO Alter Viewings Table Based On Transaction (Seats Available)
+
     // TODO Check if Staff ID is Valid
+    public static boolean is_staffID_valid(String staff_id){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            int id = Integer.parseInt(staff_id);
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String doesStaffIDExist = "SELECT COUNT(*) FROM cinemas.dbo.staff " +
+                    "WHERE id = '%d'";
+            resultSet = statement.executeQuery(String.format(doesStaffIDExist, id));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 1){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
     // TODO Check if Staff ID is Active
+    public static boolean isStaffActive(String staffID){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            int id = Integer.parseInt(staffID);
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String isStaffActiveQuery = "SELECT IS_ACTIVE FROM cinemas.dbo.staff " +
+                    "WHERE ID = '%d'";
+            resultSet = statement.executeQuery(String.format(isStaffActiveQuery, id));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 1){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
     // TODO Check if Staff IS is Manager
+    public static boolean isManager(String staffID){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            int id = Integer.parseInt(staffID);
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String isManagerQuery = "SELECT IS_MANAGER FROM cinemas.dbo.staff " +
+                    "WHERE ID = '%d'";
+            resultSet = statement.executeQuery(String.format(isManagerQuery, id));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 1){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
     // TODO Create Method to Insert New Viewings
-
-
+    // TODO Alter Viewings Table Based On Transaction (Seats Available)
 
     // TODO
     public static ArrayList<String> getViewingLocations() {
