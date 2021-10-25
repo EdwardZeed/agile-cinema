@@ -59,7 +59,16 @@ public class CrudTest {
     }
 
         // TODO Create Method to Insert New Viewings
+    public void checkViewingAdded(){
+        assertTrue(Crud.add_newViewing(2, "Broadway", "Friday", "19:00",
+                "Bronze", 15, 15, 15));
+    }
+
         // TODO Alter Viewings Table Based On Transaction (Seats Available)
+    public void alterViewingSeats(){
+        assertTrue(Crud.alter_viewing_seats(1, 3, "back"));
+        assertFalse(Crud.alter_viewing_seats(1, 3, "outside"));
+    }
 
 
     /** 
