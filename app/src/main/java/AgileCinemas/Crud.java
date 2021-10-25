@@ -128,9 +128,152 @@ public class Crud {
     }
 
     // TODO Check if Customer has CREDIT CARD Stored
+    public static boolean customerContains_creditCard(String username){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        boolean is_valid = false;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String customerHasCreditCard = "SELECT COUNT(credit_card_id) " +
+                    "FROM cinemas.dbo.customers " +
+                    "WHERE user_name LIKE '%s'";
+            resultSet = statement.executeQuery(String.format(customerHasCreditCard, username));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            if(i == 1){
+                is_valid = true;
+            }
+            else{
+                is_valid = false;
+            }
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return is_valid;
+
+    }
+
     // TODO INSERT CREDIT CARD Details TO CUSTOMER
+    public static boolean saveCreditCard(String username, String card_number){
+        boolean status = false;
+        Connection conn = null;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String saveCardtoCustomer = "UPDATE cinemas.dbo.customers " +
+                    "SET credit_card_id = '%s' " +
+                    "WHERE user_name LIKE '%s'";
+            statement.executeUpdate(String.format(saveCardtoCustomer, card_number, username));
+            // Print Result
+            status = true;
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return status;
+    }
+
     // TODO INSERT TRANSACTION DATA
+    public static boolean insertTransaction(String username, float total_amount, String transaction_status,
+    int viewing_id, int child_tickets, int concession_tickets, int adult_tickets,
+                                            String payment_type, int is_cancelled, int is_idle, String seat_position){
+        boolean status = false;
+        int total_tickets = child_tickets + concession_tickets + adult_tickets;
+
+        Connection conn = null;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String insert_query = "INSERT INTO cinemas.dbo.transactions " +
+                    "(customer_username, Total_Amount, Transaction_Status, Viewing_ID, " +
+                    "Number_Child_Tickets, Number_Concession_Tickets, Number_Adult_Tickets, Total_Number_Tickets, " +
+                    "Payment_Type, Is_Cancelled, Is_Idle, Seat_Position, INSERTDATE) " +
+                    "VALUES ('%s', '%f', '%s', '%d', '%d', '%d', '%d', '%s', '%d', '%d', '%s', CURRENT_TIMESTAMP)";
+            statement.executeUpdate(String.format(insert_query, username, total_amount, transaction_status,
+                    viewing_id, child_tickets, concession_tickets, adult_tickets, total_tickets, payment_type,
+                    is_cancelled, is_idle, seat_position));
+            // Return True Status Due to Update Executing Successfully
+            status = true;
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return status;
+        // Zero is used to represent false
+    }
+
+
     // TODO Return Last Transaction ID - i.e ticket_id
+    public static int last_transactionID(String table_name){
+        // Use "transactions" in app.
+        // Use "transactions_test" in test cases.
+        Connection conn = null;
+        ResultSet resultSet = null;
+        int result = 0;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String retrieve_lastRow = "SELECT TOP 1 id FROM cinemas.dbo.%s ORDER BY id DESC";
+            resultSet = statement.executeQuery(String.format(retrieve_lastRow, table_name));
+            // Print Result
+            int i = 0;
+            while(resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+            result = i;
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return result;
+
+    }
+
     // TODO Alter Viewings Table Based On Transaction (Seats Available)
     // TODO Check if Staff ID is Valid
     // TODO Check if Staff ID is Active

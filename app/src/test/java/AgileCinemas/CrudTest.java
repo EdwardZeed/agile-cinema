@@ -20,14 +20,32 @@ public class CrudTest {
     }
 
         // TODO Check if Customer has CREDIT CARD Stored
+    public void does_CustomerhaveCreditCard(){
+        assertFalse(Crud.customerContains_creditCard("Pauly601"));
+    }
+
         // TODO INSERT CREDIT CARD Details TO CUSTOMER
+    public void saveCreditCardCustomer(){
+        assertTrue(Crud.saveCreditCard("rachela", "40691"));
+    }
+
         // TODO INSERT TRANSACTION DATA
+    public void insertnew_transaction(){
+        assertTrue(Crud.insertTransaction("Pauly601", 21, "active",
+                2, 0, 1, 0, "credit card",
+                0, 0, "middle"));
+    }
+
+
         // TODO Return Last Transaction ID - i.e ticket_id
+    public void lastTransactionID(){
+        assertEquals(0, Crud.last_transactionID("transactions_test"));
+    }
         // TODO Alter Viewings Table Based On Transaction (Seats Available)
         // TODO Check if Staff ID is Valid
         // TODO Check if Staff ID is Active
         // TODO Check if Staff IS is Manager
-        // TODO Create Method to Insert New Viewings
+        // TODO Create Method to Insert New Viewings (Do I create a method to select a viewing)?
 
 
     /** 
