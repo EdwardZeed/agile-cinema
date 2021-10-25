@@ -435,12 +435,121 @@ public class CustomerInterface {
                 String a = new String();
                 MovieViewing choosen_movie = movies.get(choose_int);
                 a = this.bookSeats(choosen_movie);
+                int adult = 0;
+                int children = 0;
+                int concession =0;
+                String transaction_status = "success";
+                int is_cancelled = 0;
+                while (true){
+                    System.out.println("What kind of tickets you want to book?");
+                    System.out.println("Type 1: Adult ");
+                    System.out.println("Type 2: Child ");
+                    System.out.println("Type 3: Concession ");
+                    System.out.println("Type 4: Cancel ");
+                    String type = userIn.nextLine();
+                    if(type.equalsIgnoreCase("1")){
 
+                        int ad = book(choosen_movie,a);
+                        if(ad > 0){
+                            adult = adult + ad;
+                        }
+                        if(ad == -2){
+                            System.out.println("Not enough seats. Do you want to try again? Y/N");
+                            String ans = userIn.nextLine();
+                            if(ans.equalsIgnoreCase("y")){
+                                ad = book(choosen_movie , a);
+                                if(ad > 0){
+                                    adult = adult + ad;
+                                }
+                            }else{
+                                System.out.println("Transaction canelled");
+                                is_cancelled = 1;
+                                transaction_status = "Fail";
+//                                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),0,0,0,"card",is_cancelled,0,a);
+                                return 2;
+                            }
+                        }
+                        System.out.println("Do you want to book other tickets? Y/N");
+                        String again = userIn.nextLine();
+                        if(again.equalsIgnoreCase("y")){
+                            ;
+                        }else{
+                            break;
+                        }
+                    }
+                    if(type.equalsIgnoreCase("2")){
+
+                        int chi = book(choosen_movie,a);
+                        if(chi > 0){
+                            children = children + chi;
+                        }
+                        if(chi == -2){
+                            System.out.println("Not enough seats. Do you want to try again? Y/N");
+                            String ans = userIn.nextLine();
+                            if(ans.equalsIgnoreCase("y")){
+                                chi = book(choosen_movie , a);
+                                if(chi > 0){
+                                    children = children + chi;
+                                }
+                            }else{
+                                System.out.println("Transaction canelled");
+                                is_cancelled = 1;
+                                transaction_status = "Fail";
+//                                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),0,0,0,"card",is_cancelled,0,a);
+                                return 2;
+                            }
+                        }
+                        System.out.println("Do you want to book other tickets? Y/N");
+                        String again = userIn.nextLine();
+                        if(again.equalsIgnoreCase("y")){
+                            ;
+                        }else{
+                            break;
+                        }
+                    }
+                    if(type.equalsIgnoreCase("3")){
+
+                        int con = book(choosen_movie,a);
+                        if(con > 0){
+                            concession = concession + con;
+                        }
+                        if(con == -2){
+                            System.out.println("Not enough seats. Do you want to try again? Y/N");
+                            String ans = userIn.nextLine();
+                            if(ans.equalsIgnoreCase("y")){
+                                con = book(choosen_movie , a);
+                                if(con > 0){
+                                    concession = concession + con;
+                                }
+                            }else{
+                                System.out.println("Transaction canelled");
+                                is_cancelled = 1;
+                                transaction_status = "Fail";
+//                                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),0,0,0,"card",is_cancelled,0,a);
+                                return 2;
+                            }
+                        }
+                        System.out.println("Do you want to book other tickets? Y/N");
+                        String again = userIn.nextLine();
+                        if(again.equalsIgnoreCase("y")){
+                            ;
+                        }else{
+                            break;
+                        }
+                    }
+                }
                 //upload the booking detail
+
+
                 System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
                 System.out.println("Location: " + choosen_movie.getLocation());
                 System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
                 System.out.println("Area: " + a);
+                System.out.println("Adult tickets: " +  adult);
+                System.out.println("Children tickets: " +  children);
+                System.out.println("Concession tickets: " +  concession);
+//                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),children,concession,adult,"card",0,0,a);
+
                 return 1;
             } catch (Exception e) {
                 if (choose.equals("c")) {
@@ -450,6 +559,57 @@ public class CustomerInterface {
                 System.out.println("Please enter a valid number");
             }
         }
+    }
+
+    public int book(MovieViewing mv, String area){
+        System.out.println("Please Enter the number you want to book.");
+        Scanner scan = new Scanner(System.in);
+        String num = scan.nextLine();
+        System.out.println("Front "+ mv.getFrontseats());
+        System.out.println("Middle "+ mv.getMiddleseats());
+        System.out.println("Back "+ mv.getBackseats());
+        try{
+            int number = Integer.parseInt(num);
+            if(area.equalsIgnoreCase("Front")){
+                if(mv.getFrontseats() < number){
+                    return -2;
+                }else{
+                    System.out.println("You succussfully add "+ number +" tickets");
+                    return number;
+                }
+            }
+
+            else if(area.equalsIgnoreCase("Middle")){
+                if(mv.getMiddleseats() < number){
+                    return -2;
+                }else{
+                    System.out.println("You succussfully add "+ number +" tickets");
+                    return number;
+                }
+            }
+
+            else if (area.equalsIgnoreCase("Back")){
+                if(mv.getBackseats() < number){
+                    return -2;
+                }else{
+                    System.out.println("You succussfully add "+ number +" tickets");
+                    return number;
+                }
+            }
+
+
+
+        }catch (Exception e){
+            if(num.equalsIgnoreCase("c")){
+                System.out.println("The transaction has been canceled");
+                return -1;
+            }else{
+                book(mv, area);
+                return -10;
+            }
+        }
+
+        return 0;
     }
 
 }
