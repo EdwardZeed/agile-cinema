@@ -4,6 +4,63 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
+    // TODO TEST:
+        // TODO Check Credit Card Provided is Valid
+    public void is_creditcardValid() {
+        assertTrue(Crud.is_creditCard_valid("Charles", "40691"));
+    }
+        // TODO Check Gift Card Provided is Valid
+    public void is_giftCardExists(){
+        assertTrue(Crud.is_giftCard_exist("1000000000000000GC"));
+    }
+        // TODO Check Gift Card Provided is Redeemable
+    public void is_giftCardRedeemable(){
+        assertTrue(Crud.is_giftCard_redeemable("1000000000000000GC"));
+        assertFalse(Crud.is_giftCard_redeemable("1000000000000001GC"));
+    }
+
+        // TODO Check if Customer has CREDIT CARD Stored
+    public void does_CustomerhaveCreditCard(){
+        assertFalse(Crud.customerContains_creditCard("Pauly601"));
+    }
+
+        // TODO INSERT CREDIT CARD Details TO CUSTOMER
+    public void saveCreditCardCustomer(){
+        assertTrue(Crud.saveCreditCard("rachela", "40691"));
+    }
+
+        // TODO INSERT TRANSACTION DATA
+    public void insertnew_transaction(){
+        assertTrue(Crud.insertTransaction("Pauly601", 21, "active",
+                2, 0, 1, 0, "credit card",
+                0, 0, "middle"));
+    }
+
+
+        // TODO Return Last Transaction ID - i.e ticket_id
+    public void lastTransactionID(){
+        assertEquals(0, Crud.last_transactionID("transactions_test"));
+    }
+
+        // TODO Check if Staff ID is Valid
+    public void testStaffIDValidity(){
+        assertTrue(Crud.is_staffID_valid("1234"));
+    }
+        // TODO Check if Staff ID is Active
+    public void testStaffActive(){
+        assertTrue(Crud.isStaffActive("1234"));
+        assertFalse(Crud.isStaffActive("1555"));
+    }
+
+        // TODO Check if Staff IS is Manager
+    public void testisManager(){
+        assertTrue(Crud.isManager("1636"));
+        assertFalse(Crud.isManager("1234"));
+    }
+
+        // TODO Create Method to Insert New Viewings
+        // TODO Alter Viewings Table Based On Transaction (Seats Available)
+
 
     /** 
      * checkUsernameExist() test
