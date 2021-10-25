@@ -399,7 +399,72 @@ public class Crud {
     }
 
     // TODO Create Method to Insert New Viewings
+    public static boolean add_newViewing(int movieID, String location, String weekday, String sessionTime,
+                                         String ScreenType, int backseats, int middleseats, int frontseats){
+        boolean status = false;
+
+        Connection conn = null;
+        try {
+            // Connect to DB
+            int totalseats = backseats + middleseats + frontseats;
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String insert_query = "INSERT INTO cinemas.dbo.viewings " +
+                    "(movie_id, location, day_week, session_time, " +
+                    "screen_type, backseats_remaining, middleseats_remaining, frontseats_remaining, totalseats_remaining" +
+                    "VALUES ('%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d')";
+            statement.executeUpdate(String.format(insert_query, movieID, location, weekday, sessionTime, ScreenType,
+                    backseats, middleseats, frontseats, totalseats));
+            // Return True Status Due to Update Executing Successfully
+            status = true;
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return status;
+        // Zero is used to represent false
+    }
+
     // TODO Alter Viewings Table Based On Transaction (Seats Available)
+    public static boolean alter_viewing_seats(int viewing_id, int seats, String seats_type){
+        boolean status = false;
+        Connection conn = null;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String updateViewings = "UPDATE cinemas.dbo.viewings " +
+                    "SET " + seats_type + "seats_remaining = " + seats_type +"seats_remaining + " + seats + ", " +
+                    "totalseats_remaining = totalseats_remaining - " + seats +
+                    " WHERE id = " + viewing_id;
+            statement.executeUpdate(updateViewings);
+            // Print Result
+            status = true;
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return status;
+
+    }
 
     // TODO
     public static ArrayList<String> getViewingLocations() {
