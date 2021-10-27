@@ -462,25 +462,22 @@ public class CustomerInterface {
                     if(type.equalsIgnoreCase("1")){
 
                         int ad = book(choosen_movie,a);
-                        if(ad > 0){
-                            adult = adult + ad;
-                        }
                         if(ad == -2){
-                            System.out.println("Not enough seats. Do you want to try again? Y/N");
-                            String ans = userIn.nextLine();
-                            if(ans.equalsIgnoreCase("y")){
-                                ad = book(choosen_movie , a);
-                                if(ad > 0){
-                                    adult = adult + ad;
+                            while(true){
+                                System.out.println("Not enough seats. Do you want to try again? Y/N");
+                                String ans = userIn.nextLine();
+                                if(ans.equalsIgnoreCase("y")){
+                                    ad = book(choosen_movie,a);
+                                    if(ad != -2){
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Transaction Failed");
+                                    return 2;
                                 }
-                            }else{
-                                System.out.println("Transaction canelled");
-                                is_cancelled = 1;
-                                transaction_status = "Fail";
-//                                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),0,0,0,"card",is_cancelled,0,a);
-                                return 2;
                             }
                         }
+                        adult = adult + ad;
                         System.out.println("Do you want to book other tickets? Y/N");
                         String again = userIn.nextLine();
                         if(again.equalsIgnoreCase("y")){
@@ -492,25 +489,22 @@ public class CustomerInterface {
                     if(type.equalsIgnoreCase("2")){
 
                         int chi = book(choosen_movie,a);
-                        if(chi > 0){
-                            children = children + chi;
-                        }
                         if(chi == -2){
-                            System.out.println("Not enough seats. Do you want to try again? Y/N");
-                            String ans = userIn.nextLine();
-                            if(ans.equalsIgnoreCase("y")){
-                                chi = book(choosen_movie , a);
-                                if(chi > 0){
-                                    children = children + chi;
+                            while(true){
+                                System.out.println("Not enough seats. Do you want to try again? Y/N");
+                                String ans = userIn.nextLine();
+                                if(ans.equalsIgnoreCase("y")){
+                                    chi = book(choosen_movie,a);
+                                    if(chi != -2){
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Transaction Failed");
+                                    return 2;
                                 }
-                            }else{
-                                System.out.println("Transaction canelled");
-                                is_cancelled = 1;
-                                transaction_status = "Fail";
-//                                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),0,0,0,"card",is_cancelled,0,a);
-                                return 2;
                             }
                         }
+                        children = children + chi;
                         System.out.println("Do you want to book other tickets? Y/N");
                         String again = userIn.nextLine();
                         if(again.equalsIgnoreCase("y")){
@@ -522,25 +516,22 @@ public class CustomerInterface {
                     if(type.equalsIgnoreCase("3")){
 
                         int con = book(choosen_movie,a);
-                        if(con > 0){
-                            concession = concession + con;
-                        }
                         if(con == -2){
-                            System.out.println("Not enough seats. Do you want to try again? Y/N");
-                            String ans = userIn.nextLine();
-                            if(ans.equalsIgnoreCase("y")){
-                                con = book(choosen_movie , a);
-                                if(con > 0){
-                                    concession = concession + con;
+                            while(true){
+                                System.out.println("Not enough seats. Do you want to try again? Y/N");
+                                String ans = userIn.nextLine();
+                                if(ans.equalsIgnoreCase("y")){
+                                    con = book(choosen_movie,a);
+                                    if(con != -2){
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Transaction Failed");
+                                    return 2;
                                 }
-                            }else{
-                                System.out.println("Transaction canelled");
-                                is_cancelled = 1;
-                                transaction_status = "Fail";
-//                                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),0,0,0,"card",is_cancelled,0,a);
-                                return 2;
                             }
                         }
+                        concession = concession + con;
                         System.out.println("Do you want to book other tickets? Y/N");
                         String again = userIn.nextLine();
                         if(again.equalsIgnoreCase("y")){
@@ -578,9 +569,6 @@ public class CustomerInterface {
         System.out.println("Please Enter the number you want to book.");
         Scanner scan = new Scanner(System.in);
         String num = scan.nextLine();
-        System.out.println("Front " + mv.getFrontseats());
-        System.out.println("Middle " + mv.getMiddleseats());
-        System.out.println("Back " + mv.getBackseats());
         try {
             int number = Integer.parseInt(num);
             if (area.equalsIgnoreCase("Front")) {
