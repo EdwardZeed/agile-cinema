@@ -8,10 +8,10 @@ public class Movie {
     private String releaseDate;
     private String director;
     private String cast;
-    
+
     /**
      * Constructor for a Movie
-    */
+     */
     public Movie(int id, String title, String synopsis, String classification, String releaseDate, String director, String cast) {
         this.id = id;
         this.title = title;
@@ -22,9 +22,9 @@ public class Movie {
         this.cast = cast;
     }
 
-    /** 
+    /**
      * Getter methods
-    */
+     */
     public int getId() { return this.id; }
     public String getTitle() { return this.title; }
     public String getSynopsis() { return this.synopsis; }

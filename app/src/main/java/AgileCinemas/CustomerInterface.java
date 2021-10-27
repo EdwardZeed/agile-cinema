@@ -269,12 +269,12 @@ public class CustomerInterface {
         Map<Integer, MovieViewing> sessions = this.toHashMap();
         Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
         // If nothing matches. go back or cancel
-        if (!checkHashmapSize(movies)) {
+        if (!checkHashmapSize(userIn, movies)) {
             return false;
         }
         // choose film or go further or cancel
         System.out.println("If you want to filter further. Please press '0' ");
-        int test_movies = printoutfilter_inbook(movies);
+        int test_movies = printoutfilter_inbook(userIn, movies);
         if(test_movies == 1){
             return true;
         }else if(test_movies == 2){
@@ -288,13 +288,13 @@ public class CustomerInterface {
         Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies,location);
 
         // If nothing matches. go back or cancel
-        if (!checkHashmapSize(movies_l)) {
+        if (!checkHashmapSize(userIn, movies_l)) {
             return false;
         }
 
         // choose film or go further or cancel
         System.out.println("If you want to filter further. Please press '0' ");
-        int test_location = printoutfilter_inbook(movies_l);
+        int test_location = printoutfilter_inbook(userIn, movies_l);
         if(test_location == 1){
             return true;
         }else if(test_location == 2){
@@ -307,12 +307,12 @@ public class CustomerInterface {
         Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l,dow);
 
         // If nothing matches. go back or cancel
-        if (!checkHashmapSize(movies_dow)) {
+        if (!checkHashmapSize(userIn, movies_dow)) {
             return false;
         }
 
         // choose film or go further or cancel
-        int test_dow = printoutfilter_inbook(movies_dow);
+        int test_dow = printoutfilter_inbook(userIn, movies_dow);
         if(test_dow == 1){
             return true;
         }else if(test_dow == 2){
@@ -322,7 +322,7 @@ public class CustomerInterface {
         return true;
     }
 
-    public String bookSeats(MovieViewing choosen_movie){
+    public String bookSeats(Scanner userIn, MovieViewing choosen_movie){
         System.out.println("Available Front Seats: " + choosen_movie.getFrontseats());
         System.out.println("Available Middle Seats: " + choosen_movie.getMiddleseats());
         System.out.println("Available Back Seats: " + choosen_movie.getBackseats());
@@ -331,7 +331,7 @@ public class CustomerInterface {
         System.out.println("Type 2: Middle");
         System.out.println("Type 3: Back");
         System.out.println("Type c: Cancel");
-        Scanner userIn = new Scanner(System.in);
+
         while (true) {
             String area = userIn.nextLine();
             if (area.equalsIgnoreCase("1")) {
@@ -414,12 +414,12 @@ public class CustomerInterface {
         return movies;
     }
 
-    public boolean checkHashmapSize(Map<Integer,MovieViewing> m){
+    public boolean checkHashmapSize(Scanner userIn, Map<Integer,MovieViewing> m){
         if (m.size() == 0) {
             System.out.println("Sorry, No such movie exists");
             System.out.println("If you want to try again, please type '1'");
             System.out.println("If you want to cancel, please type 'c'");
-            Scanner userIn = new Scanner(System.in);
+
             String option = userIn.nextLine();
             if (option.equals("1")) {
                 book_with_session();
@@ -433,10 +433,10 @@ public class CustomerInterface {
         return true;
     }
 
-    public int printoutfilter_inbook(Map<Integer,MovieViewing> movies){
+    public int printoutfilter_inbook(Scanner userIn, Map<Integer,MovieViewing> movies){
         System.out.println("You can choose the session you like by typing in the ID ");
         System.out.println("If you want to cancel, please type 'c' ");
-        Scanner userIn = new Scanner(System.in);
+
         while (true) {
             String choose = userIn.nextLine();
             try {
@@ -446,7 +446,7 @@ public class CustomerInterface {
                 }
                 String a = new String();
                 MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
+                a = this.bookSeats(userIn, choosen_movie);
                 int adult = 0;
                 int children = 0;
                 int concession =0;
@@ -461,13 +461,13 @@ public class CustomerInterface {
                     String type = userIn.nextLine();
                     if(type.equalsIgnoreCase("1")){
 
-                        int ad = book(choosen_movie,a);
+                        int ad = book(userIn, choosen_movie,a);
                         if(ad == -2){
                             while(true){
                                 System.out.println("Not enough seats. Do you want to try again? Y/N");
                                 String ans = userIn.nextLine();
                                 if(ans.equalsIgnoreCase("y")){
-                                    ad = book(choosen_movie,a);
+                                    ad = book(userIn, choosen_movie,a);
                                     if(ad != -2){
                                         break;
                                     }
@@ -488,13 +488,13 @@ public class CustomerInterface {
                     }
                     if(type.equalsIgnoreCase("2")){
 
-                        int chi = book(choosen_movie,a);
+                        int chi = book(userIn, choosen_movie,a);
                         if(chi == -2){
                             while(true){
                                 System.out.println("Not enough seats. Do you want to try again? Y/N");
                                 String ans = userIn.nextLine();
                                 if(ans.equalsIgnoreCase("y")){
-                                    chi = book(choosen_movie,a);
+                                    chi = book(userIn, choosen_movie,a);
                                     if(chi != -2){
                                         break;
                                     }
@@ -515,13 +515,13 @@ public class CustomerInterface {
                     }
                     if(type.equalsIgnoreCase("3")){
 
-                        int con = book(choosen_movie,a);
+                        int con = book(userIn, choosen_movie,a);
                         if(con == -2){
                             while(true){
                                 System.out.println("Not enough seats. Do you want to try again? Y/N");
                                 String ans = userIn.nextLine();
                                 if(ans.equalsIgnoreCase("y")){
-                                    con = book(choosen_movie,a);
+                                    con = book(userIn, choosen_movie,a);
                                     if(con != -2){
                                         break;
                                     }
@@ -565,9 +565,9 @@ public class CustomerInterface {
     }
 
 
-    public int book(MovieViewing mv, String area) {
+    public int book(Scanner scan, MovieViewing mv, String area) {
         System.out.println("Please Enter the number you want to book.");
-        Scanner scan = new Scanner(System.in);
+
         String num = scan.nextLine();
         try {
             int number = Integer.parseInt(num);
@@ -600,7 +600,7 @@ public class CustomerInterface {
                 System.out.println("The transaction has been canceled");
                 return -1;
             } else {
-                book(mv, area);
+                book(scan, mv, area);
                 return -10;
             }
         }

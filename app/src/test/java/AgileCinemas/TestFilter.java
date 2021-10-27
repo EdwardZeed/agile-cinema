@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,17 +77,22 @@ public class TestFilter {
         InputStream stdin3 = new ByteArrayInputStream("3".getBytes());
         InputStream stdin4 = new ByteArrayInputStream("c".getBytes());
 
+        Scanner test1 = new Scanner("1");
+
         System.setIn(stdin1);
-        assertEquals("Front", CI.bookSeats(MV));
+        assertEquals("Front", CI.bookSeats(test1, MV));
 
+        Scanner test2 = new Scanner("2");
         System.setIn(stdin2);
-        assertEquals("Middle", CI.bookSeats(MV));
+        assertEquals("Middle", CI.bookSeats(test2, MV));
 
+        Scanner test3 = new Scanner("3");
         System.setIn(stdin3);
-        assertEquals("Back", CI.bookSeats(MV));
+        assertEquals("Back", CI.bookSeats(test3, MV));
 
+        Scanner test4 = new Scanner("c");
         System.setIn(stdin4);
-        assertEquals("Cancel", CI.bookSeats(MV));
+        assertEquals("Cancel", CI.bookSeats(test4, MV));
     }
 
     @Test
@@ -96,11 +102,14 @@ public class TestFilter {
         InputStream stdin1 = new ByteArrayInputStream("0".getBytes());
         InputStream stdin3 = new ByteArrayInputStream("c".getBytes());
 
-        System.setIn(stdin1);
-        assertEquals(0, CI.printoutfilter_inbook(sessions));
+        Scanner test1 = new Scanner("0");
 
+        System.setIn(stdin1);
+        assertEquals(0, CI.printoutfilter_inbook(test1, sessions));
+
+        Scanner test2 =  new Scanner("c");
         System.setIn(stdin3);
-        assertEquals(2, CI.printoutfilter_inbook(sessions));
+        assertEquals(2, CI.printoutfilter_inbook(test2, sessions));
     }
 
     @Test
@@ -109,11 +118,13 @@ public class TestFilter {
         Map<Integer, MovieViewing> sessions = new HashMap<>();
         InputStream stdin1 = new ByteArrayInputStream("c".getBytes());
 
+        Scanner scan = new Scanner("c");
+
         System.setIn(stdin1);
-        assertFalse(CI.checkHashmapSize(sessions));
+        assertFalse(CI.checkHashmapSize(scan, sessions));
 
         Map<Integer, MovieViewing> sessions_1 = CI.toHashMap();
-        assertTrue(CI.checkHashmapSize(sessions_1));
+        assertTrue(CI.checkHashmapSize(scan, sessions_1));
     }
 
 }
