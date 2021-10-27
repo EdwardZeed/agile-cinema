@@ -2,10 +2,9 @@ package AgileCinemas;
 
 import AgileCinemas.PasswdMask.PasswordField;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 public class CustomerInterface {
     private ArrayList<String> cinemaLocations;
@@ -17,8 +16,8 @@ public class CustomerInterface {
      * Constructor for the Customer Interface
      */
     public CustomerInterface() {
-        cinemaLocations = Crud.getViewingLocations();
-        moviesShowing = Crud.getMoviesShowing();
+        cinemaLocations = Crud.getViewingLocations(); // extract this from viewings
+        moviesShowing = null; // extract this from viewings
         viewings = Crud.getViewings();
         this.customer = null;
     }
@@ -38,6 +37,9 @@ public class CustomerInterface {
         return this.viewings;
     }
     public Customer getCustomer() { return this.customer; }
+
+    // Setter for testing
+    public void setCustomer(Customer customer) { this.customer = customer; }
 
     /*
      * Customer Interfaces(Contain both customer and guest)
@@ -89,9 +91,9 @@ public class CustomerInterface {
      */
     //Check if user wish to log in
     public boolean wishToLogin() {
-        System.out.println("Do you have an exiting AGILE Cinemas account you would like to log in with?  Y/N");
+        System.out.println("Do you have an existing AGILE Cinemas account you would like to log in with?  Y/N");
         Scanner userInput = new Scanner(System.in);
-        return userInput.nextLine().equalsIgnoreCase("y");
+        return userInput.nextLine().toUpperCase().equalsIgnoreCase("Y");
     }
 
     //Login Module, it will ask user if they want to try again when username not match.
@@ -116,7 +118,12 @@ public class CustomerInterface {
         else if (usernameExists && !passwordCorrect) {
             for (int i = 1; i <= 3; i++) {
                 System.out.println(String.format("Invalid password, please try again. You have %d more attempts before you will continue as a guest.", 4 - i));
+                System.out.println("If you wish to cancel and continue as a guest immediately, type 'c'");
                 password = userInput.nextLine();
+                // Cancel and continue as guest
+                if (password.equals("c")) {
+                    return false;
+                }
                 passwordCorrect = Crud.checkPasswordWithUsername(username, password);
                 if (passwordCorrect) { // Correct password entered
                     this.customer = new Customer(username, password);
@@ -158,30 +165,62 @@ public class CustomerInterface {
     public boolean signUp() {
         Scanner userInput = new Scanner(System.in);
         //Display message
-        System.out.println("Thanks for creating account with us.  Please follow the instructions.");
+        System.out.println("To create an account, please follow the instructions.");
         System.out.println("\n\nPlease enter the username that you want to add:");
         String usernameIn = userInput.nextLine();
-        usernameIn = userInput.nextLine();
+        boolean i = Crud.checkUsernameExist(usernameIn);
         //Username is not unique, ask if user want to try again.
-        if (Crud.checkUsernameExist(usernameIn)) {
-            System.out.println("The username already exists.\nDo you wish to try again?  Y/N.");
+
+        if (i == true) {
+            System.out.println("The username already exists.\nDo you wish to try again?  Y/N");
             if (userInput.nextLine().equalsIgnoreCase("Y")) {
                 return signUp();
             }
+            else {
+                System.out.println("Continuing as a guest...");
+                return false;
+            }
         }
-        //Username is valid,ask user Enter the Pin.
-        System.out.println("Please enter the password.");
-        String passwordIn = userInput.nextLine();
-        //Both username and password valid, return a Customer object.
-        this.customer = new Customer(usernameIn, passwordIn);
+        else {
+            //Username is valid,ask user Enter the Password.
+            System.out.println("Please enter the password.");
+            String passwordIn = userInput.nextLine();
+            //Both username and password valid, return a Customer object.
+            Crud.create_new_user(usernameIn, passwordIn);
+            this.customer = new Customer(usernameIn, passwordIn);
+        }
+
         return true;
     }
 
     /**
      * displaying available movies
      */
-    public void displayMovies() {
-        new Crud().retrieve_upcoming_sessions();
+    public boolean displayMovies() {
+        // new Crud().retrieve_upcoming_sessions();
+        for (MovieViewing viewing : this.viewings) {
+            // Display title
+            System.out.println("\n" + viewing.getMovie().getTitle());
+            // Display location
+            System.out.println("    Cinema location: " + viewing.getLocation());
+            // Display synopsis
+            System.out.println("    Synopsis: " + viewing.getMovie().getTitle());
+            // Display classification
+            System.out.println("    Classification: " + viewing.getMovie().getClassification());
+            // Display release date
+            System.out.println("    Release date: " + viewing.getMovie().getReleaseDate());
+            // Display director
+            System.out.println("    Director: " + viewing.getMovie().getDirector());
+            // Display cast 
+            System.out.println("    Cast: " + viewing.getMovie().getCast());
+            // Display upcoming times
+            System.out.println("    Day: " + viewing.getDayOfWeek());
+            System.out.println("    Time: " + viewing.getTime());
+            // Display screen size
+            System.out.println("    Screen size: " + viewing.getScreenSize());
+            System.out.println();
+        }
+        return true;
     }
 
     /**
@@ -223,158 +262,67 @@ public class CustomerInterface {
         System.out.println("Please start booking");
         System.out.println("The following are the movies currently showing.");
         displayMovies();
-        System.out.println("Please Choose the movie you would like to see BY TYPING THE TITLE OF THE MOVIE FIRST");
         // Let the user choose the movie;
+        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
         Scanner userIn = new Scanner(System.in);
-
+        String moviename = userIn.nextLine().toLowerCase();
         Map<Integer, MovieViewing> sessions = this.toHashMap();
-        Map<Integer, MovieViewing> movies = this.filter_with_name(sessions);
+        Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
         // If nothing matches. go back or cancel
-        if (movies.size() == 0) {
-            System.out.println("Sorry, No such movie exists");
-            System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
-            String option = userIn.nextLine();
-            if (option.equals("1")) {
-                book_with_session();
-            } else {
-
-                System.out.println("Thank you, you will log out");
-                //log out
-                return false;
-            }
+        if (!checkHashmapSize(userIn, movies)) {
+            return false;
         }
         // choose film or go further or cancel
-        System.out.println("You can choose the session you like by typing in the ID ");
         System.out.println("If you want to filter further. Please press '0' ");
-        System.out.println("If you wan to cancel, please type 'c' ");
-        while (true) {
-            String choose = userIn.nextLine();
-            try {
-                int choose_int = Integer.parseInt(choose);
-                if (choose_int == 0) {
-                    break;
-                }
-                String a = new String();
-                MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
-
-                //upload the booking detail
-                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
-                System.out.println("Location: " + choosen_movie.getLocation());
-                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
-                System.out.println("Area: " + a);
-                return true;
-            } catch (Exception e) {
-                if (choose.equals("c")) {
-                    //log out
-                    return false;
-                }
-                System.out.println("Please enter a valid number");
-            }
+        int test_movies = printoutfilter_inbook(userIn, movies);
+        if(test_movies == 1){
+            return true;
+        }else if(test_movies == 2){
+            return false;
         }
 
 
         //Filter by location
-        Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies);
+        System.out.println("Filter the movies by location, Please type in the movie you would like to search");
+        String location = userIn.nextLine().toLowerCase();
+        Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies,location);
 
         // If nothing matches. go back or cancel
-        if (movies_l.size() == 0) {
-            System.out.println("Sorry, No such movie exists");
-            System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
-            String option = userIn.nextLine();
-            if (option.equals("1")) {
-                book_with_session();
-            } else {
-
-                System.out.println("Thank you, you will log out");
-                //log out
-                return false;
-            }
+        if (!checkHashmapSize(userIn, movies_l)) {
+            return false;
         }
 
         // choose film or go further or cancel
-        System.out.println("You can choose the session you like by typing in the ID ");
         System.out.println("If you want to filter further. Please press '0' ");
-        System.out.println("If you wan to cancel, please type 'c' ");
-        while (true) {
-            String choose = userIn.nextLine();
-            try {
-                int choose_int = Integer.parseInt(choose);
-                if (choose_int == 0) {
-                    break;
-                }
-                String a = new String();
-                MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
-                //upload the booking detail
-                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
-                System.out.println("Location: " + choosen_movie.getLocation());
-                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
-                System.out.println("Area: " + a);
-                return true;
-            } catch (Exception e) {
-                if (choose.equals("c")) {
-                    //log out
-                    return false;
-                }
-                System.out.println("Please enter a valid number");
-            }
+        int test_location = printoutfilter_inbook(userIn, movies_l);
+        if(test_location == 1){
+            return true;
+        }else if(test_location == 2){
+            return false;
         }
 
         //Filter by dayofWeek
-
-        Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l);
+        System.out.println("Filter the movies by time, Please type in the movie you would like to search");
+        String dow = userIn.nextLine().toLowerCase();
+        Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l,dow);
 
         // If nothing matches. go back or cancel
-        if (movies_dow.size() == 0) {
-            System.out.println("Sorry, No such movie exists");
-            System.out.println("If you want to try again, please type '1'");
-            System.out.println("If you wan to cancel, please type 'c'");
-            String option = userIn.nextLine();
-            if (option.equals("1")) {
-                book_with_session();
-            } else {
-
-                System.out.println("Thank you, you will log out");
-                //log out
-                return false;
-            }
+        if (!checkHashmapSize(userIn, movies_dow)) {
+            return false;
         }
 
         // choose film or go further or cancel
-        System.out.println("You can choose the session you like by typing in the ID");
-        System.out.println("If you wan to cancel, please type 'c'");
-        while (true) {
-            String choose = userIn.nextLine();
-            try {
-                int choose_int = Integer.parseInt(choose);
-                if (choose_int == 0) {
-                    break;
-                }
-                String a = new String();
-                MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(choosen_movie);
-                //upload the booking detail
-                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
-                System.out.println("Location: " + choosen_movie.getLocation());
-                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
-                System.out.println("Area: " + a);
-                return true;
-            } catch (Exception e) {
-                if (choose.equals("c")) {
-                    //log out
-                    return false;
-                }
-                System.out.println("Please enter a valid number");
-            }
+        int test_dow = printoutfilter_inbook(userIn, movies_dow);
+        if(test_dow == 1){
+            return true;
+        }else if(test_dow == 2){
+            return false;
         }
 
-        return false;
+        return true;
     }
 
-    public String bookSeats(MovieViewing choosen_movie){
+    public String bookSeats(Scanner userIn, MovieViewing choosen_movie){
         System.out.println("Available Front Seats: " + choosen_movie.getFrontseats());
         System.out.println("Available Middle Seats: " + choosen_movie.getMiddleseats());
         System.out.println("Available Back Seats: " + choosen_movie.getBackseats());
@@ -383,7 +331,7 @@ public class CustomerInterface {
         System.out.println("Type 2: Middle");
         System.out.println("Type 3: Back");
         System.out.println("Type c: Cancel");
-        Scanner userIn = new Scanner(System.in);
+
         while (true) {
             String area = userIn.nextLine();
             if (area.equalsIgnoreCase("1")) {
@@ -415,16 +363,13 @@ public class CustomerInterface {
         return movies;
     }
 
-    public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m) {
-        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
+    public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m, String moviename) {
         // Let the user choose the movie;
-        Scanner userIn = new Scanner(System.in);
-        String moviename = userIn.nextLine().toLowerCase();
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         //  filter by movie name
         int j = 1;
         for (int i = 1; i <= m.size(); i++) {
-            if (m.get(i).getMovie().getTitle().toLowerCase().equals(moviename)) {
+            if (m.get(i).getMovie().getTitle().toLowerCase().equalsIgnoreCase(moviename)) {
 
                 movies.put(j, m.get(i));
 
@@ -435,16 +380,13 @@ public class CustomerInterface {
         return movies;
     }
 
-    public Map<Integer, MovieViewing> filter_with_location(Map<Integer, MovieViewing> m) {
-        System.out.println("Filter the movies by location, Please type in the movie you would like to search");
+    public Map<Integer, MovieViewing> filter_with_location(Map<Integer, MovieViewing> m, String location) {
         // Let the user choose the movie;
-        Scanner userIn = new Scanner(System.in);
-        String location = userIn.nextLine().toLowerCase();
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         //  filter by movie name
         int j = 1;
         for (int i = 1; i <= m.size(); i++) {
-            if (m.get(i).getLocation().toLowerCase().equals(location)) {
+            if (m.get(i).getLocation().toLowerCase().equalsIgnoreCase(location)) {
 
                 movies.put(j, m.get(i));
 
@@ -455,16 +397,13 @@ public class CustomerInterface {
         return movies;
     }
 
-    public Map<Integer, MovieViewing> filter_with_time(Map<Integer, MovieViewing> m) {
-        System.out.println("Filter the movies by time, Please type in the movir you would like to search");
+    public Map<Integer, MovieViewing> filter_with_time(Map<Integer, MovieViewing> m, String dow) {
         // Let the user choose the movie;
-        Scanner userIn = new Scanner(System.in);
-        String dow = userIn.nextLine().toLowerCase();
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         //  filter by movie name
         int j = 1;
         for (int i = 1; i <= m.size(); i++) {
-            if (m.get(i).getDayOfWeek().toLowerCase().equals(dow)) {
+            if (m.get(i).getDayOfWeek().toLowerCase().equalsIgnoreCase(dow)) {
 
                 movies.put(j, m.get(i));
 
@@ -473,6 +412,292 @@ public class CustomerInterface {
             }
         }
         return movies;
+    }
+
+    public boolean checkHashmapSize(Scanner userIn, Map<Integer,MovieViewing> m){
+        if (m.size() == 0) {
+            System.out.println("Sorry, No such movie exists");
+            System.out.println("If you want to try again, please type '1'");
+            System.out.println("If you want to cancel, please type 'c'");
+
+            String option = userIn.nextLine();
+            if (option.equals("1")) {
+                book_with_session();
+            } else {
+
+                System.out.println("Thank you, you will log out");
+                //log out
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int printoutfilter_inbook(Scanner userIn, Map<Integer,MovieViewing> movies){
+        System.out.println("You can choose the session you like by typing in the ID ");
+        System.out.println("If you want to cancel, please type 'c' ");
+
+        while (true) {
+            String choose = userIn.nextLine();
+            try {
+                int choose_int = Integer.parseInt(choose);
+                if (choose_int == 0) {
+                    return 0;
+                }
+                String a = new String();
+                MovieViewing choosen_movie = movies.get(choose_int);
+                a = this.bookSeats(userIn, choosen_movie);
+                int adult = 0;
+                int children = 0;
+                int concession =0;
+                String transaction_status = "success";
+                int is_cancelled = 0;
+                while (true){
+                    System.out.println("What kind of tickets you want to book?");
+                    System.out.println("Type 1: Adult ");
+                    System.out.println("Type 2: Child ");
+                    System.out.println("Type 3: Concession ");
+                    System.out.println("Type 4: Cancel ");
+                    String type = userIn.nextLine();
+                    if(type.equalsIgnoreCase("1")){
+
+                        int ad = book(userIn, choosen_movie,a);
+                        if(ad == -2){
+                            while(true){
+                                System.out.println("Not enough seats. Do you want to try again? Y/N");
+                                String ans = userIn.nextLine();
+                                if(ans.equalsIgnoreCase("y")){
+                                    ad = book(userIn, choosen_movie,a);
+                                    if(ad != -2){
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Transaction Failed");
+                                    return 2;
+                                }
+                            }
+                        }
+                        adult = adult + ad;
+                        System.out.println("Do you want to book other tickets? Y/N");
+                        String again = userIn.nextLine();
+                        if(again.equalsIgnoreCase("y")){
+                            ;
+                        }else{
+                            break;
+                        }
+                    }
+                    if(type.equalsIgnoreCase("2")){
+
+                        int chi = book(userIn, choosen_movie,a);
+                        if(chi == -2){
+                            while(true){
+                                System.out.println("Not enough seats. Do you want to try again? Y/N");
+                                String ans = userIn.nextLine();
+                                if(ans.equalsIgnoreCase("y")){
+                                    chi = book(userIn, choosen_movie,a);
+                                    if(chi != -2){
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Transaction Failed");
+                                    return 2;
+                                }
+                            }
+                        }
+                        children = children + chi;
+                        System.out.println("Do you want to book other tickets? Y/N");
+                        String again = userIn.nextLine();
+                        if(again.equalsIgnoreCase("y")){
+                            ;
+                        }else{
+                            break;
+                        }
+                    }
+                    if(type.equalsIgnoreCase("3")){
+
+                        int con = book(userIn, choosen_movie,a);
+                        if(con == -2){
+                            while(true){
+                                System.out.println("Not enough seats. Do you want to try again? Y/N");
+                                String ans = userIn.nextLine();
+                                if(ans.equalsIgnoreCase("y")){
+                                    con = book(userIn, choosen_movie,a);
+                                    if(con != -2){
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Transaction Failed");
+                                    return 2;
+                                }
+                            }
+                        }
+                        concession = concession + con;
+                        System.out.println("Do you want to book other tickets? Y/N");
+                        String again = userIn.nextLine();
+                        if(again.equalsIgnoreCase("y")){
+                            ;
+                        }else{
+                            break;
+                        }
+                    }
+                }
+                //upload the booking detail
+
+
+                System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Location: " + choosen_movie.getLocation());
+                System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
+                System.out.println("Area: " + a);
+                System.out.println("Adult tickets: " +  adult);
+                System.out.println("Children tickets: " +  children);
+                System.out.println("Concession tickets: " +  concession);
+//                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),children,concession,adult,"card",0,0,a);
+
+                return 1;
+            } catch (Exception e) {
+                if (choose.equals("c")) {
+                    //log out
+                    return 2;
+                }
+                System.out.println("Please enter a valid number");
+            }
+        }
+    }
+
+
+    public int book(Scanner scan, MovieViewing mv, String area) {
+        System.out.println("Please Enter the number you want to book.");
+
+        String num = scan.nextLine();
+        try {
+            int number = Integer.parseInt(num);
+            if (area.equalsIgnoreCase("Front")) {
+                if (mv.getFrontseats() < number) {
+                    return -2;
+                } else {
+                    System.out.println("You succussfully add " + number + " tickets");
+                    return number;
+                }
+            } else if (area.equalsIgnoreCase("Middle")) {
+                if (mv.getMiddleseats() < number) {
+                    return -2;
+                } else {
+                    System.out.println("You succussfully add " + number + " tickets");
+                    return number;
+                }
+            } else if (area.equalsIgnoreCase("Back")) {
+                if (mv.getBackseats() < number) {
+                    return -2;
+                } else {
+                    System.out.println("You succussfully add " + number + " tickets");
+                    return number;
+                }
+            }
+
+
+        } catch (Exception e) {
+            if (num.equalsIgnoreCase("c")) {
+                System.out.println("The transaction has been canceled");
+                return -1;
+            } else {
+                book(scan, mv, area);
+                return -10;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Runs payment by credit card
+     * @return true if payment successful, else returns false
+    */
+    public boolean payWithCreditCard() {
+        // Get credit card details
+        String cardName = null;
+        String cardNum = null;
+        // Check if user has saved credit card details
+        if (usePreSavedCardDetails()) {
+            cardName = this.customer.getCreditCardName();
+            cardNum = this.customer.getCreditCardNum();
+        } else {
+            cardNum = inputCreditCardNumber();
+            cardName = inputCreditCardName();
+        }
+        // Check if details are valid
+        if (Crud.is_creditCard_valid(cardName, cardNum)) {
+            // Successful payment, ask if want to save details
+            System.out.println("Success! You have purchased your movie tickets!");
+            // TODO: actually update transaction and database, etc...
+            if (!this.customer.hasSavedCreditCard()) {
+                if (askSaveCreditCard(cardName, cardNum)) {
+                    Crud.saveCreditCard(cardName, cardNum);
+                }
+            }
+            return true;
+        }
+        // Invalid credit card details added
+        System.out.println("Sorry, those credit card details are invalid");
+        return false;
+    }
+
+    /**
+     * TODO: Receives the user's credit card name and number from input
+     * @return credit card number and name
+    */
+    public String inputCreditCardNumber() {
+        Scanner userIn = new Scanner(System.in);
+        // TODO: hide credit card number with *
+        System.out.println("Please enter your credit card number:");
+        String cardNum = userIn.nextLine();
+        return cardNum;
+    }
+
+    /**
+     * Receives the user's credit card name and number from input
+     * @return credit card number and name
+    */
+    public String inputCreditCardName() {
+        Scanner userIn = new Scanner(System.in);
+        System.out.println("Please enter the name on your credit card:");
+        String cardName = userIn.nextLine();
+        return cardName;
+    }
+
+    /**
+     * Checks if pre-saved credit card details exist and, if so, checks if user wants to use them
+     * @return true if pre-saved details should be used, else returns false
+    */
+    public boolean usePreSavedCardDetails() {
+        // Check if user has saved credit card details
+        if (this.customer.hasSavedCreditCard()) {
+            System.out.println(String.format("Credit card number: %s\nCredit card name: %s", this.customer.getCreditCardNum(), this.customer.getCreditCardName()));
+            System.out.println("Do you wish to proceed with these saved credit card details?  Y/N");
+            Scanner userIn = new Scanner(System.in);
+            if (userIn.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
+                // User proceeds with saved details
+                return true;
+            }
+            return false; // User does not want to use saved details
+        }
+        return false;
+    }
+    
+    /**
+     * Asks user if they would like to save their credit card details
+     * @param cardName the card name to enter
+     * @param cardNum the card number to enter
+     * @return true if credit card details were saved, false else
+    */
+    public boolean askSaveCreditCard(String cardName, String cardNum) {
+        System.out.println("Would you like to save your credit card details for a faster booking process next time?  Y/N");
+        Scanner userIn = new Scanner(System.in);
+        if (userIn.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
+            this.customer.setCreditCardName(cardName);
+            this.customer.setCreditCardNum(cardNum);
+            return true;
+        }
+        return false; // details not saved
     }
 
 }

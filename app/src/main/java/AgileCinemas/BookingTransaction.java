@@ -4,12 +4,14 @@ import java.util.HashMap;
 
 public class BookingTransaction {
     private int id;
-    private Movie movie;
-    private int numTickets;
-    private String seatsChoice; // could use an enum
+    private int customerID;
+    private double amount;
+    private MovieViewing movieViewing;
+    private int totalTickets;
+    private String seatsChoice; // could use an enum - either front, middle, rear
     private HashMap<String, Integer> ticketTypes;
-    private String location;
-    private String time;
+    private String transactionDateTime;
+    private boolean completed; // True if transaction completed, false if cancelled
 
     public BookingTransaction() {
         // TODO: set other attributes
@@ -24,4 +26,7 @@ public class BookingTransaction {
 
     // TODO: getter methods
     
+
+    // TODO: toString method to print out receipt
+
 }

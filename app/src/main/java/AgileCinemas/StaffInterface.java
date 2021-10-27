@@ -5,8 +5,9 @@ public class StaffInterface {
     /*
      * Staff Interfaces(Contain both manager and normal staff)
      */
-    public void runStaffInterface(){
-        System.out.println("Welcome to Cinema Management System.");
+    public boolean runStaffInterface(){
+        System.out.println("Welcome to the AGILE Cinemas Management System for staff.");
+        return true;
     }
 
 }

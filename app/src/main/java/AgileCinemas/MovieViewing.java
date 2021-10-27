@@ -1,6 +1,7 @@
 package AgileCinemas;
 
 public class MovieViewing {
+    private int id;
     private Movie movie;
     private String time;
     private String location;
@@ -13,12 +14,11 @@ public class MovieViewing {
     private String screenSize;
     //May need duration of movie?
 
-    /**
+    /** 
      * Constructor for a movie viewing
     */
 
-
-    public MovieViewing(Movie movie, String dayOfWeek, String time, String location, String screenSize, int backseats, int middleseats,int frontseats) {
+    public MovieViewing(int id, Movie movie, String dayOfWeek, String time, String location, String screenSize, int backseats, int middleseats,int frontseats) {
         this.movie = movie;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
@@ -27,10 +27,14 @@ public class MovieViewing {
         this.backseats = backseats;
         this.middleseats = middleseats;
         this.frontseats = frontseats;
+        this.id = id;
     }
 
     // TODO: getter methods
 
+    public int getId(){
+        return id;
+    }
 
     public String getDayOfWeek() {
         return dayOfWeek;

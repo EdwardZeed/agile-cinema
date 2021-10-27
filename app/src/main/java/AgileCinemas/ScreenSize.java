@@ -1,5 +1,5 @@
 package AgileCinemas;
 
 public enum ScreenSize {
-    BRONZE, SILVER, GOLDEN
+    BRONZE, SILVER, GOLD
 }
