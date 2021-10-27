@@ -8,6 +8,18 @@ public class CrudTest {
 
     
     // TODO TEST:
+    //TODO Check correct name against card number
+    @Test
+    public void is_cardNameCorrect(){
+        assertEquals("Charles", Crud.name_for_cardNumber("40691"));
+    }
+
+    // TODO Check correct Credit Card number is retrieved from Customer DB
+    @Test
+    public void is_saved_creditCardValid(){
+        assertEquals("40691", Crud.prefilled_customer_creditcard("rachela"));
+    }
+
         // TODO Check Credit Card Provided is Valid
     @Test
     public void is_creditcardValid() {
