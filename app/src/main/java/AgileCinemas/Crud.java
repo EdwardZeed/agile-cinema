@@ -88,7 +88,7 @@ public class Crud {
 
     // TODO Check Gift Card Provided is Redeemable
 
-    public static boolean is_giftCard_redeemable(String card_number){
+    public static boolean hasGiftCardbeenRedeemed(String card_number){
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -98,18 +98,18 @@ public class Crud {
             Statement statement = conn.createStatement();
             // Create and Run Query
             String giftCardRedeemableQuery = "SELECT IS_REDEEMED FROM cinemas.dbo.gift_cards " +
-                    "WHERE Card_Number LIKE '%s'";
-            resultSet = statement.executeQuery(String.format(giftCardRedeemableQuery, card_number));
+                    "WHERE Card_Number LIKE '" + card_number + "';";
+            resultSet = statement.executeQuery(giftCardRedeemableQuery);
             // Print Result
             int i = 1;
             while(resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
             if(i == 0){
-                is_valid = true;
+                is_valid = false;
             }
             else{
-                is_valid = false;
+                is_valid = true;
             }
         }
         catch (SQLException e){
@@ -214,11 +214,22 @@ public class Crud {
             String insert_query = "INSERT INTO cinemas.dbo.transactions " +
                     "(customer_username, Total_Amount, Transaction_Status, Viewing_ID, " +
                     "Number_Child_Tickets, Number_Concession_Tickets, Number_Adult_Tickets, Total_Number_Tickets, " +
-                    "Payment_Type, Is_Cancelled, Is_Idle, Seat_Position, INSERTDATE) " +
-                    "VALUES ('%s', '%f', '%s', '%d', '%d', '%d', '%d', '%s', '%d', '%d', '%s', CURRENT_TIMESTAMP)";
-            statement.executeUpdate(String.format(insert_query, username, total_amount, transaction_status,
-                    viewing_id, child_tickets, concession_tickets, adult_tickets, total_tickets, payment_type,
-                    is_cancelled, is_idle, seat_position));
+                    "Payment_Type, Is_Cancelled, Is_Idle, Seat_Position, insert_date) " +
+                    "VALUES ('" + username +
+                    "', " + total_amount +
+                    ", '" + transaction_status +
+                    "', " + viewing_id +
+                    ", " + child_tickets +
+                    ", " + concession_tickets +
+                    ", " + adult_tickets +
+                    ", " + total_tickets +
+                    ", '" + payment_type +
+                    "', " + is_cancelled +
+                    ", " + is_idle +
+                    ", '" + seat_position +
+                    "', CURRENT_TIMESTAMP)";
+
+            statement.executeUpdate(insert_query);
             // Return True Status Due to Update Executing Successfully
             status = true;
         }
@@ -411,11 +422,19 @@ public class Crud {
             Statement statement = conn.createStatement();
             // Create and Run Query
             String insert_query = "INSERT INTO cinemas.dbo.viewings " +
-                    "(movie_id, location, day_week, session_time, " +
-                    "screen_type, backseats_remaining, middleseats_remaining, frontseats_remaining, totalseats_remaining" +
-                    "VALUES ('%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d')";
-            statement.executeUpdate(String.format(insert_query, movieID, location, weekday, sessionTime, ScreenType,
-                    backseats, middleseats, frontseats, totalseats));
+                    "(movie_id, location, day_week, session_time, screen_type, backseats_remaining, " +
+                    "middleseats_remaining, frontseats_remaining, totalseats_remaining) " +
+                    "VALUES ("
+                    + movieID +
+                    ", '" + location +
+                    "', '" + weekday +
+                    "', '" + sessionTime +
+                    "', '" + ScreenType +
+                    "', " + backseats +
+                    ", " + middleseats +
+                    ", " + frontseats +
+                    ", " + totalseats + ")";
+            statement.executeUpdate(insert_query);
             // Return True Status Due to Update Executing Successfully
             status = true;
         }
@@ -438,14 +457,15 @@ public class Crud {
     public static boolean alter_viewing_seats(int viewing_id, int seats, String seats_type){
         boolean status = false;
         Connection conn = null;
+        //seats_type can be either front, middle or back
         try {
             // Connect to DB
             conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
             Statement statement = conn.createStatement();
             // Create and Run Query
-            String updateViewings = "UPDATE cinemas.dbo.viewings " +
-                    "SET " + seats_type + "seats_remaining = " + seats_type +"seats_remaining + " + seats + ", " +
-                    "totalseats_remaining = totalseats_remaining - " + seats +
+            String updateViewings = "UPDATE cinemas.dbo.viewings" +
+                    " SET  " + seats_type + "seats_remaining = " + seats_type + "seats_remaining - " + seats +
+                    ", totalseats_remaining = totalseats_remaining - " + seats +
                     " WHERE id = " + viewing_id;
             statement.executeUpdate(updateViewings);
             // Print Result
