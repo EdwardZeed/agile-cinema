@@ -17,7 +17,7 @@ public class TestFilter {
         assertNotNull(sessions);
         assertEquals(2, sessions.get(1).getMovie().getId());
     }
-
+/*
     @Test
     public void testFilterWithName(){
         CustomerInterface CI = new CustomerInterface();
@@ -28,7 +28,7 @@ public class TestFilter {
         assertNotNull(filtered);
         assertEquals(5, filtered.size());
     }
-
+*/
     @Test
     public void testFilterWithLocation(){
         CustomerInterface CI = new CustomerInterface();

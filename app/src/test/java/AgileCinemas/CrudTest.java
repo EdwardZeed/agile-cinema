@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
-    /*
+
 
     
     // TODO TEST:
@@ -13,17 +13,13 @@ public class CrudTest {
     public void is_creditcardValid() {
         assertTrue(Crud.is_creditCard_valid("Charles", "40691"));
     }
+
         // TODO Check Gift Card Provided is Valid
     @Test
     public void is_giftCardExists(){
         assertTrue(Crud.is_giftCard_exist("1000000000000000GC"));
     }
-        // TODO Check Gift Card Provided is Redeemable
-    @Test
-    public void is_giftCardRedeemable(){
-        assertTrue(Crud.is_giftCard_redeemable("1000000000000000GC"));
-        assertFalse(Crud.is_giftCard_redeemable("1000000000000001GC"));
-    }
+
 
         // TODO Check if Customer has CREDIT CARD Stored
     @Test
@@ -36,15 +32,6 @@ public class CrudTest {
     public void saveCreditCardCustomer(){
         assertTrue(Crud.saveCreditCard("rachela", "40691"));
     }
-
-        // TODO INSERT TRANSACTION DATA
-    @Test
-    public void insertnew_transaction(){
-        assertTrue(Crud.insertTransaction("Pauly601", 21, "active",
-                2, 0, 1, 0, "credit card",
-                0, 0, "middle"));
-    }
-
 
     // TODO Return Last Transaction ID - i.e ticket_id
     @Test
@@ -70,23 +57,39 @@ public class CrudTest {
         assertTrue(Crud.isManager("1636"));
         assertFalse(Crud.isManager("1234"));
     }
+    // TODO Check Gift Card Provided is Redeemable
+    @Test
+    public void is_giftCardbeenRedeemed(){
+        assertTrue(Crud.hasGiftCardbeenRedeemed("1000000000000000GC"));
+        assertFalse(Crud.hasGiftCardbeenRedeemed("1000000000000001GC"));
+    }
+
+    // TODO INSERT TRANSACTION DATA
+    @Test
+    public void insertnew_transaction(){
+        assertTrue(Crud.insertTransaction("Pauly601", 21, "active",
+                2, 0, 1, 0, "credit card",
+                0, 0, "middle"));
+    }
+
+
 
     // TODO Create Method to Insert New Viewings
-    @Test
+    @Test //DEBUG
     public void checkViewingAdded(){
         assertTrue(Crud.add_newViewing(2, "Broadway", "Friday", "19:00",
                 "Bronze", 15, 15, 15));
     }
 
     // TODO Alter Viewings Table Based On Transaction (Seats Available)
-    @Test
+    @Test //DEBUG
     public void alterViewingSeats(){
         assertTrue(Crud.alter_viewing_seats(1, 3, "back"));
-        assertFalse(Crud.alter_viewing_seats(1, 3, "outside"));
+        assertTrue(Crud.alter_viewing_seats(1, 3, "middle"));
+        assertTrue(Crud.alter_viewing_seats(1, 3, "front"));
+
     }
 
-
-    */
 
     /** 
      * checkUsernameExist() test
