@@ -56,36 +56,42 @@ public class CustomerInterface {
         } else {
             askSignUp(); // calls signUp()
         }
-        // TODO: make while loop to take customer back to default page after cancelled transaction
-        // View movies
-        displayMovies();
-        // Book a movie
-        boolean canBook = askToBook(); // check if logged in
-        if (canBook) {
-            boolean booked = book_with_session();
-            // If successfully booked, exit program
-            if (booked) {
+        // Take customer back to default page after cancelled transaction
+        do {
+            // View movies
+            displayMovies();
+            // Book a movie
+            boolean wantToBook = askToBook(); // checks if logged in
+            if (wantToBook) {
+                boolean booked = book_with_session();
+                // If successfully booked, exit program
+                if (booked) {
+                    exitScreen();
+                    return;
+                }
+            } else {
                 exitScreen();
                 return;
             }
-        } else {
-            exitScreen();
-            return;
-        }
+        } while (true);
+
+
     }
 
-    public static void welcomeScreen() {
+    public static boolean welcomeScreen() {
         System.out.println("=========================================================");
         System.out.println("| Welcome to the online booking system of AGILE Cinemas |");
         System.out.println("| Here you can browse upcoming movies and book tickets. |");
         System.out.println("=========================================================");
+        return true;
     }
 
-    public static void exitScreen() {
+    public static boolean exitScreen() {
         System.out.println("==================================================================");
         System.out.println("| Thank you for using the online booking system of AGILE Cinemas |");
         System.out.println("|                      Happy movie watching!                     |");
         System.out.println("==================================================================");
+        return true;
     }
 
     /**
