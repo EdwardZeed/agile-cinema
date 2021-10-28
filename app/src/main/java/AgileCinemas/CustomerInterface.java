@@ -56,6 +56,7 @@ public class CustomerInterface {
         } else {
             askSignUp(); // calls signUp()
         }
+        // TODO: make while loop to take customer back to default page after cancelled transaction
         // View movies
         displayMovies();
         // Book a movie
@@ -610,7 +611,7 @@ public class CustomerInterface {
                     return -2;
                 } else {
                     Crud.alter_viewing_seats(mv.getId(),number,area);
-                    System.out.println("You succussfully add " + number + " tickets");
+                    System.out.println("You succussfully added " + number + " tickets");
                     return number;
                 }
             } else if (area.equalsIgnoreCase("Middle")) {
@@ -618,7 +619,7 @@ public class CustomerInterface {
                     return -2;
                 } else {
                     Crud.alter_viewing_seats(mv.getId(),number,area);
-                    System.out.println("You succussfully add " + number + " tickets");
+                    System.out.println("You succussfully added " + number + " tickets");
                     return number;
                 }
             } else if (area.equalsIgnoreCase("Back")) {
@@ -626,13 +627,13 @@ public class CustomerInterface {
                     return -2;
                 } else {
                     Crud.alter_viewing_seats(mv.getId(),number,area);
-                    System.out.println("You succussfully add " + number + " tickets");
+                    System.out.println("You successfully added " + number + " tickets");
                     return number;
                 }
             }
         } catch (Exception e) {
             if (num.equalsIgnoreCase("c")) {
-                System.out.println("The transaction has been canceled");
+                System.out.println("The transaction has been cancelled");
                 return -1;
             } else {
                 book(scan, mv, area);
@@ -648,7 +649,7 @@ public class CustomerInterface {
     public boolean askHowtoPay(){
         Scanner scanner = new Scanner(System.in);
         System.out.println( "If you wish to pay by credit card, please enter 1.\n" +
-                "If you wish to pay by credit card, please enter 1.\n" +
+                "If you wish to pay by gift card, please enter 2.\n" +
                 "Cancel please enter c.");
         String userInput = checkTimeOut();
         //Credit Card Payment
@@ -685,7 +686,6 @@ public class CustomerInterface {
         if (Crud.is_creditCard_valid(cardName, cardNum)) {
             // Successful payment, ask if want to save details
             System.out.println("Success! You have purchased your movie tickets!");
-            // TODO: actually update transaction and database, etc...
             if (!this.customer.hasSavedCreditCard()) {
                 if (askSaveCreditCard(cardName, cardNum)) {
                     Crud.saveCreditCard(cardName, cardNum);
@@ -699,10 +699,9 @@ public class CustomerInterface {
     }
     
     /**
-     * TODO: Receives the user's credit card number from input
+     * Receives the user's credit card number from input, masked
      * @return credit card number
      */
-    //
     public String inputCreditCardNumber() {
         return PasswordField.readPassword("Please enter your credit card number:");
     }
@@ -727,7 +726,7 @@ public class CustomerInterface {
             System.out.println(String.format("Credit card number: %s\nCredit card name: %s", this.customer.getCreditCardNum(), this.customer.getCreditCardName()));
             System.out.println("Do you wish to proceed with these saved credit card details?  Y/N");
             Scanner userIn = new Scanner(System.in);
-            if (checkTimeOut().toUpperCase().equalsIgnoreCase("Y")) {
+            if (checkTimeOut().equalsIgnoreCase("Y")) {
                 // User proceeds with saved details
                 return true;
             }
