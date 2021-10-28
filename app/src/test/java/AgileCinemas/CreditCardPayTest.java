@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class CreditCardPayTest {
 
@@ -18,7 +19,8 @@ public class CreditCardPayTest {
         String input = "40691";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertEquals("40691", test.inputCreditCardNumber());
+        Scanner scan = new Scanner(in);
+        assertEquals("40691", test.inputCreditCardNumber(scan));
     }
 
     /** 
@@ -45,7 +47,8 @@ public class CreditCardPayTest {
         CustomerInterface test = new CustomerInterface();
         Customer customer = new Customer("fjkdslfjdkls", "password");
         test.setCustomer(customer);
-        assertFalse(test.usePreSavedCardDetails());
+        Scanner scan = new Scanner(System.in);
+        assertFalse(test.usePreSavedCardDetails(scan));
     }
 
     @Test
@@ -58,7 +61,8 @@ public class CreditCardPayTest {
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertTrue(test.usePreSavedCardDetails());
+        Scanner scan = new Scanner(in);
+        assertTrue(test.usePreSavedCardDetails(scan));
     }
 
     @Test
@@ -71,7 +75,8 @@ public class CreditCardPayTest {
         String input = "N";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertFalse(test.usePreSavedCardDetails());
+        Scanner scan = new Scanner(in);
+        assertFalse(test.usePreSavedCardDetails(scan));
     }
 
     /** 
@@ -87,7 +92,8 @@ public class CreditCardPayTest {
         String input = "N";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertFalse(test.askSaveCreditCard("cardName", "40691"));
+        Scanner scan = new Scanner(in);
+        assertFalse(test.askSaveCreditCard(scan, "cardName", "40691"));
         assertNull(customer.getCreditCardName());
         assertNull(customer.getCreditCardNum());
     }
@@ -100,9 +106,10 @@ public class CreditCardPayTest {
         String input = "Y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
+        Scanner scan = new Scanner(in);
         assertNull(customer.getCreditCardName());
         assertNull(customer.getCreditCardNum());
-        assertTrue(test.askSaveCreditCard("cardName", "40691"));
+        assertTrue(test.askSaveCreditCard(scan, "cardName", "40691"));
         assertEquals("cardName", customer.getCreditCardName());
         assertEquals("40691", customer.getCreditCardNum());
     }
@@ -123,7 +130,8 @@ public class CreditCardPayTest {
         String input = "Y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertTrue(test.payWithCreditCard());
+        Scanner scan = new Scanner(in);
+        assertTrue(test.payWithCreditCard(scan));
     }
 
     @Test
@@ -136,7 +144,8 @@ public class CreditCardPayTest {
         String input = "Y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertFalse(test.payWithCreditCard());
+        Scanner scan = new Scanner(in);
+        assertFalse(test.payWithCreditCard(scan));
     }
 
     @Test
@@ -149,7 +158,8 @@ public class CreditCardPayTest {
         String input = "Y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertFalse(test.payWithCreditCard());
+        Scanner scan = new Scanner(in);
+        assertFalse(test.payWithCreditCard(scan));
     }
 
 

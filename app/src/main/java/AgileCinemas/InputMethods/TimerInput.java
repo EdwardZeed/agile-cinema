@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class TimerInput
 {
     private String userInput = "";
-    private Scanner in = new Scanner(System.in);
+
     TimerTask task = new TimerTask()
     {
         public void run()
@@ -18,13 +18,24 @@ public class TimerInput
         }
     };
 
-    public String getInput() throws Exception
+    public String getInput(Scanner scan) throws Exception
     {
         Timer timer = new Timer();
         timer.schedule( task, 120*1000 );
 //        System.out.println( "Input a string within 5 seconds: " );
 //        Scanner in = new Scanner(System.in);
-        userInput = in.nextLine();
+        userInput = scan.nextLine();
+        timer.cancel();
+//        System.out.println( "you have entered: "+ userInput );
+        return userInput;
+    }
+
+    public String get_input_mask(Scanner scan, String input){
+        Timer timer = new Timer();
+        timer.schedule( task, 120*1000 );
+//        System.out.println( "Input a string within 5 seconds: " );
+//        Scanner in = new Scanner(System.in);
+        userInput = PasswordField.readPassword(input);
         timer.cancel();
 //        System.out.println( "you have entered: "+ userInput );
         return userInput;
