@@ -7,8 +7,7 @@ public class Crud {
     public static String prefilled_customer_creditcard(String username){
         Connection conn = null;
         ResultSet resultSet = null;
-        String result;
-        result = "unknown";
+        String result = null;
         try {
             // Connect to DB
             conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
@@ -43,7 +42,7 @@ public class Crud {
         Connection conn = null;
         ResultSet resultSet = null;
         String result;
-        result = "unknown";
+        result = null;
         try {
             // Connect to DB
             conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");

@@ -56,6 +56,7 @@ public class CustomerInterface {
         } else {
             askSignUp(); // calls signUp()
         }
+        // TODO: make while loop to take customer back to default page after cancelled transaction
         // View movies
         displayMovies();
         // Book a movie
@@ -610,7 +611,7 @@ public class CustomerInterface {
                     return -2;
                 } else {
                     Crud.alter_viewing_seats(mv.getId(),number,area);
-                    System.out.println("You succussfully add " + number + " tickets");
+                    System.out.println("You succussfully added " + number + " tickets");
                     return number;
                 }
             } else if (area.equalsIgnoreCase("Middle")) {
@@ -618,7 +619,7 @@ public class CustomerInterface {
                     return -2;
                 } else {
                     Crud.alter_viewing_seats(mv.getId(),number,area);
-                    System.out.println("You succussfully add " + number + " tickets");
+                    System.out.println("You succussfully added " + number + " tickets");
                     return number;
                 }
             } else if (area.equalsIgnoreCase("Back")) {
@@ -626,13 +627,13 @@ public class CustomerInterface {
                     return -2;
                 } else {
                     Crud.alter_viewing_seats(mv.getId(),number,area);
-                    System.out.println("You succussfully add " + number + " tickets");
+                    System.out.println("You successfully added " + number + " tickets");
                     return number;
                 }
             }
         } catch (Exception e) {
             if (num.equalsIgnoreCase("c")) {
-                System.out.println("The transaction has been canceled");
+                System.out.println("The transaction has been cancelled");
                 return -1;
             } else {
                 book(mv, area);
@@ -678,19 +679,13 @@ public class CustomerInterface {
             cardNum = this.customer.getCreditCardNum();
             // User Input Card Details
         } else {
-            // Card Number Input
-            cardNum = PasswordField.readPassword("Enter you card number: ");
-            // Name on Card Input
-            //cardName = inputCreditCardName()
-            // Feel free to replace below with above if you want
-            System.out.println("Please enter the name on your credit card:");
-            cardName = checkTimeOut();
+            cardNum = inputCreditCardNumber(); // Card Number Input
+            cardName = inputCreditCardName(); // Name on Card Input
         }
         // Check if details are valid
         if (Crud.is_creditCard_valid(cardName, cardNum)) {
             // Successful payment, ask if want to save details
             System.out.println("Success! You have purchased your movie tickets!");
-            // TODO: actually update transaction and database, etc...
             if (!this.customer.hasSavedCreditCard()) {
                 if (askSaveCreditCard(cardName, cardNum)) {
                     Crud.saveCreditCard(cardName, cardNum);
@@ -702,29 +697,15 @@ public class CustomerInterface {
         System.out.println("Sorry, those credit card details are invalid");
         return false;
     }
-//    /**
-//     * TODO: Receives the user's credit card name and number from input
-//     * @return credit card number and name
-//    */
-//    //
-//    public String inputCreditCardNumber() {
-//        return PasswordField.readPassword("Enter password: ");
-//    }
-
-//    /**
-//     * Receives the user's credit card name and number from input
-//     * @return credit card number and name
-//    */
-//    public String inputCreditCardName() {
-//        Scanner userIn = new Scanner(System.in);
-//        System.out.println("Please enter the name on your credit card:");
-//        return userIn.nextLine();
-//    }
-
+    
     /**
-     * Runs payment by gift card
-     * @return true if payment successful, else returns false
+     * Receives the user's credit card number from input, masked
+     * @return credit card number
      */
+    public String inputCreditCardNumber() {
+        return PasswordField.readPassword("Please enter your credit card number:");
+    }
+
     public boolean payWithGiftCard(){
         System.out.println("Enter your gift card number: ");
         String cardNumber = checkTimeOut();
@@ -759,27 +740,11 @@ public class CustomerInterface {
         return true;
     }
 
-
-
-
-    /**
-     * TODO: Receives the user's credit card name and number from input
-     * @return credit card number and name
-    */
-    public String inputCreditCardNumber() {
-
-        // TODO: hide credit card number with *
-        System.out.println("Please enter your credit card number:");
-        String cardNum = checkTimeOut();
-        return cardNum;
-    }
-
     /**
      * Receives the user's credit card name and number from input
      * @return credit card number and name
     */
     public String inputCreditCardName() {
-
         System.out.println("Please enter the name on your credit card:");
         String cardName = checkTimeOut();
         return cardName;
@@ -795,7 +760,7 @@ public class CustomerInterface {
             System.out.println(String.format("Credit card number: %s\nCredit card name: %s", this.customer.getCreditCardNum(), this.customer.getCreditCardName()));
             System.out.println("Do you wish to proceed with these saved credit card details?  Y/N");
             Scanner userIn = new Scanner(System.in);
-            if (checkTimeOut().toUpperCase().equalsIgnoreCase("Y")) {
+            if (checkTimeOut().equalsIgnoreCase("Y")) {
                 // User proceeds with saved details
                 return true;
             }
