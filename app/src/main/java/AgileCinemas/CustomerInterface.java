@@ -1,6 +1,6 @@
 package AgileCinemas;
 
-import AgileCinemas.PasswdMask.PasswordField;
+import AgileCinemas.InputMethods.PasswordField;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -553,13 +553,6 @@ public class CustomerInterface {
                     }
                 }
                 //upload the booking detail
-
-//                System.out.println("What payment method you want to use?");
-//                System.out.println("Type 1: CreditCard");
-//                System.out.println("Type 2: gift Card");
-//                System.out.println("Type c: Cancel");
-//                String ans = userIn.nextLine();
-
                 float cost = 0;
                 boolean whether_success = askHowtoPay();
 
@@ -572,6 +565,7 @@ public class CustomerInterface {
                     Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
                     return 2;
                 }
+
                 System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
                 System.out.println("Location: " + choosen_movie.getLocation());
                 System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
@@ -580,8 +574,6 @@ public class CustomerInterface {
                 System.out.println("Children tickets: " +  children);
                 System.out.println("Concession tickets: " +  concession);
                 System.out.println("Total Cost: " + cost);
-
-
                 return 1;
             } catch (Exception e) {
                 if (choose.equals("c")) {
