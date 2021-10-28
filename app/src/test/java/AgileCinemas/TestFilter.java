@@ -121,10 +121,10 @@ public class TestFilter {
         Scanner scan = new Scanner("c");
 
         System.setIn(stdin1);
-        assertFalse(CI.checkHashmapSize(scan, sessions));
+        assertFalse(CI.checkHashmapSize(sessions));
 
         Map<Integer, MovieViewing> sessions_1 = CI.toHashMap();
-        assertTrue(CI.checkHashmapSize(scan, sessions_1));
+        assertTrue(CI.checkHashmapSize(sessions_1));
     }
 
 }
