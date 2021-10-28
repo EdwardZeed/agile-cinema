@@ -9,8 +9,8 @@ public class Customer {
     public Customer(String username, String password) {
         this.username = username;
         this.password = password;
-        this.creditCardNum = null; // call Crud method
-        this.creditCardName = null; // call Crud method
+        this.creditCardNum = Crud.prefilled_customer_creditcard(username);
+        this.creditCardName = Crud.name_for_cardNumber(this.creditCardNum);
     }
 
     // Getter methods

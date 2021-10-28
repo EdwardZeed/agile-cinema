@@ -16,9 +16,12 @@
       * Customer might choose to pay by credit card or gift card when check out.
       * Staff can log in and edit the information of movies.
       * The system can generate Ticket ID.
-      * .....Planning
+      * Exit if time out (2mins) for now.
+      
     * Sprint Three
-      * .....Planning
+      * Take user back to main menu when time out (2 mins)
+      * Staff abilities improved.
+      * Fit in all rights of manager.
   
   * How to run the program.
     * Make sure you have following tools updated before running the program.

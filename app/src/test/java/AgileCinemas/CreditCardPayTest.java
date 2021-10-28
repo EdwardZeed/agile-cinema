@@ -27,14 +27,14 @@ public class CreditCardPayTest {
      * inputCreditCardName() test
      *   inputCreditCardNameTest: Checks that the same card name input is returned
     */
-//    @Test
-//    public void inputCreditCardNameTest() {
-//        CustomerInterface test = new CustomerInterface();
-//        String input = "Charles";
-//        InputStream in = new ByteArrayInputStream(input.getBytes());
-//        System.setIn(in);
-//        assertEquals("Charles", test.inputCreditCardName());
-//    }
+    // @Test
+    // public void inputCreditCardNameTest() {
+    //     CustomerInterface test = new CustomerInterface();
+    //     String input = "Charles";
+    //     InputStream in = new ByteArrayInputStream(input.getBytes());
+    //     System.setIn(in);
+    //     assertEquals("Charles", test.inputCreditCardName());
+    // }
 
     /** 
      * usePreSavedCardDetails() test
