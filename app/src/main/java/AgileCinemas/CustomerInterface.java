@@ -1,6 +1,7 @@
 package AgileCinemas;
 
 import AgileCinemas.InputMethods.PasswordField;
+import AgileCinemas.InputMethods.TimerInput;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -255,6 +256,16 @@ public class CustomerInterface {
         }
     }
 
+    public String checkTimeOut(){
+        TimerInput TI = new TimerInput();
+
+        try {
+            return TI.getInput().toLowerCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * book session available to customer
      */
@@ -264,12 +275,14 @@ public class CustomerInterface {
         displayMovies();
         // Let the user choose the movie;
         System.out.println("Filter the movies by name, Please type in the movie you would like to search");
+
+        String moviename = checkTimeOut();
         Scanner userIn = new Scanner(System.in);
-        String moviename = userIn.nextLine().toLowerCase();
+
         Map<Integer, MovieViewing> sessions = this.toHashMap();
         Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
         // If nothing matches. go back or cancel
-        if (!checkHashmapSize(userIn, movies)) {
+        if (!checkHashmapSize(movies)) {
             return false;
         }
         // choose film or go further or cancel
@@ -284,11 +297,11 @@ public class CustomerInterface {
 
         //Filter by location
         System.out.println("Filter the movies by location, Please type in the movie you would like to search");
-        String location = userIn.nextLine().toLowerCase();
+        String location = checkTimeOut();
         Map<Integer, MovieViewing> movies_l = this.filter_with_location(movies,location);
 
         // If nothing matches. go back or cancel
-        if (!checkHashmapSize(userIn, movies_l)) {
+        if (!checkHashmapSize(movies_l)) {
             return false;
         }
 
@@ -303,11 +316,11 @@ public class CustomerInterface {
 
         //Filter by dayofWeek
         System.out.println("Filter the movies by time, Please type in the movie you would like to search");
-        String dow = userIn.nextLine().toLowerCase();
+        String dow = checkTimeOut();
         Map<Integer, MovieViewing> movies_dow = this.filter_with_time(movies_l,dow);
 
         // If nothing matches. go back or cancel
-        if (!checkHashmapSize(userIn, movies_dow)) {
+        if (!checkHashmapSize(movies_dow)) {
             return false;
         }
 
@@ -414,13 +427,14 @@ public class CustomerInterface {
         return movies;
     }
 
-    public boolean checkHashmapSize(Scanner userIn, Map<Integer,MovieViewing> m){
+    public boolean checkHashmapSize(Map<Integer,MovieViewing> m){
         if (m.size() == 0) {
             System.out.println("Sorry, No such movie exists");
             System.out.println("If you want to try again, please type '1'");
             System.out.println("If you want to cancel, please type 'c'");
 
-            String option = userIn.nextLine();
+
+            String option = checkTimeOut();
             if (option.equals("1")) {
                 book_with_session();
             } else {
@@ -438,7 +452,7 @@ public class CustomerInterface {
         System.out.println("If you want to cancel, please type 'c' ");
 
         while (true) {
-            String choose = userIn.nextLine();
+            String choose = checkTimeOut();
             try {
                 int choose_int = Integer.parseInt(choose);
                 if (choose_int == 0) {
@@ -588,7 +602,7 @@ public class CustomerInterface {
 
     public int book(Scanner scan, MovieViewing mv, String area) {
         System.out.println("Please Enter the number you want to book.");
-        String num = scan.nextLine();
+        String num = checkTimeOut();
         try {
             int number = Integer.parseInt(num);
             if (area.equalsIgnoreCase("Front")) {
@@ -636,7 +650,7 @@ public class CustomerInterface {
         System.out.println( "If you wish to pay by credit card, please enter 1.\n" +
                 "If you wish to pay by credit card, please enter 1.\n" +
                 "Cancel please enter c.");
-        String userInput = scanner.nextLine();
+        String userInput = checkTimeOut();
         //Credit Card Payment
         if(userInput.equals("1")){return payWithCreditCard();
             //Gift Card Payment
@@ -670,7 +684,7 @@ public class CustomerInterface {
             //cardName = inputCreditCardName()
             // Feel free to replace below with above if you want
             System.out.println("Please enter the name on your credit card:");
-            cardName = userinput.nextLine();
+            cardName = checkTimeOut();
         }
         // Check if details are valid
         if (Crud.is_creditCard_valid(cardName, cardNum)) {
@@ -726,7 +740,7 @@ public class CustomerInterface {
         Scanner userIn = new Scanner(System.in);
         // TODO: hide credit card number with *
         System.out.println("Please enter your credit card number:");
-        String cardNum = userIn.nextLine();
+        String cardNum = checkTimeOut();
         return cardNum;
     }
 
@@ -737,7 +751,7 @@ public class CustomerInterface {
     public String inputCreditCardName() {
         Scanner userIn = new Scanner(System.in);
         System.out.println("Please enter the name on your credit card:");
-        String cardName = userIn.nextLine();
+        String cardName = checkTimeOut();
         return cardName;
     }
 
@@ -751,7 +765,7 @@ public class CustomerInterface {
             System.out.println(String.format("Credit card number: %s\nCredit card name: %s", this.customer.getCreditCardNum(), this.customer.getCreditCardName()));
             System.out.println("Do you wish to proceed with these saved credit card details?  Y/N");
             Scanner userIn = new Scanner(System.in);
-            if (userIn.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
+            if (checkTimeOut().toUpperCase().equalsIgnoreCase("Y")) {
                 // User proceeds with saved details
                 return true;
             }
@@ -769,7 +783,7 @@ public class CustomerInterface {
     public boolean askSaveCreditCard(String cardName, String cardNum) {
         System.out.println("Would you like to save your credit card details for a faster booking process next time?  Y/N");
         Scanner userIn = new Scanner(System.in);
-        if (userIn.nextLine().toUpperCase().equalsIgnoreCase("Y")) {
+        if (checkTimeOut().toUpperCase().equalsIgnoreCase("Y")) {
             this.customer.setCreditCardName(cardName);
             this.customer.setCreditCardNum(cardNum);
             return true;
