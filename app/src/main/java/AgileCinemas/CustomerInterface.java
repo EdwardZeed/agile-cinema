@@ -126,7 +126,7 @@ public class CustomerInterface {
         else if (usernameExists && !passwordCorrect) {
             for (int i = 1; i <= 3; i++) {
                 System.out.println(String.format("Invalid password, please try again. You have %d more attempts before you will continue as a guest.", 4 - i));
-                System.out.println("If you wish to cancel and continue as a guest immediately, type 'c'");
+                System.out.println("If you wish to cancel and continue as a guest, type 'c'");
                 password = userInput.nextLine();
                 // Cancel and continue as guest
                 if (password.equals("c")) {

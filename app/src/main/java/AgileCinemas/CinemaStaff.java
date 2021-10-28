@@ -1,30 +1,26 @@
 package AgileCinemas;
 
 public class CinemaStaff {
-    private int id; // do we need this??
-    private String username;
-    private String password;
+    private String id;
 
     /**
      * Constructor for cinema staff
     */
-    public CinemaStaff(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.id = 0; // Call crud method - do we need id??
-    }
-
-    /**
-     * add a new cinema staff to database
-     */
-    public void addToDatabase(){
-
+    public CinemaStaff(String id) {
+        this.id = id;
     }
 
     /**
      * Getter methods
     */
-    public int getId() { return this.id; }
+    public String getId() { return this.id; }
+
+    /**
+     * Add a new cinema staff to database
+     */
+    public void addToDatabase(){
+
+    }
 
     /**
      * Insert a movie into the database
@@ -43,7 +39,7 @@ public class CinemaStaff {
         return false;
     }
     
-    public boolean addWeekShow(MovieViewing show) {
+    public boolean addSession(MovieViewing show) {
         return false;
     }
     

@@ -16,7 +16,7 @@ public class Cinema{
         //Initialize the Scanner object.
         Scanner userIn = new Scanner(System.in);
         //Display Options
-        System.out.println("If you are a staff member, please enter the staff code. If you are a customer, please enter any other key.");
+        System.out.println("If you are a staff member, please enter the staff code (12345). If you are a customer, please enter any other key.");
         String userInput = userIn.nextLine();
         //Check if entered staff code
         if(userInput.equals("12345")){
