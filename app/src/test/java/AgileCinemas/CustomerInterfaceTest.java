@@ -4,24 +4,9 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
 
 public class CustomerInterfaceTest {
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-
-    @BeforeEach
-    public void setUpOutStream() {
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @AfterEach
-    public void restoreOutStream() {
-        System.setOut(originalOut);
-    }
 
     /** 
      * welcomeScreen() test - simple output test
@@ -59,6 +44,7 @@ public class CustomerInterfaceTest {
      *   giveUpLogInFirstGo: Customer enters wrong username and password and doens't wish to try again. Should return false
      *   incorrectLoginTwice: Customer enters incorrect username and password, then enters a wrong username and password again and gives up, should return false
      *   correctUsernameNeverCorrectPassword: Customer enters the correct username first try but incorrectly enters password on all 3 attempts, should return false
+     *   logInCancel: Customer enters incorrect username and password and then cancels to continue as a guest, should return false
     */
     // Issues - doesn't recognise password first go, but does second go
     @Test
@@ -99,6 +85,18 @@ public class CustomerInterfaceTest {
     public void correctUsernameNeverCorrectPassword() {
         CustomerInterface testCI = new CustomerInterface();
         String input = "rachela\n\rbadpassword\n\rbadpassword\n\rbadpassword\n\rbadpassword\n\r";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        boolean loggedIn = testCI.userLogin();
+        assertFalse(loggedIn);
+        assertNull(testCI.getCustomer());
+    }
+
+    // Isn't doing what is expected
+    @Test
+    public void logInCancel() {
+        CustomerInterface testCI = new CustomerInterface();
+        String input = "badusername\n\rbadpassword\n\rc";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         boolean loggedIn = testCI.userLogin();

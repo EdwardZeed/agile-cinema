@@ -1,57 +1,76 @@
 package AgileCinemas;
 
+import java.util.Scanner;
+
 public class CinemaStaff {
-    private int id; // do we need this??
-    private String username;
-    private String password;
+    private String id;
 
     /**
      * Constructor for cinema staff
     */
-    public CinemaStaff(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.id = 0; // Call crud method - do we need id??
-    }
-
-    /**
-     * add a new cinema staff to database
-     */
-    public void addToDatabase(){
-
+    public CinemaStaff(String id) {
+        this.id = id;
     }
 
     /**
      * Getter methods
     */
-    public int getId() { return this.id; }
+    public String getId() { return this.id; }
 
+    // public static boolean insertMovieData(Movie movie) {
+    //     return false;
+    // }
+    
+    // public static boolean deleteMovieData(Movie movie) {
+    //     return false;
+    // }
+    
+    // public static boolean modifyMovieData(Movie movie) {
+    //     return false;
+    // }
+    
     /**
-     * Insert a movie into the database
-     * @param movie to insert
-     * @return whether it was correctly inserted or not
+     * Main method for adding a session into the database
+     * @return true if the session was entered successfully, otherwise false
     */
-    public boolean insertMovieData(Movie movie) {
+    public static boolean addSession() {
+        System.out.println("Please enter the details of the session you would like to add in the format:");
+        System.out.println("<movie ID>,<cinema location>,<weekday>,<time>,<screen size>,<rear seats available>,<middle seats available>,<front seats available>");
+        Scanner userIn = new Scanner(System.in);
+        String[] sessionDetails = userIn.nextLine().split(",");
+        // Error if wrong length
+        if (sessionDetails.length != 8) {
+            System.out.println("Error! You entered the wrong number of session details.");
+            return false;
+        }
+        // Check movie ID and seats can be converted to integers
+        int movieID = -1;
+        int rearSeats = -1;
+        int middleSeats = -1;
+        int frontSeats = -1;
+        try {
+            movieID = Integer.parseInt(sessionDetails[0]);
+            rearSeats = Integer.parseInt(sessionDetails[5]);
+            middleSeats = Integer.parseInt(sessionDetails[6]);
+            frontSeats = Integer.parseInt(sessionDetails[7]);
+        } catch (NumberFormatException e) {
+            System.out.println("Error! You need to give number values for the movie ID and available seats.");
+            return false;
+        }
+        // Insert viewing to database
+        if (!Crud.add_newViewing(movieID, sessionDetails[1], sessionDetails[2], sessionDetails[3], sessionDetails[4], rearSeats, middleSeats, frontSeats)) {
+            System.out.println("Error! The viewing could not be entered into the database.");
+            return false;
+        }
+        System.out.println("Success! Movie viewing inserted into the database.");
+        return true;
+    }
+    
+    public static boolean enterGiftCard(GiftCard giftCard) {
         return false;
     }
     
-    public boolean deleteMovieData(Movie movie) {
-        return false;
-    }
+    // public static void reportUpcomingShows() {}
     
-    public boolean modifyMovieData(Movie movie) {
-        return false;
-    }
-    
-    public boolean addWeekShow(MovieViewing show) {
-        return false;
-    }
-    
-    public boolean enterGiftCard(GiftCard giftCard) {
-        return false;
-    }
-    
-    public void reportUpcomingShows() {}
-    
-    public void reportBookings() {}
+    // public static void reportBookings() {}
 }
