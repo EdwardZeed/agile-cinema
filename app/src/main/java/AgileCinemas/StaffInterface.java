@@ -19,18 +19,27 @@ public class StaffInterface {
     /*
      * Staff Interface (Used by both managers and normal staff)
      */
-    public boolean runStaffInterface(){
+    public void runStaffInterface(){
         welcomeScreen();
         // Log in
         if (!logIn()) {
             // If not logged in, exit
             exitScreen();
+            return;
         }
-
-        // Receive reports (.csv or .txt)
+        // TODO: Receive reports (.csv or .txt) - SPRINT 3
         // Choose action: manage movies, manage sessions, add gift cards, (manage staff)
-
-        return true;
+        while (true) {
+            String action = chooseAction();
+            if (action.equals("4")) {
+                // TODO: add a movie session
+                CinemaStaff.addSession();
+            } else {
+                System.out.println("Exiting...");
+                exitScreen();
+                return;
+            }
+        }
     }
 
     /**
@@ -91,5 +100,25 @@ public class StaffInterface {
             return false;
         }
     }
+
+    public String chooseAction() {
+        System.out.println("Please choose an action from below:");
+        System.out.println("Add a movie into the database             type 1");
+        System.out.println("Delete a movie from the database          type 2");
+        System.out.println("Modify movie's data in the database       type 3");
+        System.out.println("Add a new session for the upcoming week   type 4");
+        System.out.println("Enter a gift card into the database       type 5");
+        // Additional manager options
+        if (this.manager != null) {
+        System.out.println("Add a staff member                        type 6");
+        System.out.println("Remove a staff member                     type 7");
+        }
+        System.out.println("Exit the staff system         type any other key");
+        // Get user input
+        Scanner userIn = new Scanner(System.in);
+        return userIn.nextLine();
+    }
+
+
 
 }
