@@ -80,19 +80,19 @@ public class TestFilter {
         Scanner test1 = new Scanner("1");
 
         System.setIn(stdin1);
-        assertEquals("Front", CI.bookSeats(test1, MV));
+        assertEquals("Front", CI.bookSeats(MV));
 
         Scanner test2 = new Scanner("2");
         System.setIn(stdin2);
-        assertEquals("Middle", CI.bookSeats(test2, MV));
+        assertEquals("Middle", CI.bookSeats(MV));
 
         Scanner test3 = new Scanner("3");
         System.setIn(stdin3);
-        assertEquals("Back", CI.bookSeats(test3, MV));
+        assertEquals("Back", CI.bookSeats(MV));
 
         Scanner test4 = new Scanner("c");
         System.setIn(stdin4);
-        assertEquals("Cancel", CI.bookSeats(test4, MV));
+        assertEquals("Cancel", CI.bookSeats(MV));
     }
 
     @Test
@@ -105,11 +105,11 @@ public class TestFilter {
         Scanner test1 = new Scanner("0");
 
         System.setIn(stdin1);
-        assertEquals(0, CI.printoutfilter_inbook(test1, sessions));
+        assertEquals(0, CI.printoutfilter_inbook(sessions));
 
         Scanner test2 =  new Scanner("c");
         System.setIn(stdin3);
-        assertEquals(2, CI.printoutfilter_inbook(test2, sessions));
+        assertEquals(2, CI.printoutfilter_inbook(sessions));
     }
 
     @Test
