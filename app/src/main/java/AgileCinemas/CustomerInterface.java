@@ -287,7 +287,7 @@ public class CustomerInterface {
         }
         // choose film or go further or cancel
         System.out.println("If you want to filter further. Please press '0' ");
-        int test_movies = printoutfilter_inbook(userIn, movies);
+        int test_movies = printoutfilter_inbook(movies);
         if(test_movies == 1){
             return true;
         }else if(test_movies == 2){
@@ -307,7 +307,7 @@ public class CustomerInterface {
 
         // choose film or go further or cancel
         System.out.println("If you want to filter further. Please press '0' ");
-        int test_location = printoutfilter_inbook(userIn, movies_l);
+        int test_location = printoutfilter_inbook(movies_l);
         if(test_location == 1){
             return true;
         }else if(test_location == 2){
@@ -325,7 +325,7 @@ public class CustomerInterface {
         }
 
         // choose film or go further or cancel
-        int test_dow = printoutfilter_inbook(userIn, movies_dow);
+        int test_dow = printoutfilter_inbook(movies_dow);
         if(test_dow == 1){
             return true;
         }else if(test_dow == 2){
@@ -335,7 +335,7 @@ public class CustomerInterface {
         return true;
     }
 
-    public String bookSeats(Scanner userIn, MovieViewing choosen_movie){
+    public String bookSeats(MovieViewing choosen_movie){
         System.out.println("Available Front Seats: " + choosen_movie.getFrontseats());
         System.out.println("Available Middle Seats: " + choosen_movie.getMiddleseats());
         System.out.println("Available Back Seats: " + choosen_movie.getBackseats());
@@ -346,7 +346,7 @@ public class CustomerInterface {
         System.out.println("Type c: Cancel");
 
         while (true) {
-            String area = userIn.nextLine();
+            String area = checkTimeOut();
             if (area.equalsIgnoreCase("1")) {
                 //check enough seats
                 return "Front";
@@ -447,7 +447,7 @@ public class CustomerInterface {
         return true;
     }
 
-    public int printoutfilter_inbook(Scanner userIn, Map<Integer,MovieViewing> movies){
+    public int printoutfilter_inbook(Map<Integer,MovieViewing> movies){
         System.out.println("You can choose the session you like by typing in the ID ");
         System.out.println("If you want to cancel, please type 'c' ");
 
@@ -460,7 +460,7 @@ public class CustomerInterface {
                 }
                 String a = new String();
                 MovieViewing choosen_movie = movies.get(choose_int);
-                a = this.bookSeats(userIn, choosen_movie);
+                a = this.bookSeats(choosen_movie);
                 int adult = 0;
                 int children = 0;
                 int concession =0;
@@ -472,16 +472,16 @@ public class CustomerInterface {
                     System.out.println("Type 2: Child ");
                     System.out.println("Type 3: Concession ");
                     System.out.println("Type 4: Cancel ");
-                    String type = userIn.nextLine();
+                    String type = checkTimeOut();
                     if(type.equalsIgnoreCase("1")){
 
-                        int ad = book(userIn, choosen_movie,a);
+                        int ad = book(choosen_movie,a);
                         if(ad == -2){
                             while(true){
                                 System.out.println("Not enough seats. Do you want to try again? Y/N");
-                                String ans = userIn.nextLine();
+                                String ans = checkTimeOut();
                                 if(ans.equalsIgnoreCase("y")){
-                                    ad = book(userIn, choosen_movie,a);
+                                    ad = book(choosen_movie,a);
                                     if(ad != -2){
                                         break;
                                     }
@@ -495,7 +495,7 @@ public class CustomerInterface {
                         }
                         adult = adult + ad;
                         System.out.println("Do you want to book other tickets? Y/N");
-                        String again = userIn.nextLine();
+                        String again = checkTimeOut();
                         if(again.equalsIgnoreCase("y")){
                             ;
                         }else{
@@ -504,13 +504,13 @@ public class CustomerInterface {
                     }
                     if(type.equalsIgnoreCase("2")){
 
-                        int chi = book(userIn, choosen_movie,a);
+                        int chi = book(choosen_movie,a);
                         if(chi == -2){
                             while(true){
                                 System.out.println("Not enough seats. Do you want to try again? Y/N");
-                                String ans = userIn.nextLine();
+                                String ans = checkTimeOut();
                                 if(ans.equalsIgnoreCase("y")){
-                                    chi = book(userIn, choosen_movie,a);
+                                    chi = book(choosen_movie,a);
                                     if(chi != -2){
                                         break;
                                     }
@@ -524,7 +524,7 @@ public class CustomerInterface {
                         }
                         children = children + chi;
                         System.out.println("Do you want to book other tickets? Y/N");
-                        String again = userIn.nextLine();
+                        String again = checkTimeOut();
                         if(again.equalsIgnoreCase("y")){
                             ;
                         }else{
@@ -533,13 +533,13 @@ public class CustomerInterface {
                     }
                     if(type.equalsIgnoreCase("3")){
 
-                        int con = book(userIn, choosen_movie,a);
+                        int con = book(choosen_movie,a);
                         if(con == -2){
                             while(true){
                                 System.out.println("Not enough seats. Do you want to try again? Y/N");
-                                String ans = userIn.nextLine();
+                                String ans = checkTimeOut();
                                 if(ans.equalsIgnoreCase("y")){
-                                    con = book(userIn, choosen_movie,a);
+                                    con = book(choosen_movie,a);
                                     if(con != -2){
                                         break;
                                     }
@@ -553,7 +553,7 @@ public class CustomerInterface {
                         }
                         concession = concession + con;
                         System.out.println("Do you want to book other tickets? Y/N");
-                        String again = userIn.nextLine();
+                        String again = checkTimeOut();
                         if(again.equalsIgnoreCase("y")){
                             ;
                         }else{
@@ -600,7 +600,7 @@ public class CustomerInterface {
     }
 
 
-    public int book(Scanner scan, MovieViewing mv, String area) {
+    public int book(MovieViewing mv, String area) {
         System.out.println("Please Enter the number you want to book.");
         String num = checkTimeOut();
         try {
@@ -635,7 +635,7 @@ public class CustomerInterface {
                 System.out.println("The transaction has been canceled");
                 return -1;
             } else {
-                book(scan, mv, area);
+                book(mv, area);
             }
         }
         return 0;
@@ -646,9 +646,9 @@ public class CustomerInterface {
      * @return true if user paid successfully by any methods, return false if user wish to cancel.
      */
     public boolean askHowtoPay(){
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println( "If you wish to pay by credit card, please enter 1.\n" +
-                "If you wish to pay by credit card, please enter 1.\n" +
+                "If you wish to pay by gift card, please enter 2.\n" +
                 "Cancel please enter c.");
         String userInput = checkTimeOut();
         //Credit Card Payment
@@ -668,7 +668,7 @@ public class CustomerInterface {
      */
     public boolean payWithCreditCard() {
         // Scanner object
-        Scanner userinput = new Scanner(System.in);
+
         // Get credit card details
         String cardName = null;
         String cardNum = null;
@@ -726,6 +726,36 @@ public class CustomerInterface {
      * @return true if payment successful, else returns false
      */
     public boolean payWithGiftCard(){
+        System.out.println("Enter your gift card number: ");
+        String cardNumber = checkTimeOut();
+
+        if (!Crud.is_giftCard_exist(cardNumber)){
+            System.out.println("Sorry, the card number is invalid");
+            System.out.println("Would you like to try again? Y/N");
+
+            String option = checkTimeOut();
+
+            if (option.toUpperCase().equals("Y")){
+                payWithGiftCard();
+            }
+            else{
+                return false;
+            }
+        }
+
+        if (Crud.hasGiftCardbeenRedeemed(cardNumber)){
+            System.out.println("Sorry, this gift card has been redeemed");
+            System.out.println("Would you like to try another one? Y/N");
+
+            String option = checkTimeOut();
+            if (option.toUpperCase().equals("Y")){
+                payWithCreditCard();
+            }
+            else{
+                return false;
+            }
+        }
+        System.out.println("Success! You have purchased your tickets!");
         return true;
     }
 
@@ -737,7 +767,7 @@ public class CustomerInterface {
      * @return credit card number and name
     */
     public String inputCreditCardNumber() {
-        Scanner userIn = new Scanner(System.in);
+
         // TODO: hide credit card number with *
         System.out.println("Please enter your credit card number:");
         String cardNum = checkTimeOut();
@@ -749,7 +779,7 @@ public class CustomerInterface {
      * @return credit card number and name
     */
     public String inputCreditCardName() {
-        Scanner userIn = new Scanner(System.in);
+
         System.out.println("Please enter the name on your credit card:");
         String cardName = checkTimeOut();
         return cardName;
@@ -782,7 +812,7 @@ public class CustomerInterface {
     */
     public boolean askSaveCreditCard(String cardName, String cardNum) {
         System.out.println("Would you like to save your credit card details for a faster booking process next time?  Y/N");
-        Scanner userIn = new Scanner(System.in);
+
         if (checkTimeOut().toUpperCase().equalsIgnoreCase("Y")) {
             this.customer.setCreditCardName(cardName);
             this.customer.setCreditCardNum(cardNum);
@@ -812,4 +842,6 @@ public class CustomerInterface {
         }
         return -1;
     }
+
+
 }
