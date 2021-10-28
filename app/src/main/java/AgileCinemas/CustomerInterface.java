@@ -645,10 +645,33 @@ public class CustomerInterface {
     }
 
     /**
+     * Ask for payment methods
+     * @return true if user paid successfully by any methods, return false if user wish to cancel.
+     */
+    public boolean askHowtoPay(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println( "If you wish to pay by credit card, please enter 1.\n" +
+                "If you wish to pay by credit card, please enter 1.\n" +
+                "Cancel please enter c.");
+        String userInput = scanner.nextLine();
+        //Credit Card Payment
+        if(userInput.equals("1")){return payWithCreditCard();
+            //Gift Card Payment
+        }else if(userInput.equals("2")){return payWithGiftCard();
+            //Cancel
+        }else if(userInput.equalsIgnoreCase("c")){return false;}
+        //Invalid Input
+        System.out.println("Invalid Input.");
+        return askHowtoPay();
+    }
+
+     /**
      * Runs payment by credit card
      * @return true if payment successful, else returns false
-    */
+     */
     public boolean payWithCreditCard() {
+        // Scanner object
+        Scanner userinput = new Scanner(System.in);
         // Get credit card details
         String cardName = null;
         String cardNum = null;
@@ -656,9 +679,15 @@ public class CustomerInterface {
         if (usePreSavedCardDetails()) {
             cardName = this.customer.getCreditCardName();
             cardNum = this.customer.getCreditCardNum();
+            // User Input Card Details
         } else {
-            cardNum = inputCreditCardNumber();
-            cardName = inputCreditCardName();
+            // Card Number Input
+            cardNum = PasswordField.readPassword("Enter you card number: ");
+            // Name on Card Input
+            //cardName = inputCreditCardName()
+            // Feel free to replace below with above if you want
+            System.out.println("Please enter the name on your credit card:");
+            cardName = userinput.nextLine();
         }
         // Check if details are valid
         if (Crud.is_creditCard_valid(cardName, cardNum)) {
@@ -676,6 +705,35 @@ public class CustomerInterface {
         System.out.println("Sorry, those credit card details are invalid");
         return false;
     }
+//    /**
+//     * TODO: Receives the user's credit card name and number from input
+//     * @return credit card number and name
+//    */
+//    //
+//    public String inputCreditCardNumber() {
+//        return PasswordField.readPassword("Enter password: ");
+//    }
+
+//    /**
+//     * Receives the user's credit card name and number from input
+//     * @return credit card number and name
+//    */
+//    public String inputCreditCardName() {
+//        Scanner userIn = new Scanner(System.in);
+//        System.out.println("Please enter the name on your credit card:");
+//        return userIn.nextLine();
+//    }
+
+    /**
+     * Runs payment by gift card
+     * @return true if payment successful, else returns false
+     */
+    public boolean payWithGiftCard(){
+        return true;
+    }
+
+
+
 
     /**
      * TODO: Receives the user's credit card name and number from input
