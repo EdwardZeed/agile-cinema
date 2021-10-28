@@ -572,6 +572,7 @@ public class CustomerInterface {
                         System.out.println("Transaction Failed");
                         transaction_status = "fail";
                         Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                        return 2;
                     }
                 }
                 //upload the booking detail
