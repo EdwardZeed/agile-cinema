@@ -210,6 +210,4 @@ public class TestFilter {
         Crud.alter_viewing_seats(mv.getId(),-1,"Back");
     }
 
-
-
 }
