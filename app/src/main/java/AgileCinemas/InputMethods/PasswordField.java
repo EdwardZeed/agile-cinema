@@ -1,4 +1,4 @@
-package AgileCinemas.PasswdMask;
+package AgileCinemas.InputMethods;
 
 import java.io.BufferedReader;
 import java.io.IOException;

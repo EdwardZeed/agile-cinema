@@ -1,4 +1,4 @@
-package AgileCinemas.PasswdMask;
+package AgileCinemas.InputMethods;
 
 public class EraserThread implements Runnable{
     private boolean stop;
