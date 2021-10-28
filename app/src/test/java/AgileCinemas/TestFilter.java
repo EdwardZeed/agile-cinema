@@ -30,6 +30,7 @@ public class TestFilter {
         assertEquals(5, filtered.size());
     }
 */
+/*
     @Test
     public void testFilterWithLocation(){
         CustomerInterface CI = new CustomerInterface();
@@ -39,6 +40,7 @@ public class TestFilter {
         assertNotNull(filtered);
         assertEquals(2, filtered.size());
     }
+*/
 
     @Test
     public void testFilterWithTime(){
