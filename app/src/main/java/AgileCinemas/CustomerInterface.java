@@ -672,13 +672,8 @@ public class CustomerInterface {
             cardNum = this.customer.getCreditCardNum();
             // User Input Card Details
         } else {
-            // Card Number Input
-            cardNum = PasswordField.readPassword("Enter you card number: ");
-            // Name on Card Input
-            //cardName = inputCreditCardName()
-            // Feel free to replace below with above if you want
-            System.out.println("Please enter the name on your credit card:");
-            cardName = userinput.nextLine();
+            cardNum = inputCreditCardNumber(); // Card Number Input
+            cardName = inputCreditCardName(); // Name on Card Input
         }
         // Check if details are valid
         if (Crud.is_creditCard_valid(cardName, cardNum)) {
@@ -696,58 +691,25 @@ public class CustomerInterface {
         System.out.println("Sorry, those credit card details are invalid");
         return false;
     }
-//    /**
-//     * TODO: Receives the user's credit card name and number from input
-//     * @return credit card number and name
-//    */
-//    //
-//    public String inputCreditCardNumber() {
-//        return PasswordField.readPassword("Enter password: ");
-//    }
-
-//    /**
-//     * Receives the user's credit card name and number from input
-//     * @return credit card number and name
-//    */
-//    public String inputCreditCardName() {
-//        Scanner userIn = new Scanner(System.in);
-//        System.out.println("Please enter the name on your credit card:");
-//        return userIn.nextLine();
-//    }
-
+    
     /**
-     * Runs payment by gift card
-     * @return true if payment successful, else returns false
+     * TODO: Receives the user's credit card number from input
+     * @return credit card number
      */
-    public boolean payWithGiftCard(){
-        return true;
-    }
-
-
-
-
-    /**
-     * TODO: Receives the user's credit card name and number from input
-     * @return credit card number and name
-    */
+    //
     public String inputCreditCardNumber() {
-        Scanner userIn = new Scanner(System.in);
-        // TODO: hide credit card number with *
-        System.out.println("Please enter your credit card number:");
-        String cardNum = userIn.nextLine();
-        return cardNum;
+        return PasswordField.readPassword("Please enter your credit card number:");
     }
 
-    /**
-     * Receives the user's credit card name and number from input
-     * @return credit card number and name
-    */
-    public String inputCreditCardName() {
-        Scanner userIn = new Scanner(System.in);
-        System.out.println("Please enter the name on your credit card:");
-        String cardName = userIn.nextLine();
-        return cardName;
-    }
+   /**
+    * Receives the user's credit card name and number from input
+    * @return credit card number and name
+   */
+   public String inputCreditCardName() {
+       Scanner userIn = new Scanner(System.in);
+       System.out.println("Please enter the name on your credit card:");
+       return userIn.nextLine();
+   }
 
     /**
      * Checks if pre-saved credit card details exist and, if so, checks if user wants to use them
@@ -783,6 +745,14 @@ public class CustomerInterface {
             return true;
         }
         return false; // details not saved
+    }
+
+    /**
+     * Runs payment by gift card
+     * @return true if payment successful, else returns false
+     */
+    public boolean payWithGiftCard(){
+        return true;
     }
 
     /**
