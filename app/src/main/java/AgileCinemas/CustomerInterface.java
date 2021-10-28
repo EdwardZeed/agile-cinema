@@ -469,6 +469,9 @@ public class CustomerInterface {
                 String a = new String();
                 MovieViewing choosen_movie = movies.get(choose_int);
                 a = this.bookSeats(scan, choosen_movie);
+                if(a.equalsIgnoreCase("cancel")){
+                    return 2;
+                }
                 int adult = 0;
                 int children = 0;
                 int concession =0;
