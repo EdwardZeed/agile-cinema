@@ -3,6 +3,75 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Crud {
+    // TODO Retrieve Credit Card Number for Pre Filled User
+    public static String prefilled_customer_creditcard(String username){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        String result;
+        result = "unknown";
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String queryStatement = "SELECT credit_card_id FROM cinemas.dbo.customers " +
+                    "WHERE user_name LIKE '%s'";
+            resultSet = statement.executeQuery(String.format(queryStatement, username));
+            // Print Result
+            while(resultSet.next()) {
+                result = resultSet.getString(1);
+            }
+
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return result;
+
+    }
+
+    // TODO Retrieve Name for that Credit Card Number
+    public static String name_for_cardNumber(String card_number){
+        Connection conn = null;
+        ResultSet resultSet = null;
+        String result;
+        result = "unknown";
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String queryStatement = "SELECT name FROM cinemas.dbo.credit_cards " +
+                    "WHERE card_number LIKE '%s'";
+            resultSet = statement.executeQuery(String.format(queryStatement, card_number));
+            // Print Result
+            while(resultSet.next()) {
+                result = resultSet.getString(1);
+            }
+
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return result;
+
+    }
 
     // TODO Check Credit Card Provided is Valid
 

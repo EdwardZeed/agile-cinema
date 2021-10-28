@@ -373,7 +373,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -390,7 +390,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -407,7 +407,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -450,7 +450,7 @@ public class CustomerInterface {
                 int adult = 0;
                 int children = 0;
                 int concession =0;
-                String transaction_status = "success";
+                String transaction_status = "active";
                 int is_cancelled = 0;
                 while (true){
                     System.out.println("What kind of tickets you want to book?");
@@ -473,6 +473,8 @@ public class CustomerInterface {
                                     }
                                 }else{
                                     System.out.println("Transaction Failed");
+                                    transaction_status = "fail";
+                                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
                                     return 2;
                                 }
                             }
@@ -500,6 +502,8 @@ public class CustomerInterface {
                                     }
                                 }else{
                                     System.out.println("Transaction Failed");
+                                    transaction_status = "fail";
+                                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
                                     return 2;
                                 }
                             }
@@ -527,6 +531,8 @@ public class CustomerInterface {
                                     }
                                 }else{
                                     System.out.println("Transaction Failed");
+                                    transaction_status = "fail";
+                                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
                                     return 2;
                                 }
                             }
@@ -540,10 +546,32 @@ public class CustomerInterface {
                             break;
                         }
                     }
+                    if(type.equalsIgnoreCase("4")){
+                        System.out.println("Transaction Failed");
+                        transaction_status = "fail";
+                        Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                    }
                 }
                 //upload the booking detail
 
+//                System.out.println("What payment method you want to use?");
+//                System.out.println("Type 1: CreditCard");
+//                System.out.println("Type 2: gift Card");
+//                System.out.println("Type c: Cancel");
+//                String ans = userIn.nextLine();
 
+                float cost = 0;
+                boolean whether_success = askHowtoPay();
+
+                if(whether_success){
+                    cost = Calculate_total_amount(adult,children,concession,choosen_movie);
+                    Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",0,0,a);
+                }else{
+                    System.out.println("Transaction Failed.");
+                    transaction_status = "fail";
+                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                    return 2;
+                }
                 System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
                 System.out.println("Location: " + choosen_movie.getLocation());
                 System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
@@ -551,7 +579,8 @@ public class CustomerInterface {
                 System.out.println("Adult tickets: " +  adult);
                 System.out.println("Children tickets: " +  children);
                 System.out.println("Concession tickets: " +  concession);
-//                Crud.insertTransaction(customer.getUsername(),100, transaction_status,choosen_movie.getId(),children,concession,adult,"card",0,0,a);
+                System.out.println("Total Cost: " + cost);
+
 
                 return 1;
             } catch (Exception e) {
@@ -567,7 +596,6 @@ public class CustomerInterface {
 
     public int book(Scanner scan, MovieViewing mv, String area) {
         System.out.println("Please Enter the number you want to book.");
-
         String num = scan.nextLine();
         try {
             int number = Integer.parseInt(num);
@@ -575,6 +603,7 @@ public class CustomerInterface {
                 if (mv.getFrontseats() < number) {
                     return -2;
                 } else {
+                    Crud.alter_viewing_seats(mv.getId(),number,area);
                     System.out.println("You succussfully add " + number + " tickets");
                     return number;
                 }
@@ -582,6 +611,7 @@ public class CustomerInterface {
                 if (mv.getMiddleseats() < number) {
                     return -2;
                 } else {
+                    Crud.alter_viewing_seats(mv.getId(),number,area);
                     System.out.println("You succussfully add " + number + " tickets");
                     return number;
                 }
@@ -589,30 +619,50 @@ public class CustomerInterface {
                 if (mv.getBackseats() < number) {
                     return -2;
                 } else {
+                    Crud.alter_viewing_seats(mv.getId(),number,area);
                     System.out.println("You succussfully add " + number + " tickets");
                     return number;
                 }
             }
-
-
         } catch (Exception e) {
             if (num.equalsIgnoreCase("c")) {
                 System.out.println("The transaction has been canceled");
                 return -1;
             } else {
                 book(scan, mv, area);
-                return -10;
             }
         }
-
         return 0;
     }
 
     /**
+     * Ask for payment methods
+     * @return true if user paid successfully by any methods, return false if user wish to cancel.
+     */
+    public boolean askHowtoPay(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println( "If you wish to pay by credit card, please enter 1.\n" +
+                "If you wish to pay by credit card, please enter 1.\n" +
+                "Cancel please enter c.");
+        String userInput = scanner.nextLine();
+        //Credit Card Payment
+        if(userInput.equals("1")){return payWithCreditCard();
+            //Gift Card Payment
+        }else if(userInput.equals("2")){return payWithGiftCard();
+            //Cancel
+        }else if(userInput.equalsIgnoreCase("c")){return false;}
+        //Invalid Input
+        System.out.println("Invalid Input.");
+        return askHowtoPay();
+    }
+
+     /**
      * Runs payment by credit card
      * @return true if payment successful, else returns false
-    */
+     */
     public boolean payWithCreditCard() {
+        // Scanner object
+        Scanner userinput = new Scanner(System.in);
         // Get credit card details
         String cardName = null;
         String cardNum = null;
@@ -620,9 +670,15 @@ public class CustomerInterface {
         if (usePreSavedCardDetails()) {
             cardName = this.customer.getCreditCardName();
             cardNum = this.customer.getCreditCardNum();
+            // User Input Card Details
         } else {
-            cardNum = inputCreditCardNumber();
-            cardName = inputCreditCardName();
+            // Card Number Input
+            cardNum = PasswordField.readPassword("Enter you card number: ");
+            // Name on Card Input
+            //cardName = inputCreditCardName()
+            // Feel free to replace below with above if you want
+            System.out.println("Please enter the name on your credit card:");
+            cardName = userinput.nextLine();
         }
         // Check if details are valid
         if (Crud.is_creditCard_valid(cardName, cardNum)) {
@@ -640,6 +696,35 @@ public class CustomerInterface {
         System.out.println("Sorry, those credit card details are invalid");
         return false;
     }
+//    /**
+//     * TODO: Receives the user's credit card name and number from input
+//     * @return credit card number and name
+//    */
+//    //
+//    public String inputCreditCardNumber() {
+//        return PasswordField.readPassword("Enter password: ");
+//    }
+
+//    /**
+//     * Receives the user's credit card name and number from input
+//     * @return credit card number and name
+//    */
+//    public String inputCreditCardName() {
+//        Scanner userIn = new Scanner(System.in);
+//        System.out.println("Please enter the name on your credit card:");
+//        return userIn.nextLine();
+//    }
+
+    /**
+     * Runs payment by gift card
+     * @return true if payment successful, else returns false
+     */
+    public boolean payWithGiftCard(){
+        return true;
+    }
+
+
+
 
     /**
      * TODO: Receives the user's credit card name and number from input
@@ -700,4 +785,25 @@ public class CustomerInterface {
         return false; // details not saved
     }
 
+    /**
+     * Calculate total amount of Tickests
+     * suppose children*0.5, concession*0.75, adult*1
+     * Bronze: $10, Silver: $15, Golden: $20
+     */
+    public float Calculate_total_amount(int adult, int children, int concession, MovieViewing MV ){
+
+        if(MV.getScreenSize().equalsIgnoreCase("Bronze")){
+            double total_cost = (float) adult * 10 + children * 10 * 0.5 + concession * 10 * 0.75;
+            return (float) total_cost;
+        }
+        if(MV.getScreenSize().equalsIgnoreCase("Silver")){
+            double total_cost = (float) adult * 15 + children * 15 * 0.5 + concession * 15 * 0.75;
+            return (float) total_cost;
+        }
+        if(MV.getScreenSize().equalsIgnoreCase("Golden")){
+            double total_cost = (float) adult * 20 + children * 20 * 0.5 + concession * 20 * 0.75;
+            return (float) total_cost;
+        }
+        return -1;
+    }
 }
