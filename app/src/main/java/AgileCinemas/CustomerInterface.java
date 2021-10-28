@@ -554,29 +554,20 @@ public class CustomerInterface {
                 }
                 //upload the booking detail
 
-                System.out.println("What payment method you want to use?");
-                System.out.println("Type 1: CreditCard");
-                System.out.println("Type 2: gift Card");
-                System.out.println("Type c: Cancel");
-                String ans = userIn.nextLine();
+//                System.out.println("What payment method you want to use?");
+//                System.out.println("Type 1: CreditCard");
+//                System.out.println("Type 2: gift Card");
+//                System.out.println("Type c: Cancel");
+//                String ans = userIn.nextLine();
+
                 float cost = 0;
-                if(ans.equalsIgnoreCase("1")){
-                    boolean whether_success = payWithCreditCard();
-                    if(whether_success == true){
-                        cost = Calculate_total_amount(adult,children,concession,choosen_movie);
-                        Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",0,0,a);
-                    }else{
-                        System.out.println("Transaction Failed");
-                        transaction_status = "fail";
-                        Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
-                        return 2;
-                    }
-                }
-                if(ans.equalsIgnoreCase("2")){
-                    //Pay with gift card
-                }
-                if(ans.equalsIgnoreCase("c")){
-                    System.out.println("Transaction Failed");
+                boolean whether_success = askHowtoPay();
+
+                if(whether_success){
+                    cost = Calculate_total_amount(adult,children,concession,choosen_movie);
+                    Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",0,0,a);
+                }else{
+                    System.out.println("Transaction Failed.");
                     transaction_status = "fail";
                     Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
                     return 2;
