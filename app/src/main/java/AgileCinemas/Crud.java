@@ -316,6 +316,58 @@ public class Crud {
         // Zero is used to represent false
     }
 
+    // TODO INSERT TRANSACTION DATA
+    public static boolean addTransaction(String username, float total_amount, String transaction_status,
+                                            int viewing_id, int child_tickets, int concession_tickets, int adult_tickets,
+                                            String payment_type, int is_cancelled, int is_idle, String seat_position, String cancel_reason){
+        boolean status = false;
+        int total_tickets = child_tickets + concession_tickets + adult_tickets;
+
+        Connection conn = null;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String insert_query = "INSERT INTO cinemas.dbo.transactions " +
+                    "(customer_username, Total_Amount, Transaction_Status, Viewing_ID, " +
+                    "Number_Child_Tickets, Number_Concession_Tickets, Number_Adult_Tickets, Total_Number_Tickets, " +
+                    "Payment_Type, Is_Cancelled, Is_Idle, Seat_Position, cancel_reason, insert_date) " +
+                    "VALUES ('" + username +
+                    "', " + total_amount +
+                    ", '" + transaction_status +
+                    "', " + viewing_id +
+                    ", " + child_tickets +
+                    ", " + concession_tickets +
+                    ", " + adult_tickets +
+                    ", " + total_tickets +
+                    ", '" + payment_type +
+                    "', " + is_cancelled +
+                    ", " + is_idle +
+                    ", '" + seat_position +
+                    "', '" + cancel_reason +
+                    "', CURRENT_TIMESTAMP)";
+
+            statement.executeUpdate(insert_query);
+            // Return True Status Due to Update Executing Successfully
+            status = true;
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return status;
+        // Zero is used to represent false
+    }
+
+
 
     // TODO Return Last Transaction ID - i.e ticket_id
     public static int last_transactionID(String table_name){

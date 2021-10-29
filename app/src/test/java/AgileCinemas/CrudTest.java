@@ -84,7 +84,13 @@ public class CrudTest {
                 0, 0, "middle"));
     }
 
-
+    // TODO INSERT TRANSACTION DATA
+    @Test
+    public void addnew_transaction(){
+        assertTrue(Crud.addTransaction("Pauly601", 21, "active",
+                2, 0, 1, 0, "credit card",
+                0, 0, "middle", "None"));
+    }
 
     // TODO Create Method to Insert New Viewings
     @Test //DEBUG
@@ -113,6 +119,15 @@ public class CrudTest {
         assertTrue(Crud.checkUsernameExist("rachela"));
     }
 
+    @Test
+    public void createnewUser(){
+        if(Crud.checkUsernameExist("redken")){
+            assertTrue(Crud.checkUsernameExist("redken"));
+        }
+        else{
+            Crud.create_new_user("redken", "hair");
+        }
+    }
     @Test
     public void usernameNotExist() {
         assertFalse(Crud.checkUsernameExist("guestuser"));
