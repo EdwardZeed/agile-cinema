@@ -120,6 +120,15 @@ public class CrudTest {
     }
 
     @Test
+    public void createnewUser(){
+        if(Crud.checkUsernameExist("redken")){
+            assertTrue(Crud.checkUsernameExist("redken"));
+        }
+        else{
+            Crud.create_new_user("redken", "hair");
+        }
+    }
+    @Test
     public void usernameNotExist() {
         assertFalse(Crud.checkUsernameExist("guestuser"));
     }
