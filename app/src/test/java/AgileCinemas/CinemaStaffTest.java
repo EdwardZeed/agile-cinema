@@ -97,6 +97,8 @@ public class CinemaStaffTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         assertTrue(CinemaStaff.addSession());
+        Crud.del_row("viewings");
+
     }
 
 
