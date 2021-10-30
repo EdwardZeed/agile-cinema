@@ -3,6 +3,34 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Crud {
+    //TODO Delete Added Row
+
+    public static void del_row(String tablename){
+        Connection conn = null;
+        try {
+
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String del_query = "DELETE FROM cinemas.dbo." + tablename + " WHERE id = " +
+                    "(SELECT TOP 1 id FROM cinemas.dbo." + tablename +  " ORDER BY id DESC);";
+            statement.executeUpdate(del_query);
+
+        }
+        catch (SQLException e){
+            throw new Error("Problem", e);
+        } finally {
+            try{
+                if (conn!=null){
+                    conn.close();
+                }
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+
     // TODO Retrieve Credit Card Number for Pre Filled User
     public static String prefilled_customer_creditcard(String username){
         Connection conn = null;
