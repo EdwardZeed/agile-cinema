@@ -580,12 +580,17 @@ public class CustomerInterface {
                 }
                 //upload the booking detail
                 float cost = 0;
-                boolean whether_success = askHowtoPay(scan);
+                int whether_success = askHowtoPay(scan);
 
-                if(whether_success){
+                if(whether_success == 1){
                     cost = Calculate_total_amount(adult,children,concession,choosen_movie);
                     Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",0,0,a);
-                }else{
+                }
+                else if (whether_success == 2){
+                    cost = Calculate_total_amount(adult,children,concession,choosen_movie);
+                    Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"gift card",0,0,a);
+                }
+                else{
                     System.out.println("Transaction Failed.");
                     transaction_status = "fail";
                     Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
@@ -606,6 +611,7 @@ public class CustomerInterface {
                     //log out
                     return 2;
                 }
+
                 System.out.println("Please enter a valid number");
             }
         }
@@ -657,18 +663,23 @@ public class CustomerInterface {
      * Ask for payment methods
      * @return true if user paid successfully by any methods, return false if user wish to cancel.
      */
-    public boolean askHowtoPay(Scanner scan){
+    public int askHowtoPay(Scanner scan){
 
         System.out.println( "If you wish to pay by credit card, please enter 1.\n" +
                 "If you wish to pay by gift card, please enter 2.\n" +
                 "Cancel please enter c.");
         String userInput = checkTimeOut(scan);
         //Credit Card Payment
-        if(userInput.equals("1")){return payWithCreditCard(scan);
+        if(userInput.equals("1")){
+            this.payWithCreditCard(scan);
+            return 1;
             //Gift Card Payment
-        }else if(userInput.equals("2")){return payWithGiftCard(scan);
+        }else if(userInput.equals("2")){
+            this.payWithGiftCard(scan);
+            return 2;
+
             //Cancel
-        }else if(userInput.equalsIgnoreCase("c")){return false;}
+        }else if(userInput.equalsIgnoreCase("c")){return -1;}
         //Invalid Input
         System.out.println("Invalid Input.");
         return askHowtoPay(scan);
@@ -748,6 +759,7 @@ public class CustomerInterface {
                 return false;
             }
         }
+//        Crud.redeemGiftCard(cardNumber);
         System.out.println("Success! You have purchased your tickets!");
         return true;
     }
