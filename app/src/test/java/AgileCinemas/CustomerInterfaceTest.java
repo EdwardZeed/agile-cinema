@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class CustomerInterfaceTest {
 
@@ -159,6 +160,25 @@ public class CustomerInterfaceTest {
         CustomerInterface testCI = new CustomerInterface();
         assertTrue(testCI.displayMovies());
     }
+
+    @Test
+    public void testSignUp(){
+        CustomerInterface CI = new CustomerInterface();
+        InputStream test1 = new ByteArrayInputStream("EdwardHimself\nN".getBytes());
+        System.setIn(test1);
+
+        assertFalse(CI.signUp());
+
+    }
+
+    @Test
+    public void testInputCreditCardName(){
+        CustomerInterface CI = new CustomerInterface();
+        Scanner scan = new Scanner("Charles");
+        assertEquals("charles", CI.inputCreditCardName(scan));
+    }
+
+
 
 
 }
