@@ -66,9 +66,9 @@ public class CinemaStaff {
         return true;
     }
     
-    public static boolean enterGiftCard(GiftCard giftCard) {
-        return false;
-    }
+    // public static boolean enterGiftCard(GiftCard giftCard) {
+    //     return false;
+    // }
     
     // public static void reportUpcomingShows() {}
     

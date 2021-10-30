@@ -16,6 +16,10 @@ public class StaffInterface {
     public CinemaStaff getStaff() { return this.staff; }
     public Manager getManager() { return this.manager; }
 
+    // Setters
+    public void setStaff(CinemaStaff staff) { this.staff = staff; }
+    public void setManager(Manager manager) { this.manager = manager; }
+
     /*
      * Staff Interface (Used by both managers and normal staff)
      */
@@ -116,7 +120,12 @@ public class StaffInterface {
         System.out.println("Exit the staff system         type any other key");
         // Get user input
         Scanner userIn = new Scanner(System.in);
-        return userIn.nextLine();
+        String choice = userIn.nextLine();
+        // Change input if non-manager chose manager options
+        if (this.manager == null && (choice.equals("6") || choice.equals("7"))) {
+            choice = " ";
+        }
+        return choice;
     }
 
 

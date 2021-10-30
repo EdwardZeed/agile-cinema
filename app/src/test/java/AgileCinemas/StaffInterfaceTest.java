@@ -17,16 +17,6 @@ public class StaffInterfaceTest {
         assertNotNull(new StaffInterface());
     }
 
-    // /** 
-    //  * runStaffInterface() test
-    //  *   staffInterfaceCanRun - check interface has a run method and prints out correct message
-    // */
-    // @Test 
-    // public void staffInterfaceCanRun() {
-    //     StaffInterface test = new StaffInterface();
-    //     assertTrue(test.runStaffInterface());
-    // }
-
     /** 
      * welcomeScreen() test
      *   welcomeScreenTest: Check staff interface has a welcome message
@@ -106,6 +96,127 @@ public class StaffInterfaceTest {
         assertTrue(test.logIn());
         assertNull(test.getStaff());
         assertNotNull(test.getManager());
+    }
+
+    /** 
+     * chooseAction() test
+     *   chooseAddMovie: Check 1 is returned when staff/manager enters 1 to indicate they wish to add a movie
+     *   chooseDeleteMovie: Check 2 is returned when staff/manager enters 2 to indicate they wish to delete a movie
+     *   chooseModifyMovie: Check 3 is returned when staff/manager enters 3 to indicate they wish to modify a movie
+     *   chooseAddSession: Check 4 is returned when staff/manager enters 4 to indicate they wish to add a movie session
+     *   chooseEnterGiftCard: Check 5 is returned when staff/manager enters 5 to indicate they wish to add a gift card into the database
+     *   chooseAddStaff: Check 6 is returned when a manager enters 6 to indicate they wish to add a staff member
+     *   chooseRemoveStaff: Check 7 is returned when a manager enters 7 to indicate they wish to remove a staff member
+     *   notManagerChooseAddStaff: Check " " is returned when a non-manager enters 6
+     *   notManagerRemoveStaff: Check " " is returned when a non-manager enters 7
+     *   chooseExit: Check input is returned when staff/manager enters any other key to indicate they wish to exit the system
+    */
+    @Test
+    public void chooseAddMovie() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        test.setManager(new Manager("1636"));
+        String input = "1";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("1", test.chooseAction());
+    }
+
+    @Test
+    public void chooseDeleteMovie() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        test.setManager(new Manager("1636"));
+        String input = "2";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("2", test.chooseAction());
+    }
+
+    @Test
+    public void chooseModifyMovie() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        test.setManager(new Manager("1636"));
+        String input = "3";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("3", test.chooseAction());
+    }
+
+    @Test
+    public void chooseAddSession() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        test.setManager(new Manager("1636"));
+        String input = "4";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("4", test.chooseAction());
+    }
+
+    @Test
+    public void chooseEnterGiftCard() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        test.setManager(new Manager("1636"));
+        String input = "5";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("5", test.chooseAction());
+    }
+
+    @Test
+    public void chooseAddStaff() {
+        StaffInterface test = new StaffInterface();
+        test.setManager(new Manager("1636"));
+        String input = "6";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("6", test.chooseAction());
+    }
+
+    @Test
+    public void chooseRemoveStaff() {
+        StaffInterface test = new StaffInterface();
+        test.setManager(new Manager("1636"));
+        String input = "7";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("7", test.chooseAction());
+    }
+
+    @Test
+    public void notManagerChooseAddStaff() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        String input = "6";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals(" ", test.chooseAction());
+    }
+
+    
+    @Test
+    public void notManagerRemoveStaff() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        String input = "7";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals(" ", test.chooseAction());
+    }
+    
+
+    @Test
+    public void chooseExit() {
+        StaffInterface test = new StaffInterface();
+        test.setStaff(new CinemaStaff("1234"));
+        test.setManager(new Manager("1636"));
+        String input = "fjdkslfjd";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals("fjdkslfjd", test.chooseAction());
     }
 
 
