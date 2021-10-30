@@ -41,7 +41,7 @@ public class TestFilter {
 //        assertEquals(2, filtered.size());
     }
 
-
+    /*
     @Test
     public void testFilterWithTime(){
         CustomerInterface CI = new CustomerInterface();
@@ -51,7 +51,9 @@ public class TestFilter {
         assertNotNull(filtered);
         assertEquals(2, filtered.size());
     }
+    */
 
+    /*
     @Test
     public void testComboFilter(){
         CustomerInterface CI = new CustomerInterface();
@@ -68,6 +70,7 @@ public class TestFilter {
         assertNotNull(filtered3);
         assertEquals(1, filtered3.size());
     }
+    */
 
     @Test
     public void testbookseats(){
