@@ -29,6 +29,8 @@
       * Gradle higher than 7.0.0
     
     * By using 'gradle run -console pain' in the terminal. 
+    
+    * To enter the staff interface, please enter staff number 12345 then input 1234 as staff key.
   
   * How to do testing.
     * Make testcases by using Junit. The test file should follow the rules of Junit.
