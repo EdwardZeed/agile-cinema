@@ -1,11 +1,142 @@
 package AgileCinemas;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Crud {
-    //TODO Delete Added Row
+    //TODO Create Method to Retrieve Transaction Data
 
-    public static void del_row(String tablename){
+    //TODO Create Method to Retrieve all Upcoming Viewing Data: This was done in getViewings Method
+
+    //TODO Update Gift Card from not redeemed, to redeemed
+    public static void changeGiftCardStatustoRedeemed(String giftcard){
+        // 1 Means True. i.e. the gift card has been redeemed and IS NO LONGER ABLE TO BE USED
+        // 0 Means False i.e. the gift card has not been redeemed and CAN STILL BE USED
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String alterGiftCard_query = "UPDATE cinemas.dbo.gift_cards " +
+                    "SET IS_REDEEMED = '1' " +
+                    "WHERE Card_Number LIKE '" + giftcard + "'";
+            statement.executeUpdate(alterGiftCard_query);
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    //TODO Create Method to Remove Staff
+    public static void delStaff(String staffID){
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String delStaffQuery = "DELETE FROM cinemas.dbo.staff " +
+                    "WHERE id = " + staffID;
+
+            statement.executeUpdate(delStaffQuery);
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+
+    //TODO Create Method to Add Staff
+    public static void addStaff(String staffID){
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String addStaffQuery = "SET IDENTITY_INSERT cinemas.dbo.staff ON; " +
+                    "INSERT INTO cinemas.dbo.staff (id, IS_ACTIVE, IS_MANAGER) " +
+                    "VALUES ('" + staffID + "', '1', '0');";
+
+            statement.executeUpdate(addStaffQuery);
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+
+    //TODO Create Method to Make a Staff Inactive
+    public static void makeStaffInactive(String staffID){
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String alterStaffID_query = "UPDATE cinemas.dbo.staff " +
+                    "SET IS_ACTIVE = '0' " +
+                    "WHERE id = '" + staffID + "'";
+
+            statement.executeUpdate(alterStaffID_query);
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+
+    //TODO Create Method to Insert New Gift Card to Database
+    public static void new_giftCard(String new_card_number) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String insert_query = "INSERT INTO cinemas.dbo.gift_cards (Card_Number, IS_REDEEMED)" +
+                    " VALUES ('" + new_card_number + "', '0')";
+
+            statement.executeUpdate(insert_query);
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+    }
+    //TODO Delete Added Row
+    public static void del_row(String tablename) {
         Connection conn = null;
         try {
 
@@ -13,18 +144,17 @@ public class Crud {
             Statement statement = conn.createStatement();
 
             String del_query = "DELETE FROM cinemas.dbo." + tablename + " WHERE id = " +
-                    "(SELECT TOP 1 id FROM cinemas.dbo." + tablename +  " ORDER BY id DESC);";
+                    "(SELECT TOP 1 id FROM cinemas.dbo." + tablename + " ORDER BY id DESC);";
             statement.executeUpdate(del_query);
 
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -32,7 +162,7 @@ public class Crud {
 
 
     // TODO Retrieve Credit Card Number for Pre Filled User
-    public static String prefilled_customer_creditcard(String username){
+    public static String prefilled_customer_creditcard(String username) {
         Connection conn = null;
         ResultSet resultSet = null;
         String result = null;
@@ -45,19 +175,18 @@ public class Crud {
                     "WHERE user_name LIKE '%s'";
             resultSet = statement.executeQuery(String.format(queryStatement, username));
             // Print Result
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 result = resultSet.getString(1);
             }
 
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -66,7 +195,7 @@ public class Crud {
     }
 
     // TODO Retrieve Name for that Credit Card Number
-    public static String name_for_cardNumber(String card_number){
+    public static String name_for_cardNumber(String card_number) {
         Connection conn = null;
         ResultSet resultSet = null;
         String result;
@@ -80,19 +209,18 @@ public class Crud {
                     "WHERE card_number LIKE '%s'";
             resultSet = statement.executeQuery(String.format(queryStatement, card_number));
             // Print Result
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 result = resultSet.getString(1);
             }
 
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -102,7 +230,7 @@ public class Crud {
 
     // TODO Check Credit Card Provided is Valid
 
-    public static boolean is_creditCard_valid(String name, String card_number){
+    public static boolean is_creditCard_valid(String name, String card_number) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -116,24 +244,22 @@ public class Crud {
             resultSet = statement.executeQuery(String.format(creditCardExistsQuery, name, card_number));
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 1){
+            if (i == 1) {
                 is_valid = true;
-            }
-            else{
+            } else {
                 is_valid = false;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -143,7 +269,7 @@ public class Crud {
 
     // TODO Check Gift Card Provided is Valid
 
-    public static boolean is_giftCard_exist(String card_number){
+    public static boolean is_giftCard_exist(String card_number) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -157,24 +283,22 @@ public class Crud {
             resultSet = statement.executeQuery(String.format(giftCardExistsQuery, card_number));
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 1){
+            if (i == 1) {
                 is_valid = true;
-            }
-            else{
+            } else {
                 is_valid = false;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -184,7 +308,7 @@ public class Crud {
 
     // TODO Check Gift Card Provided is Redeemable
 
-    public static boolean hasGiftCardbeenRedeemed(String card_number){
+    public static boolean hasGiftCardbeenRedeemed(String card_number) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -198,24 +322,22 @@ public class Crud {
             resultSet = statement.executeQuery(giftCardRedeemableQuery);
             // Print Result
             int i = 1;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 0){
+            if (i == 0) {
                 is_valid = false;
-            }
-            else{
+            } else {
                 is_valid = true;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -224,7 +346,7 @@ public class Crud {
     }
 
     // TODO Check if Customer has CREDIT CARD Stored
-    public static boolean customerContains_creditCard(String username){
+    public static boolean customerContains_creditCard(String username) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -239,24 +361,22 @@ public class Crud {
             resultSet = statement.executeQuery(String.format(customerHasCreditCard, username));
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 1){
+            if (i == 1) {
                 is_valid = true;
-            }
-            else{
+            } else {
                 is_valid = false;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -265,7 +385,7 @@ public class Crud {
     }
 
     // TODO INSERT CREDIT CARD Details TO CUSTOMER
-    public static boolean saveCreditCard(String username, String card_number){
+    public static boolean saveCreditCard(String username, String card_number) {
         boolean status = false;
         Connection conn = null;
         try {
@@ -279,75 +399,24 @@ public class Crud {
             statement.executeUpdate(String.format(saveCardtoCustomer, card_number, username));
             // Print Result
             status = true;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
         return status;
-    }
-
-    // TODO INSERT TRANSACTION DATA
-    public static boolean insertTransaction(String username, float total_amount, String transaction_status,
-    int viewing_id, int child_tickets, int concession_tickets, int adult_tickets,
-                                            String payment_type, int is_cancelled, int is_idle, String seat_position){
-        boolean status = false;
-        int total_tickets = child_tickets + concession_tickets + adult_tickets;
-
-        Connection conn = null;
-        try {
-            // Connect to DB
-            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
-            Statement statement = conn.createStatement();
-            // Create and Run Query
-            String insert_query = "INSERT INTO cinemas.dbo.transactions " +
-                    "(customer_username, Total_Amount, Transaction_Status, Viewing_ID, " +
-                    "Number_Child_Tickets, Number_Concession_Tickets, Number_Adult_Tickets, Total_Number_Tickets, " +
-                    "Payment_Type, Is_Cancelled, Is_Idle, Seat_Position, insert_date) " +
-                    "VALUES ('" + username +
-                    "', " + total_amount +
-                    ", '" + transaction_status +
-                    "', " + viewing_id +
-                    ", " + child_tickets +
-                    ", " + concession_tickets +
-                    ", " + adult_tickets +
-                    ", " + total_tickets +
-                    ", '" + payment_type +
-                    "', " + is_cancelled +
-                    ", " + is_idle +
-                    ", '" + seat_position +
-                    "', CURRENT_TIMESTAMP)";
-
-            statement.executeUpdate(insert_query);
-            // Return True Status Due to Update Executing Successfully
-            status = true;
-        }
-        catch (SQLException e){
-            throw new Error("Problem", e);
-        } finally {
-            try{
-                if (conn!=null){
-                    conn.close();
-                }
-            } catch (SQLException ex){
-                System.out.println(ex.getMessage());
-            }
-        }
-        return status;
-        // Zero is used to represent false
     }
 
     // TODO INSERT TRANSACTION DATA
     public static boolean addTransaction(String username, float total_amount, String transaction_status,
-                                            int viewing_id, int child_tickets, int concession_tickets, int adult_tickets,
-                                            String payment_type, int is_cancelled, int is_idle, String seat_position, String cancel_reason){
+                                         int viewing_id, int child_tickets, int concession_tickets, int adult_tickets,
+                                         String payment_type, int is_cancelled, String seat_position, String cancel_reason) {
         boolean status = false;
         int total_tickets = child_tickets + concession_tickets + adult_tickets;
 
@@ -360,7 +429,7 @@ public class Crud {
             String insert_query = "INSERT INTO cinemas.dbo.transactions " +
                     "(customer_username, Total_Amount, Transaction_Status, Viewing_ID, " +
                     "Number_Child_Tickets, Number_Concession_Tickets, Number_Adult_Tickets, Total_Number_Tickets, " +
-                    "Payment_Type, Is_Cancelled, Is_Idle, Seat_Position, cancel_reason, insert_date) " +
+                    "Payment_Type, Is_Cancelled, Seat_Position, cancel_reason, insert_date) " +
                     "VALUES ('" + username +
                     "', " + total_amount +
                     ", '" + transaction_status +
@@ -371,7 +440,6 @@ public class Crud {
                     ", " + total_tickets +
                     ", '" + payment_type +
                     "', " + is_cancelled +
-                    ", " + is_idle +
                     ", '" + seat_position +
                     "', '" + cancel_reason +
                     "', CURRENT_TIMESTAMP)";
@@ -379,15 +447,14 @@ public class Crud {
             statement.executeUpdate(insert_query);
             // Return True Status Due to Update Executing Successfully
             status = true;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -396,9 +463,8 @@ public class Crud {
     }
 
 
-
     // TODO Return Last Transaction ID - i.e ticket_id
-    public static int last_transactionID(String table_name){
+    public static int last_transactionID(String table_name) {
         // Use "transactions" in app.
         // Use "transactions_test" in test cases.
         Connection conn = null;
@@ -413,19 +479,18 @@ public class Crud {
             resultSet = statement.executeQuery(String.format(retrieve_lastRow, table_name));
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
             result = i;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -435,7 +500,7 @@ public class Crud {
 
 
     // TODO Check if Staff ID is Valid
-    public static boolean is_staffID_valid(String staff_id){
+    public static boolean is_staffID_valid(String staff_id) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -450,24 +515,22 @@ public class Crud {
             resultSet = statement.executeQuery(String.format(doesStaffIDExist, id));
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 1){
+            if (i == 1) {
                 is_valid = true;
-            }
-            else{
+            } else {
                 is_valid = false;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -476,7 +539,7 @@ public class Crud {
     }
 
     // TODO Check if Staff ID is Active
-    public static boolean isStaffActive(String staffID){
+    public static boolean isStaffActive(String staffID) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -487,28 +550,26 @@ public class Crud {
             Statement statement = conn.createStatement();
             // Create and Run Query
             String isStaffActiveQuery = "SELECT IS_ACTIVE FROM cinemas.dbo.staff " +
-                    "WHERE ID = '%d'";
-            resultSet = statement.executeQuery(String.format(isStaffActiveQuery, id));
+                    "WHERE ID = '" + staffID + "'";
+            resultSet = statement.executeQuery(isStaffActiveQuery);
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 1){
+            if (i == 1) {
                 is_valid = true;
-            }
-            else{
+            } else {
                 is_valid = false;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -517,7 +578,7 @@ public class Crud {
     }
 
     // TODO Check if Staff IS is Manager
-    public static boolean isManager(String staffID){
+    public static boolean isManager(String staffID) {
         Connection conn = null;
         ResultSet resultSet = null;
         boolean is_valid = false;
@@ -532,24 +593,22 @@ public class Crud {
             resultSet = statement.executeQuery(String.format(isManagerQuery, id));
             // Print Result
             int i = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 i = Integer.parseInt(resultSet.getString(1));
             }
-            if(i == 1){
+            if (i == 1) {
                 is_valid = true;
-            }
-            else{
+            } else {
                 is_valid = false;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -559,7 +618,7 @@ public class Crud {
 
     // TODO Create Method to Insert New Viewings
     public static boolean add_newViewing(int movieID, String location, String weekday, String sessionTime,
-                                         String ScreenType, int backseats, int middleseats, int frontseats){
+                                         String ScreenType, int backseats, int middleseats, int frontseats) {
         boolean status = false;
 
         Connection conn = null;
@@ -585,15 +644,14 @@ public class Crud {
             statement.executeUpdate(insert_query);
             // Return True Status Due to Update Executing Successfully
             status = true;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -602,7 +660,7 @@ public class Crud {
     }
 
     // TODO Alter Viewings Table Based On Transaction (Seats Available)
-    public static boolean alter_viewing_seats(int viewing_id, int seats, String seats_type){
+    public static boolean alter_viewing_seats(int viewing_id, int seats, String seats_type) {
         boolean status = false;
         Connection conn = null;
         //seats_type can be either front, middle or back
@@ -618,32 +676,19 @@ public class Crud {
             statement.executeUpdate(updateViewings);
             // Print Result
             status = true;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
         return status;
 
-    }
-
-    // TODO
-    public static ArrayList<String> getViewingLocations() {
-        // Access database
-        return null;
-    }
-
-    // TODO
-    public static ArrayList<Movie> getMoviesShowing() {
-        // Access database
-        return null;
     }
 
     // TODO
@@ -664,9 +709,9 @@ public class Crud {
 
             resultSet = statement.executeQuery(sql);
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Movie movie = new Movie(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
-                MovieViewing mv = new MovieViewing(resultSet.getInt(15), movie, resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getString(11),resultSet.getInt(12),resultSet.getInt(13),resultSet.getInt(14));
+                MovieViewing mv = new MovieViewing(resultSet.getInt(15), movie, resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getString(11), resultSet.getInt(12), resultSet.getInt(13), resultSet.getInt(14));
                 sessions.add(mv);
             }
 
@@ -688,81 +733,79 @@ public class Crud {
 
     /**
      * Queries whether the given username is in the database
+     *
      * @param username given username to query with database
      * @return true if username found, otherwise false
-    */
-    public static boolean checkUsernameExist(String username){
+     */
+    public static boolean checkUsernameExist(String username) {
         Connection conn = null;
-		ResultSet resultSet = null;
-		int result = 0;
-		boolean captain;
-		try {
-			// Connect to DB
-			conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
-			Statement statement = conn.createStatement();
-			// Create and Run Query
-			//String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s'";
-			String check_username = "Select COUNT(*) from cinemas.dbo.customers where user_name LIKE " + "'" +
+        ResultSet resultSet = null;
+        int result = 0;
+        boolean captain;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            //String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s'";
+            String check_username = "Select COUNT(*) from cinemas.dbo.customers where user_name LIKE " + "'" +
                     username + "'" + ";";
-			resultSet = statement.executeQuery(check_username);
-			// Print Result
-			while(resultSet.next()) {
-			    int i = Integer.parseInt(resultSet.getString(1));
-			    result = i;
-			}
-			if(result == 1){
-			    captain = true;
+            resultSet = statement.executeQuery(check_username);
+            // Print Result
+            while (resultSet.next()) {
+                int i = Integer.parseInt(resultSet.getString(1));
+                result = i;
             }
-			else{
-			    captain = false;
+            if (result == 1) {
+                captain = true;
+            } else {
+                captain = false;
             }
-		}
-		catch (SQLException e){
-			throw new Error("Problem", e);
-		} finally {
-			try{
-				if (conn!=null){
-					conn.close();
-				}
-			} catch (SQLException ex){
-				System.out.println(ex.getMessage());
-			}
-		}
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
         return captain;
     }
 
     //Check arg(password) with database, return false if not exit, otherwise return true.
-    public static boolean checkPasswordWithUsername(String username, String password){
+    public static boolean checkPasswordWithUsername(String username, String password) {
         Connection conn = null;
-		ResultSet resultSet = null;
-		String result = null;
-		try {
-			// Connect to DB
-			conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
-			Statement statement = conn.createStatement();
-			// Create and Run Query
-			String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s' AND password = '%s'";
-			resultSet = statement.executeQuery(String.format(usernameExistQuery, username, password));
-			// Print Result
-			while(resultSet.next()) {
-				result = resultSet.getString(1); // null is doesn't exist
-			}
-		}
-		catch (SQLException e){
-			throw new Error("Problem", e);
-		} finally {
-			try{
-				if (conn!=null){
-					conn.close();
-				}
-			} catch (SQLException ex){
-				System.out.println(ex.getMessage());
-			}
-		}
+        ResultSet resultSet = null;
+        String result = null;
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+            // Create and Run Query
+            String usernameExistQuery = "SELECT user_name FROM cinemas.dbo.customers WHERE user_name = '%s' AND password = '%s'";
+            resultSet = statement.executeQuery(String.format(usernameExistQuery, username, password));
+            // Print Result
+            while (resultSet.next()) {
+                result = resultSet.getString(1); // null is doesn't exist
+            }
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
         return (result != null); // non-null if username + password found, else is null
     }
 
-    public static void create_new_user(String username, String password){
+    public static void create_new_user(String username, String password) {
         Connection conn = null;
         try {
             // Connect to DB
@@ -772,15 +815,14 @@ public class Crud {
             String insert_new_User = "INSERT INTO cinemas.dbo.customers (user_name, password) " +
                     "VALUES ( '" + username + "', '" + password + "');";
             statement.executeUpdate(insert_new_User);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
-            try{
-                if (conn!=null){
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
