@@ -5,7 +5,41 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
 
+    //TODO Create Method to Retrieve all Upcoming Viewing Data?? IS THIS NOT ALREADY DONE?
 
+    //TODO Tests Update Gift Card from not redeemed, to redeemed
+    @Test
+    public void giftCardHasBeenRedeemed(){
+        Crud.new_giftCard("1000001000000002GC");
+        assertFalse(Crud.hasGiftCardbeenRedeemed("1000001000000002GC"));
+        Crud.changeGiftCardStatustoRedeemed("1000001000000002GC");
+        assertTrue(Crud.hasGiftCardbeenRedeemed("1000001000000002GC"));
+        Crud.del_row("gift_cards");
+
+    }
+
+    //TODO CRUD Methods to Create, Change Status and Delete Staff Member
+    @Test
+    public void crudStaff(){
+        Crud.addStaff("1985");
+        assertTrue(Crud.is_staffID_valid("1985"));
+        assertTrue(Crud.isStaffActive("1985"));
+        Crud.makeStaffInactive("1985");
+        assertFalse(Crud.isStaffActive("1985"));
+        Crud.delStaff("1985");
+        assertFalse(Crud.is_staffID_valid("1985"));
+    }
+
+
+
+    //TODO Create Method to Insert New Gift Card to Database
+    @Test
+    public void insertGiftCard() {
+        Crud.new_giftCard("1000001000000002GC");
+        assertTrue(Crud.is_giftCard_exist("1000001000000002GC"));
+        assertFalse(Crud.hasGiftCardbeenRedeemed("1000001000000002GC"));
+        Crud.del_row("gift_cards");
+    }
     
     // TODO TEST:
     //TODO Check correct name against card number
@@ -78,19 +112,10 @@ public class CrudTest {
 
     // TODO INSERT TRANSACTION DATA
     @Test
-    public void insertnew_transaction(){
-        assertTrue(Crud.insertTransaction("Pauly601", 21, "active",
-                2, 0, 1, 0, "credit card",
-                0, 0, "middle"));
-        Crud.del_row("transactions");
-    }
-
-    // TODO INSERT TRANSACTION DATA
-    @Test
     public void addnew_transaction(){
         assertTrue(Crud.addTransaction("Pauly601", 21, "active",
-                2, 0, 1, 0, "credit card",
-                0, 0, "middle", "None"));
+                2, 0, 1, 1, "gift card", 0,
+                "middle", "None"));
         Crud.del_row("transactions");
     }
 

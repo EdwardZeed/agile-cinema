@@ -17,7 +17,7 @@ public class CustomerInterface {
      * Constructor for the Customer Interface
      */
     public CustomerInterface() {
-        cinemaLocations = Crud.getViewingLocations(); // extract this from viewings
+        //cinemaLocations = Crud.getViewingLocations(); // extract this from viewings
         moviesShowing = null; // extract this from viewings
         viewings = Crud.getViewings();
         this.customer = null;
@@ -499,7 +499,8 @@ public class CustomerInterface {
                                 }else{
                                     System.out.println("Transaction Failed");
                                     transaction_status = "fail";
-                                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                                    Crud.addTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),
+                                            children, concession, adult,"credit card",1, a, "User Cancelled");
                                     return 2;
                                 }
                             }
@@ -528,7 +529,8 @@ public class CustomerInterface {
                                 }else{
                                     System.out.println("Transaction Failed");
                                     transaction_status = "fail";
-                                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                                    Crud.addTransaction(customer.getUsername(),0, transaction_status, choosen_movie.getId(),
+                                            children, concession, adult,"credit card",1, a, "User Cancelled");
                                     return 2;
                                 }
                             }
@@ -557,7 +559,8 @@ public class CustomerInterface {
                                 }else{
                                     System.out.println("Transaction Failed");
                                     transaction_status = "fail";
-                                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                                    Crud.addTransaction(customer.getUsername(),0, transaction_status, choosen_movie.getId(),
+                                            children, concession, adult,"credit card",1,a, "User Cancelled");
                                     return 2;
                                 }
                             }
@@ -574,7 +577,8 @@ public class CustomerInterface {
                     if(type.equalsIgnoreCase("4")){
                         System.out.println("Transaction Failed");
                         transaction_status = "fail";
-                        Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                        Crud.addTransaction(customer.getUsername(),0, transaction_status, choosen_movie.getId(),
+                                children, concession, adult,"credit card",1,a, "User Cancelled");
                         return 2;
                     }
                 }
@@ -584,16 +588,19 @@ public class CustomerInterface {
 
                 if(whether_success == 1){
                     cost = Calculate_total_amount(adult,children,concession,choosen_movie);
-                    Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",0,0,a);
+                    Crud.addTransaction(customer.getUsername(), cost, transaction_status, choosen_movie.getId(),
+                            children, concession, adult,"credit card",0, a, "Not Cancelled");
                 }
                 else if (whether_success == 2){
                     cost = Calculate_total_amount(adult,children,concession,choosen_movie);
-                    Crud.insertTransaction(customer.getUsername(),cost, transaction_status,choosen_movie.getId(),children,concession,adult,"gift card",0,0,a);
+                    Crud.addTransaction(customer.getUsername(), cost, transaction_status, choosen_movie.getId(),
+                            children, concession, adult,"gift card",0, a, "Not Cancelled");
                 }
                 else{
                     System.out.println("Transaction Failed.");
                     transaction_status = "fail";
-                    Crud.insertTransaction(customer.getUsername(),0, transaction_status,choosen_movie.getId(),children,concession,adult,"credit card",1,0,a);
+                    Crud.addTransaction(customer.getUsername(),0, transaction_status, choosen_movie.getId(),
+                            children, concession, adult,"credit card",1, a, "User Cancelled");
                     return 2;
                 }
 
