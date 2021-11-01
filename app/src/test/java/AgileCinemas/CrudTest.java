@@ -5,7 +5,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
 
-    //TODO Create Method to Retrieve all Upcoming Viewing Data?? IS THIS NOT ALREADY DONE?
+    //TODO Test Retrieval of Failed Transactions
+    @Test
+    public void canRetrieveFailedTransactions(){
+        assertTrue(Crud.cancelledTransactions().length != -1);
+    }
+
+
+    //TODO Insert Movie and Return Movie ID
+    @Test
+    public void addMovieRetrieveID(){
+        assertTrue(Crud.addNewMovie("Indiana Jones", "The Guy Sheldon Watches", "M",
+                "1978", "Stevie Spielberg", "Tony Abott") > 0);
+        Crud.del_row("movies");
+    }
 
     //TODO Tests Update Gift Card from not redeemed, to redeemed
     @Test
@@ -149,14 +162,12 @@ public class CrudTest {
 
     @Test
     public void createnewUser(){
-        if(Crud.checkUsernameExist("redken")){
-            assertTrue(Crud.checkUsernameExist("redken"));
-        }
-        else{
-            Crud.create_new_user("redken", "hair");
-            Crud.del_row("customers");
-        }
+        Crud.create_new_user("newtown", "sydney");
+        assertTrue(Crud.checkUsernameExist("newtown"));
+        assertTrue(Crud.checkPasswordWithUsername("newtown", "sydney"));
+        Crud.del_row("customers");
     }
+
     @Test
     public void usernameNotExist() {
         assertFalse(Crud.checkUsernameExist("guestuser"));

@@ -5,8 +5,111 @@ import java.util.ArrayList;
 
 public class Crud {
     //TODO Create Method to Retrieve Transaction Data
+    public static String[][] cancelledTransactions(){
+        int num_cancelled = 0;
+        Connection conn = null;
+        ResultSet resultSet = null;
+        int i = 0;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String queryNumberofCancelledTransactions = "SELECT COUNT(*) FROM cinemas.dbo.transactions WHERE IS_CANCELLED = 1;";
+            resultSet = statement.executeQuery(queryNumberofCancelledTransactions);
+
+            while (resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        //datetime, username, reasons
+        String[][] newArr = new String[i][3];
+
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String queryCancelledTransactions = "SELECT customer_username, insert_date, cancel_reason FROM cinemas.dbo.transactions WHERE Is_Cancelled = 1;";
+            resultSet = statement.executeQuery(queryCancelledTransactions);
+
+            int x = 0;
+            while (resultSet.next()) {
+                String user = resultSet.getString(1);
+                String date_time = resultSet.getString(2);
+                String cancel_reason = resultSet.getString(3);
+                newArr[x][0] = user;
+                newArr[x][1] = date_time;
+                newArr[x][2] = cancel_reason;
+                x+=1;
+            }
+
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+
+        return newArr;
+    }
 
     //TODO Create Method to Retrieve all Upcoming Viewing Data: This was done in getViewings Method
+
+    //TODO Create Method to Insert Data into Movies Table and Retrieve Movie ID for Staff to Insert into Viewings
+    public static int addNewMovie(String movie_name, String synopsis, String rating, String date_release, String director, String cast){
+        String movie_data = "'" + movie_name + "', " +
+                "'" + synopsis + "', " +
+                "'" + rating + "', " +
+                "'" + date_release + "', " +
+                "'" + director + "', " +
+                "'" + cast + "'";
+        Connection conn = null;
+        ResultSet resultSet = null;
+        int i = 0;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String addMovie = "INSERT INTO cinemas.dbo.movies (name, synopsis, rating, date_release, director, cast) " +
+                    "VALUES (" + movie_data + ");";
+            statement.executeUpdate(addMovie);
+
+            String retrieve_movieID = "SELECT TOP 1 id FROM cinemas.dbo.movies ORDER BY id DESC;";
+            resultSet = statement.executeQuery(retrieve_movieID);
+
+            while (resultSet.next()) {
+                i = Integer.parseInt(resultSet.getString(1));
+            }
+
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    return i;
+    }
 
     //TODO Update Gift Card from not redeemed, to redeemed
     public static void changeGiftCardStatustoRedeemed(String giftcard){
