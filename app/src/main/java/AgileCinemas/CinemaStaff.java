@@ -17,17 +17,20 @@ public class CinemaStaff {
     */
     public String getId() { return this.id; }
 
-    // public static boolean insertMovieData(Movie movie) {
-    //     return false;
-    // }
+    // TODO
+    public static boolean insertMovieData() {
+        return false;
+    }
     
-    // public static boolean deleteMovieData(Movie movie) {
-    //     return false;
-    // }
+    // TODO
+    public static boolean deleteMovieData() {
+        return false;
+    }
     
-    // public static boolean modifyMovieData(Movie movie) {
-    //     return false;
-    // }
+    // TODO
+    public static boolean modifyMovieData() {
+        return false;
+    }
     
     /**
      * Main method for adding a session into the database
@@ -36,6 +39,7 @@ public class CinemaStaff {
     public static boolean addSession() {
         System.out.println("Please enter the details of the session you would like to add in the format:");
         System.out.println("<movie ID>,<cinema location>,<weekday>,<time>,<screen size>,<rear seats available>,<middle seats available>,<front seats available>");
+        System.out.println("Movie ID and seats available must be positive integers; Time must be in hh:mm format; Screen size is either Bronze, Silver or Gold");
         Scanner userIn = new Scanner(System.in);
         String[] sessionDetails = userIn.nextLine().split(",");
         // Error if wrong length
@@ -66,11 +70,11 @@ public class CinemaStaff {
         return true;
     }
     
-    // public static boolean enterGiftCard(GiftCard giftCard) {
-    //     return false;
-    // }
+    public static boolean enterGiftCard() {
+        return false;
+    }
     
-    // public static void reportUpcomingShows() {}
+    public static void reportUpcomingShows() {}
     
-    // public static void reportBookings() {}
+    public static void reportBookings() {}
 }

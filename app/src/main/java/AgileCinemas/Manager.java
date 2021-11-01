@@ -6,14 +6,14 @@ public class Manager extends CinemaStaff {
         super(id);
     }
 
-    // public static boolean addCinemaStaff() {
-    //     return false;
-    // }
+    public static boolean addCinemaStaff() {
+        return false;
+    }
 
-    // public static boolean removeCinemaStaff() {
-    //     return false;
-    // }
+    public static boolean removeCinemaStaff() {
+        return false;
+    }
 
-    // public static void reportCancelledTransactions() {}
+    public static void reportCancelledTransactions() {}
     
 }
