@@ -82,6 +82,7 @@ public class CrudTest {
         assertTrue(Crud.insertTransaction("Pauly601", 21, "active",
                 2, 0, 1, 0, "credit card",
                 0, 0, "middle"));
+        Crud.del_row("transactions");
     }
 
     // TODO INSERT TRANSACTION DATA
@@ -90,6 +91,7 @@ public class CrudTest {
         assertTrue(Crud.addTransaction("Pauly601", 21, "active",
                 2, 0, 1, 0, "credit card",
                 0, 0, "middle", "None"));
+        Crud.del_row("transactions");
     }
 
     // TODO Create Method to Insert New Viewings
@@ -97,6 +99,7 @@ public class CrudTest {
     public void checkViewingAdded(){
         assertTrue(Crud.add_newViewing(2, "Broadway", "Friday", "19:00",
                 "Bronze", 15, 15, 15));
+        Crud.del_row("viewings");
     }
 
     // TODO Alter Viewings Table Based On Transaction (Seats Available)
@@ -126,6 +129,7 @@ public class CrudTest {
         }
         else{
             Crud.create_new_user("redken", "hair");
+            Crud.del_row("customers");
         }
     }
     @Test
