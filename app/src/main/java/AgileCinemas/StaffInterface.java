@@ -31,13 +31,25 @@ public class StaffInterface {
             exitScreen();
             return;
         }
-        // TODO: Receive reports (.csv or .txt) - SPRINT 3
-        // Choose action: manage movies, manage sessions, add gift cards, (manage staff)
+        // Receive reports (.csv or .txt)
+        createReports();
+        // Choose action: manage movies, manage sessions, add gift cards, manage staff (manager only)
         while (true) {
             String action = chooseAction();
-            if (action.equals("4")) {
-                // TODO: add a movie session
+            if (action.equals("1")) {
+                CinemaStaff.insertMovieData();
+            } if (action.equals("2")) {
+                CinemaStaff.deleteMovieData();
+            } if (action.equals("3")) {
+                CinemaStaff.modifyMovieData();
+            } if (action.equals("4")) {
                 CinemaStaff.addSession();
+            } if (action.equals("5")) {
+                CinemaStaff.enterGiftCard();
+            } if (action.equals("6")) { // chooseAction() ensures staff never enter a 6 or 7
+                Manager.addCinemaStaff();
+            } if (action.equals("7")) { // chooseAction() ensures staff never enter a 6 or 7
+                Manager.removeCinemaStaff();
             } else {
                 System.out.println("Exiting...");
                 exitScreen();
@@ -106,7 +118,7 @@ public class StaffInterface {
     }
 
     public String chooseAction() {
-        System.out.println("Please choose an action from below:");
+        System.out.println("\nPlease choose an action from below:");
         System.out.println("Add a movie into the database             type 1");
         System.out.println("Delete a movie from the database          type 2");
         System.out.println("Modify movie's data in the database       type 3");
@@ -120,12 +132,20 @@ public class StaffInterface {
         System.out.println("Exit the staff system         type any other key");
         // Get user input
         Scanner userIn = new Scanner(System.in);
-        String choice = userIn.nextLine();
+        String choice = userIn.nextLine().stripTrailing();
         // Change input if non-manager chose manager options
         if (this.manager == null && (choice.equals("6") || choice.equals("7"))) {
             choice = " ";
         }
         return choice;
+    }
+
+    public void createReports() {
+        CinemaStaff.reportUpcomingShows();
+        CinemaStaff.reportBookings();
+        if (this.manager != null) {
+            Manager.reportCancelledTransactions();
+        }
     }
 
 
