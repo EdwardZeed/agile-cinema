@@ -9,6 +9,15 @@ public class CrudTest {
     @Test
     public void canRetrieveFailedTransactions(){
         assertTrue(Crud.cancelledTransactions().length != -1);
+        int x = Crud.cancelledTransactions().length;
+        Crud.addTransaction("Pauly601", 21, "cancelled",
+                2, 0, 1, 1, "gift card", 1,
+                "middle", "timeout");
+        assertEquals(Crud.cancelledTransactions().length, x+1);
+        assertEquals(Crud.cancelledTransactions()[x][0], "Pauly601");
+        assertEquals(Crud.cancelledTransactions()[x][2], "timeout");
+        Crud.del_row("transactions");
+
     }
 
 
