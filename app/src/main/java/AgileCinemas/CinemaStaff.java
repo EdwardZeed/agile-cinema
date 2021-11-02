@@ -154,11 +154,12 @@ public class CinemaStaff {
                 movies.add(viewing.getMovie());
             }
         }
-        // Put movie info in .csv format
+        // Put movie info in .txt format
         ArrayList<String> lines = new ArrayList<String>();
         for (Movie movie : movies) {
-            String line = Integer.toString(movie.getId()) + "\t" + movie.getTitle() + "\t" + movie.getSynopsis() + "\t" + 
-                movie.getClassification() + "\t" + movie.getReleaseDate() + "\t" + movie.getDirector() + "\t" + movie.getCast() + "\n";
+            String line = "ID:             " +  Integer.toString(movie.getId()) + "\nTitle:          " + movie.getTitle() + 
+                "\nSynopsis:       " + movie.getSynopsis() + "\nClassification: " + movie.getClassification() + "\nRelease date:   " + 
+                movie.getReleaseDate() + "\nDirector:       " + movie.getDirector() + "\nCast:           " + movie.getCast() + "\n\n";
             lines.add(line);
         }
         // Write to file
@@ -171,18 +172,44 @@ public class CinemaStaff {
             }
             moviesFileWriter.close();
         } catch (IOException e) {
-            System.out.println("Error! The movies report could not be generated.");
+            System.out.println("Error! The upcoming movies report could not be generated.");
             e.printStackTrace();
             return;
         }
-        System.out.println("Upcoming movies report movies_report.txt successfully generated.");
+        System.out.println("Upcoming movies report successfully generated (AGILE-Cinemas-Reports/movies_report.txt)");
     }
     
     /** 
      * Writes to a .csv file with the upcoming movie sessions with the booking information
     */
     public static void reportBookings() {
-        // Just have Crud.getViewings()
+        // Get list of upcoming viewings
+        ArrayList<MovieViewing> viewings = Crud.getViewings();
+        // Put viewing info in .txt format
+        ArrayList<String> lines = new ArrayList<String>();
+        for (MovieViewing viewing : viewings) {
+            String line = "ID: " + viewing.getId() + "\nMovie: " + viewing.getMovie().getTitle() + "\nLocation: " + viewing.getLocation() +
+                "\nDate/time: " + viewing.getDayOfWeek() + " " + viewing.getTime() + "\nScreen size: " + viewing.getScreenSize() + 
+                "\nSeats booked: " + Integer.toString(viewing.getTotalSeats()) + "\nSeats available: " + Integer.toString(viewing.getAvailableSeats()) + 
+                "\n    Front: " + Integer.toString(viewing.getFrontseats()) + " Middle: " + Integer.toString(viewing.getMiddleseats()) + 
+                " Rear: " + Integer.toString(viewing.getBackseats()) + "\n\n";
+            lines.add(line);
+        }
+        // Write to file
+        File bookingsFile = new File("bookings_report.txt");
+        try {
+            bookingsFile.createNewFile(); // Create file if it doesn't already exist
+            FileWriter bookingsFileWriter = new FileWriter(bookingsFile);
+            for (String line : lines) {
+                bookingsFileWriter.write(line);
+            }
+            bookingsFileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error! The upcoming session bookings report could not be generated.");
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("Upcoming session bookings report successfully generated (AGILE-Cinemas-Reports/bookings_report.txt)");
     }
 
     public static void main(String[] args) {
