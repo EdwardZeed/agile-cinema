@@ -1,6 +1,10 @@
 package AgileCinemas;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
 public class CinemaStaff {
     private final String id;
@@ -135,7 +139,43 @@ public class CinemaStaff {
      * Writes to a .csv file with the upcoming movies in the database and their details
     */
     public static void reportUpcomingShows() {
-        // Just have Crud.getViewings()
+        // Get list of upcoming movies/shows
+        ArrayList<MovieViewing> viewings = Crud.getViewings();
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+        for (MovieViewing viewing : viewings) {
+            boolean alreadyAdded = false;
+            for (Movie movie : movies) {
+                if (viewing.getMovie().getId() == movie.getId()) {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                movies.add(viewing.getMovie());
+            }
+        }
+        // Put movie info in .csv format
+        ArrayList<String> lines = new ArrayList<String>();
+        for (Movie movie : movies) {
+            String line = Integer.toString(movie.getId()) + "\t" + movie.getTitle() + "\t" + movie.getSynopsis() + "\t" + 
+                movie.getClassification() + "\t" + movie.getReleaseDate() + "\t" + movie.getDirector() + "\t" + movie.getCast() + "\n";
+            lines.add(line);
+        }
+        // Write to file
+        File moviesFile = new File("movies_report.txt");
+        try {
+            moviesFile.createNewFile(); // Create file if it doesn't already exist
+            FileWriter moviesFileWriter = new FileWriter(moviesFile);
+            for (String line : lines) {
+                moviesFileWriter.write(line);
+            }
+            moviesFileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error! The movies report could not be generated.");
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("Upcoming movies report movies_report.txt successfully generated.");
     }
     
     /** 
