@@ -766,7 +766,7 @@ public class CustomerInterface {
                 return false;
             }
         }
-//        Crud.redeemGiftCard(cardNumber);
+        Crud.changeGiftCardStatustoRedeemed(cardNumber);
         System.out.println("Success! You have purchased your tickets!");
         return true;
     }

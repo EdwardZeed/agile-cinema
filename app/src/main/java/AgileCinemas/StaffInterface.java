@@ -50,7 +50,7 @@ public class StaffInterface {
                 Manager.addCinemaStaff();
             } if (action.equals("7")) { // chooseAction() ensures staff never enter a 6 or 7
                 Manager.removeCinemaStaff();
-            } else {
+            } else if (action.equalsIgnoreCase("q")){
                 System.out.println("Exiting...");
                 exitScreen();
                 return;
@@ -129,7 +129,7 @@ public class StaffInterface {
         System.out.println("Add a staff member                        type 6");
         System.out.println("Remove a staff member                     type 7");
         }
-        System.out.println("Exit the staff system         type any other key");
+        System.out.println("Exit the staff system                     type q");
         // Get user input
         Scanner userIn = new Scanner(System.in);
         String choice = userIn.nextLine().stripTrailing();
