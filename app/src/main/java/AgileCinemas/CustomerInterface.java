@@ -281,15 +281,28 @@ public class CustomerInterface {
         System.out.println("The following are the movies currently showing.");
         displayMovies();
         // Let the user choose the movie;
-        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
 
         Scanner userIn = new Scanner(System.in);
-        String moviename = checkTimeOut(userIn);
-
-
         Map<Integer, MovieViewing> sessions = this.toHashMap();
-        Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
-        // If nothing matches. go back or cancel
+
+        System.out.println("Filter the movies by ScreenSize, Please type in the Screen Size you would like to search 'Bronze, Silver, Gold'");
+        String screenSize = checkTimeOut(userIn);
+        Map<Integer, MovieViewing> movies_s = this.filter_with_ScreenSize(sessions, screenSize);
+        if (!checkHashmapSize(userIn, movies_s)) {
+            return false;
+        }
+        // choose film or go further or cancel
+        System.out.println("If you want to filter further. Please press '0' ");
+        int test_movies_s = printoutfilter_inbook(userIn, movies_s);
+        if(test_movies_s == 1){
+            return true;
+        }else if(test_movies_s == 2){
+            return false;
+        }
+
+        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
+        String moviename = checkTimeOut(userIn);
+        Map<Integer, MovieViewing> movies = this.filter_with_name(movies_s, moviename);
         if (!checkHashmapSize(userIn, movies)) {
             return false;
         }
@@ -384,6 +397,23 @@ public class CustomerInterface {
         return movies;
     }
 
+    public Map<Integer, MovieViewing> filter_with_ScreenSize(Map<Integer, MovieViewing> m, String ScreenSize) {
+        // Let the user choose the movie;
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        int j = 1;
+        for (int i = 1; i <= m.size(); i++) {
+            if (m.get(i).getScreenSize().toLowerCase().equalsIgnoreCase(ScreenSize)) {
+
+                movies.put(j, m.get(i));
+
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                j += 1;
+            }
+        }
+        return movies;
+    }
+
     public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m, String moviename) {
         // Let the user choose the movie;
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
@@ -394,7 +424,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "     Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -411,7 +441,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "     Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -428,7 +458,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "     Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -596,6 +626,13 @@ public class CustomerInterface {
                     Crud.addTransaction(customer.getUsername(), cost, transaction_status, choosen_movie.getId(),
                             children, concession, adult,"gift card",0, a, "Not Cancelled");
                 }
+                else if (whether_success == -2){
+                    System.out.println("Transaction Failed");
+                    transaction_status = "failed";
+                    Crud.addTransaction(customer.getUsername(),0, transaction_status, choosen_movie.getId(),
+                            children, concession, adult,"credit card",1, a, "Card Payment Failed");
+                    return 2;
+                }
                 else{
                     System.out.println("Transaction Failed.");
                     transaction_status = "fail";
@@ -605,6 +642,7 @@ public class CustomerInterface {
                 }
 
                 System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Ticket ID: " + String.valueOf(Crud.last_transactionID("transactions") + 1));
                 System.out.println("Location: " + choosen_movie.getLocation());
                 System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
                 System.out.println("Area: " + a);
@@ -678,11 +716,23 @@ public class CustomerInterface {
         String userInput = checkTimeOut(scan);
         //Credit Card Payment
         if(userInput.equals("1")){
-            this.payWithCreditCard(scan);
+            boolean check = this.payWithCreditCard(scan);
+            if (!check){
+                System.out.println("Would you like to try again? Y/N");
+                if (checkTimeOut(scan).equalsIgnoreCase("y")){
+                    return askHowtoPay(scan);
+                }
+                else{
+                    return -2;
+                }
+            }
             return 1;
             //Gift Card Payment
         }else if(userInput.equals("2")){
-            this.payWithGiftCard(scan);
+            boolean check = this.payWithGiftCard(scan);
+            if(!check){
+                return -2;
+            }
             return 2;
 
             //Cancel
@@ -766,7 +816,7 @@ public class CustomerInterface {
                 return false;
             }
         }
-//        Crud.redeemGiftCard(cardNumber);
+        Crud.changeGiftCardStatustoRedeemed(cardNumber);
         System.out.println("Success! You have purchased your tickets!");
         return true;
     }
