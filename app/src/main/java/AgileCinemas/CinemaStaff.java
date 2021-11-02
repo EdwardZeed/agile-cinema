@@ -1,6 +1,10 @@
 package AgileCinemas;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
 public class CinemaStaff {
     private final String id;
@@ -130,9 +134,82 @@ public class CinemaStaff {
         return true;
     }
     
-    public static void reportUpcomingShows() {}
+    /** 
+     * Writes to a .csv file with the upcoming movies in the database and their details
+    */
+    public static void reportUpcomingShows() {
+        // Get list of upcoming movies/shows
+        ArrayList<MovieViewing> viewings = Crud.getViewings();
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+        for (MovieViewing viewing : viewings) {
+            boolean alreadyAdded = false;
+            for (Movie movie : movies) {
+                if (viewing.getMovie().getId() == movie.getId()) {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                movies.add(viewing.getMovie());
+            }
+        }
+        // Put movie info in .txt format
+        ArrayList<String> lines = new ArrayList<String>();
+        for (Movie movie : movies) {
+            String line = "ID:             " +  Integer.toString(movie.getId()) + "\nTitle:          " + movie.getTitle() + 
+                "\nSynopsis:       " + movie.getSynopsis() + "\nClassification: " + movie.getClassification() + "\nRelease date:   " + 
+                movie.getReleaseDate() + "\nDirector:       " + movie.getDirector() + "\nCast:           " + movie.getCast() + "\n\n";
+            lines.add(line);
+        }
+        // Write to file
+        File moviesFile = new File("movies_report.txt");
+        try {
+            moviesFile.createNewFile(); // Create file if it doesn't already exist
+            FileWriter moviesFileWriter = new FileWriter(moviesFile);
+            for (String line : lines) {
+                moviesFileWriter.write(line);
+            }
+            moviesFileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error! The upcoming movies report could not be generated.");
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("Upcoming movies report successfully generated (AGILE-Cinemas-Reports/movies_report.txt)");
+    }
     
-    public static void reportBookings() {}
+    /** 
+     * Writes to a .csv file with the upcoming movie sessions with the booking information
+    */
+    public static void reportBookings() {
+        // Get list of upcoming viewings
+        ArrayList<MovieViewing> viewings = Crud.getViewings();
+        // Put viewing info in .txt format
+        ArrayList<String> lines = new ArrayList<String>();
+        for (MovieViewing viewing : viewings) {
+            String line = "ID: " + viewing.getId() + "\nMovie: " + viewing.getMovie().getTitle() + "\nLocation: " + viewing.getLocation() +
+                "\nDate/time: " + viewing.getDayOfWeek() + " " + viewing.getTime() + "\nScreen size: " + viewing.getScreenSize() + 
+                "\nSeats booked: " + Integer.toString(viewing.getTotalSeats()) + "\nSeats available: " + Integer.toString(viewing.getAvailableSeats()) + 
+                "\n    Front: " + Integer.toString(viewing.getFrontseats()) + " Middle: " + Integer.toString(viewing.getMiddleseats()) + 
+                " Rear: " + Integer.toString(viewing.getBackseats()) + "\n\n";
+            lines.add(line);
+        }
+        // Write to file
+        File bookingsFile = new File("bookings_report.txt");
+        try {
+            bookingsFile.createNewFile(); // Create file if it doesn't already exist
+            FileWriter bookingsFileWriter = new FileWriter(bookingsFile);
+            for (String line : lines) {
+                bookingsFileWriter.write(line);
+            }
+            bookingsFileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error! The upcoming session bookings report could not be generated.");
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("Upcoming session bookings report successfully generated (AGILE-Cinemas-Reports/bookings_report.txt)");
+    }
 
     public static void main(String[] args) {
         enterGiftCard();
