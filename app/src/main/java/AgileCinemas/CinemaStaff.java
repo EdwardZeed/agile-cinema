@@ -74,7 +74,17 @@ public class CinemaStaff {
         return false;
     }
     
-    public static void reportUpcomingShows() {}
+    /** 
+     * Writes to a .csv file with the upcoming movies in the database and their details
+    */
+    public static void reportUpcomingShows() {
+        // Just have Crud.getViewings()
+    }
     
-    public static void reportBookings() {}
+    /** 
+     * Writes to a .csv file with the upcoming movie sessions with the booking information
+    */
+    public static void reportBookings() {
+        // Just have Crud.getViewings()
+    }
 }
