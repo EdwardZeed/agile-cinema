@@ -116,7 +116,7 @@ public class CinemaStaff {
             }
         }
         //check if the gift card is already in the database
-        if (Crud.is_giftCard_exist(cardID)){
+        if (Crud.is_giftCard_exist(cardNumber)){
             System.out.println("This gift card already exist. Would you like to enter a new one? Y/N");
             if (scan.nextLine().equalsIgnoreCase("Y")){
                 return enterGiftCard();
@@ -127,7 +127,6 @@ public class CinemaStaff {
         }
 
         Crud.new_giftCard(cardNumber);
-        System.out.println(1);
         return true;
     }
     
