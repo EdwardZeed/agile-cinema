@@ -41,7 +41,7 @@ public class TestFilter {
 //        assertEquals(2, filtered.size());
     }
 
-    /*
+
     @Test
     public void testFilterWithTime(){
         CustomerInterface CI = new CustomerInterface();
@@ -49,11 +49,19 @@ public class TestFilter {
 
         Map<Integer, MovieViewing> filtered = CI.filter_with_time(sessions,"Monday");
         assertNotNull(filtered);
-//        assertEquals(2, filtered.size());
+        assertEquals(2, filtered.size());
     }
-    */
 
-    /*
+    @Test
+    public void testFilterWithScrennSize(){
+        CustomerInterface CI = new CustomerInterface();
+        Map<Integer, MovieViewing> sessions = CI.toHashMap();
+
+        Map<Integer, MovieViewing> filtered = CI.filter_with_ScreenSize(sessions,"Bronze");
+        assertNotNull(filtered);
+    }
+
+
     @Test
     public void testComboFilter(){
         CustomerInterface CI = new CustomerInterface();
@@ -70,7 +78,7 @@ public class TestFilter {
         assertNotNull(filtered3);
 //        assertEquals(1, filtered3.size());
     }
-    */
+
 
     @Test
     public void testbookseats(){
