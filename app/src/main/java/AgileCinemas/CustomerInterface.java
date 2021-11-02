@@ -281,15 +281,28 @@ public class CustomerInterface {
         System.out.println("The following are the movies currently showing.");
         displayMovies();
         // Let the user choose the movie;
-        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
 
         Scanner userIn = new Scanner(System.in);
-        String moviename = checkTimeOut(userIn);
-
-
         Map<Integer, MovieViewing> sessions = this.toHashMap();
-        Map<Integer, MovieViewing> movies = this.filter_with_name(sessions, moviename);
-        // If nothing matches. go back or cancel
+
+        System.out.println("Filter the movies by ScreenSize, Please type in the Screen Size you would like to search 'Bronze, Silver, Gold'");
+        String screenSize = checkTimeOut(userIn);
+        Map<Integer, MovieViewing> movies_s = this.filter_with_ScreenSize(sessions, screenSize);
+        if (!checkHashmapSize(userIn, movies_s)) {
+            return false;
+        }
+        // choose film or go further or cancel
+        System.out.println("If you want to filter further. Please press '0' ");
+        int test_movies_s = printoutfilter_inbook(userIn, movies_s);
+        if(test_movies_s == 1){
+            return true;
+        }else if(test_movies_s == 2){
+            return false;
+        }
+
+        System.out.println("Filter the movies by name, Please type in the movie you would like to search");
+        String moviename = checkTimeOut(userIn);
+        Map<Integer, MovieViewing> movies = this.filter_with_name(movies_s, moviename);
         if (!checkHashmapSize(userIn, movies)) {
             return false;
         }
@@ -384,6 +397,23 @@ public class CustomerInterface {
         return movies;
     }
 
+    public Map<Integer, MovieViewing> filter_with_ScreenSize(Map<Integer, MovieViewing> m, String ScreenSize) {
+        // Let the user choose the movie;
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        int j = 1;
+        for (int i = 1; i <= m.size(); i++) {
+            if (m.get(i).getScreenSize().toLowerCase().equalsIgnoreCase(ScreenSize)) {
+
+                movies.put(j, m.get(i));
+
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                j += 1;
+            }
+        }
+        return movies;
+    }
+
     public Map<Integer, MovieViewing> filter_with_name(Map<Integer, MovieViewing> m, String moviename) {
         // Let the user choose the movie;
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
@@ -394,7 +424,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "     Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -411,7 +441,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "     Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
@@ -428,7 +458,7 @@ public class CustomerInterface {
 
                 movies.put(j, m.get(i));
 
-                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "Screen Size: " + movies.get(j).getScreenSize());
+                System.out.println("ID: " + String.valueOf(j) + " " + movies.get(j).getMovie().getTitle() + " " + movies.get(j).getLocation() + " " + movies.get(j).getDayOfWeek() + " " + movies.get(j).getTime() + "     Available Front Seats: " + movies.get(j).getFrontseats() + "     Available Middle Seats: " + movies.get(j).getMiddleseats() + "     Available Back Seats: " + movies.get(j).getBackseats() + "     Screen Size: " + movies.get(j).getScreenSize());
                 j += 1;
             }
         }
