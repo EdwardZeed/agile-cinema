@@ -626,6 +626,13 @@ public class CustomerInterface {
                     Crud.addTransaction(customer.getUsername(), cost, transaction_status, choosen_movie.getId(),
                             children, concession, adult,"gift card",0, a, "Not Cancelled");
                 }
+                else if (whether_success == -2){
+                    System.out.println("Transaction Failed");
+                    transaction_status = "failed";
+                    Crud.addTransaction(customer.getUsername(),0, transaction_status, choosen_movie.getId(),
+                            children, concession, adult,"credit card",1, a, "Card Payment Failed");
+                    return 2;
+                }
                 else{
                     System.out.println("Transaction Failed.");
                     transaction_status = "fail";
@@ -635,6 +642,7 @@ public class CustomerInterface {
                 }
 
                 System.out.println("Thanks for booking " + choosen_movie.getMovie().getTitle());
+                System.out.println("Ticket ID: " + String.valueOf(Crud.last_transactionID("transactions") + 1));
                 System.out.println("Location: " + choosen_movie.getLocation());
                 System.out.println("Time: " + choosen_movie.getDayOfWeek() + "    " + choosen_movie.getTime());
                 System.out.println("Area: " + a);
@@ -708,11 +716,23 @@ public class CustomerInterface {
         String userInput = checkTimeOut(scan);
         //Credit Card Payment
         if(userInput.equals("1")){
-            this.payWithCreditCard(scan);
+            boolean check = this.payWithCreditCard(scan);
+            if (!check){
+                System.out.println("Would you like to try again? Y/N");
+                if (checkTimeOut(scan).equalsIgnoreCase("y")){
+                    return askHowtoPay(scan);
+                }
+                else{
+                    return -2;
+                }
+            }
             return 1;
             //Gift Card Payment
         }else if(userInput.equals("2")){
-            this.payWithGiftCard(scan);
+            boolean check = this.payWithGiftCard(scan);
+            if(!check){
+                return -2;
+            }
             return 2;
 
             //Cancel
