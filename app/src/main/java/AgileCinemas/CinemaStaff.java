@@ -3,7 +3,7 @@ package AgileCinemas;
 import java.util.Scanner;
 
 public class CinemaStaff {
-    private String id;
+    private final String id;
 
     /**
      * Constructor for cinema staff
@@ -71,10 +71,71 @@ public class CinemaStaff {
     }
     
     public static boolean enterGiftCard() {
-        return false;
+        System.out.println("Please enter the gift card number you would like to add in the format: ");
+        System.out.println("xxxxxxxxxxxxxxxxGC (x represents a number)");
+        System.out.println("type c to cancel");
+
+        Scanner scan = new Scanner(System.in);
+        String cardNumber = scan.nextLine();
+
+        if (cardNumber.equalsIgnoreCase("c")){
+            return false;
+        }
+        // check if the input is correct
+        if (cardNumber.length() != 18){
+            System.out.println("The gift card number must be 18 digits. Would you like to try again? Y/N");
+            if (scan.nextLine().equalsIgnoreCase("Y")){
+                return enterGiftCard();
+            }
+            else{
+                return false;
+            }
+        }
+
+        String cardID = cardNumber.substring(0, 16);
+        String suffix = cardNumber.substring(16, 18);
+
+        try{
+            long cardID_int = Long.valueOf(cardID);
+        }catch(Exception e){
+            System.out.println("The first 16 digits must be numeric. Would you like to try again? Y/N");
+            if (scan.nextLine().toUpperCase().equals("Y")){
+                return enterGiftCard();
+            }
+            else{
+                return false;
+            }
+        }
+        if (!suffix.equals("GC")){
+            System.out.println("The suffix must be 'GC'. Would you like to try again? Y/N");
+            if (scan.nextLine().equalsIgnoreCase("Y")){
+                return enterGiftCard();
+            }
+            else{
+                return false;
+            }
+        }
+        //check if the gift card is already in the database
+        if (Crud.is_giftCard_exist(cardID)){
+            System.out.println("This gift card already exist. Would you like to enter a new one? Y/N");
+            if (scan.nextLine().equalsIgnoreCase("Y")){
+                return enterGiftCard();
+            }
+            else{
+                return false;
+            }
+        }
+
+        Crud.new_giftCard(cardNumber);
+        System.out.println(1);
+        return true;
     }
     
     public static void reportUpcomingShows() {}
     
     public static void reportBookings() {}
+
+    public static void main(String[] args) {
+        enterGiftCard();
+    }
 }

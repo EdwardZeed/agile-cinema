@@ -222,7 +222,7 @@ public class Crud {
             Statement statement = conn.createStatement();
 
             String insert_query = "INSERT INTO cinemas.dbo.gift_cards (Card_Number, IS_REDEEMED)" +
-                    " VALUES ('" + new_card_number + "', '0')";
+                    " VALUES ('" + new_card_number + "', 0)";
 
             statement.executeUpdate(insert_query);
         } catch (SQLException e) {
