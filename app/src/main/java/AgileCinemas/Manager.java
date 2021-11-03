@@ -1,4 +1,9 @@
 package AgileCinemas;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Manager extends CinemaStaff {
@@ -43,7 +48,37 @@ public class Manager extends CinemaStaff {
         return true;
     }
 
-    public static void reportCancelledTransactions() {}
+    public static void reportCancelledTransactions() {
+
+        try {
+
+            // Get all cancelled transactions
+            String[][] cancelledTransactions = Crud.cancelledTransactions();
+            ArrayList<String> cancelledTransactionsList = new ArrayList<>();
+            for (int i = 0; i < cancelledTransactions.length; i++) {
+                String line = "User: " + cancelledTransactions[i][0] +
+                        "\nTime: "  + cancelledTransactions[i][1] +
+                        "\nCanceled Reason: " + cancelledTransactions[i][2] + "\n\n";
+                cancelledTransactionsList.add(line);
+            }
+
+            File managerReport = new File("ManagerReport.txt");
+            if (!managerReport.exists()) {
+                managerReport.createNewFile();
+            }
+            FileWriter writer = new FileWriter(managerReport);
+
+
+            for (String line : cancelledTransactionsList) {
+                System.out.println(line);
+                writer.write(line);
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Canceled Transaction Report generated successfully.");
+    }
     // Helper Methods helps check if staff id input is valid
     public static boolean isNumeric(String str) {
         try {
@@ -53,4 +88,6 @@ public class Manager extends CinemaStaff {
             return false;
         }
     }
+
+
 }
