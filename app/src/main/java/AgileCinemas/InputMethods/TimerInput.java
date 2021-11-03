@@ -1,22 +1,35 @@
 package AgileCinemas.InputMethods;
+import AgileCinemas.Crud;
+import AgileCinemas.CustomerInterface;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Scanner;
 public class TimerInput
 {
     private String userInput = "";
-
+    private CustomerInterface CI;
     TimerTask task = new TimerTask()
     {
         public void run()
         {
             if( userInput.equals("") )
             {
+                if (CI.getCustomer() != null){
+                    Crud.addTransaction(CI.getCustomer().getUsername(), 0, "failed", 0, 0, 0, 0, null,1, null, "time out" );
+                }
+                else{
+                    Crud.addTransaction("anonymous", 0, "failed", 0, 0, 0, 0, null,1, null, "time out" );
+                }
                 System.out.println( "Time out. exit..." );
                 System.exit( 0 );
             }
         }
     };
+
+    public TimerInput(CustomerInterface CI){
+        this.CI = CI;
+    }
 
     public String getInput(Scanner scan) throws Exception
     {

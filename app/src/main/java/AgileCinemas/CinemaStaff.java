@@ -212,6 +212,6 @@ public class CinemaStaff {
     }
 
     public static void main(String[] args) {
-        enterGiftCard();
+        reportBookings();
     }
 }
