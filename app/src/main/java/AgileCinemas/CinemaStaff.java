@@ -19,7 +19,21 @@ public class CinemaStaff {
 
     // TODO
     public static boolean insertMovieData() {
-        return false;
+        System.out.println("Please enter the details of the movies you would like to add in the format:");
+        System.out.println("<movie name>,<synopsis>,<rating>,<date_release>,<director>,<cast>");
+        System.out.println("Date format: Month Year eg. June 2006");
+        System.out.println("Rating: General (G), Parental Guidance (PG), Mature (M), Mature Accompanies (MA15+), Restricted (R18+)");
+        Scanner userIn = new Scanner(System.in);
+        String[] movieDetails = userIn.nextLine().split(",");
+        // Check input amount
+        if (movieDetails.length != 6) {
+            System.out.println("Error! You entered the wrong number of movie details.");
+            return false;
+        }
+        //Add movie into the database
+        Crud.addNewMovie(movieDetails[0],movieDetails[1], movieDetails[2], movieDetails[3], movieDetails[4], movieDetails[5]);
+        System.out.println("Success! Movie inserted into the database.");
+        return true;
     }
     
     // TODO
