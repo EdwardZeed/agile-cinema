@@ -47,16 +47,13 @@ public class StaffInterface {
             } if (action.equals("5")) {
                 CinemaStaff.enterGiftCard();
             }
-            if(manager != null) {
-                if (action.equals("6")) { // chooseAction() ensures staff never enter a 6 or 7
-                    Manager.addCinemaStaff();
-                } if (action.equals("7")) { // chooseAction() ensures staff never enter a 6 or 7
-                    Manager.removeCinemaStaff();
-                }
-                if (action.equals("8")) {
-                    Manager.reportCancelledTransactions();
-                }
-            } else if (action.equalsIgnoreCase("q")){
+
+            if (action.equals("6")) { // chooseAction() ensures staff never enter a 6 or 7
+                Manager.addCinemaStaff();
+            } if (action.equals("7")) { // chooseAction() ensures staff never enter a 6 or 7
+                Manager.removeCinemaStaff();
+            }
+            else if (action.equalsIgnoreCase("q")){
                 System.out.println("Exiting...");
                 exitScreen();
                 return;
@@ -134,7 +131,6 @@ public class StaffInterface {
         if (this.manager != null) {
         System.out.println("Add a staff member                        type 6");
         System.out.println("Remove a staff member                     type 7");
-        System.out.println("Generate canceled transaction report      type 8");
         }
         System.out.println("Exit the staff system                     type q");
         // Get user input

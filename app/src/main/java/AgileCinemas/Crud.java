@@ -55,13 +55,13 @@ public class Crud {
             }
 
             if(screen_type.equalsIgnoreCase("Bronze")){
-                i = 45 - i;
+                i = 145 - i;
             }
             else if(screen_type.equalsIgnoreCase("Silver")){
-                i = 30 - i;
+                i = 130 - i;
             }
             else if(screen_type.equalsIgnoreCase("Gold")){
-                i = 24 - i;
+                i = 124 - i;
             }
             else{
                 i = 0;

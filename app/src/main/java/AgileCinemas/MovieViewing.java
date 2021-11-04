@@ -6,7 +6,7 @@ public class MovieViewing {
     private String time;
     private String location;
     private String dayOfWeek;
-    private int totalSeats;
+    private int totalSeats; // total booked seats
     private int frontseats;
     private int middleseats;
     private int backseats;
@@ -83,7 +83,7 @@ public class MovieViewing {
         return middleseats;
     }
 
-    public void addToDatabse(){
-        //Upload SQL after booking
+    public void setTotalSeats(int total) {
+        this.totalSeats = total;
     }
 }

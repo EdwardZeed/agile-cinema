@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class StaffInterfaceTest {
 
@@ -218,6 +219,8 @@ public class StaffInterfaceTest {
         System.setIn(in);
         assertEquals("fjdkslfjd", test.chooseAction());
     }
+
+
 
 
 }
