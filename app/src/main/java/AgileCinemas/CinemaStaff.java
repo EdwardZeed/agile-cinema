@@ -176,7 +176,7 @@ public class CinemaStaff {
             e.printStackTrace();
             return;
         }
-        System.out.println("Upcoming movies report successfully generated (AGILE-Cinemas-Reports/movies_report.txt)");
+        System.out.println("Upcoming movies report successfully generated.");
     }
     
     /** 
@@ -185,6 +185,8 @@ public class CinemaStaff {
     public static void reportBookings() {
         // Get list of upcoming viewings
         ArrayList<MovieViewing> viewings = Crud.getViewings();
+        // TODO: Calculate seats booked from transactions table
+
         // Put viewing info in .txt format
         ArrayList<String> lines = new ArrayList<String>();
         for (MovieViewing viewing : viewings) {
@@ -209,7 +211,7 @@ public class CinemaStaff {
             e.printStackTrace();
             return;
         }
-        System.out.println("Upcoming session bookings report successfully generated (AGILE-Cinemas-Reports/bookings_report.txt)");
+        System.out.println("Upcoming session bookings report successfully generated.");
     }
 
     public static void main(String[] args) {
