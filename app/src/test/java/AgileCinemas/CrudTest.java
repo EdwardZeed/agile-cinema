@@ -10,9 +10,9 @@ public class CrudTest {
     //TODO Test Movie Method Modification
     @Test
     public void isMovieEdited(){
-        assertTrue(Crud.modifyMovie(2, "Inside Out", "Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.",
+        assertTrue(Crud.modifyMovie("Inside Out", "Inside Out", "Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.",
                 "G", "June 2015", "Pete Docter", "Amy Poehler, Phyllis Smith, Richard Kind, Mindy Kaling"));
-        assertTrue(Crud.modifyMovie(2, "Inside Out", "Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.",
+        assertTrue(Crud.modifyMovie("Inside Out", "Inside Out", "Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.",
                 "PG", "June 2015", "Pete Docter", "Amy Poehler, Phyllis Smith, Richard Kind, Mindy Kaling"));
     }
 

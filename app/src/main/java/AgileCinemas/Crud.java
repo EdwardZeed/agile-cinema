@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Crud {
     //TODO Create Method to modify data in a movie row
-    public static boolean modifyMovie(int id, String name, String synopsis, String rating, String date_release, String director, String cast){
+    public static boolean modifyMovie(String oldName, String name, String synopsis, String rating, String date_release, String director, String cast){
         Connection conn = null;
         boolean result = false;
         try {
@@ -15,7 +15,7 @@ public class Crud {
             String modifyMovie = "UPDATE cinemas.dbo.movies SET " +
                     "name = '" + name + "', synopsis = '" + synopsis + "', rating = '" + rating + "', date_release = '" + date_release + "', " +
                     "director = '" + director + "', cast = '" + cast + "' " +
-                    "WHERE id = " + id;
+                    "WHERE name = '" + oldName + "'";
             statement.executeUpdate(modifyMovie);
             result = true;
         } catch (SQLException e) {
