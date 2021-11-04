@@ -70,7 +70,7 @@ public class Manager extends CinemaStaff {
 
 
             for (String line : cancelledTransactionsList) {
-                System.out.println(line);
+
                 writer.write(line);
             }
             writer.close();
