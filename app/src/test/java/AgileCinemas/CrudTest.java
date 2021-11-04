@@ -1,9 +1,21 @@
 package AgileCinemas;
 
 import org.junit.jupiter.api.*;
+
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
+    //TODO Create Test for Method that retrieves booked seats for a viewing id
+    @Test
+    public void doesRetrieveBookedSeats(){
+        assertTrue(Crud.seatsBookedforViewing(2) > -1);
+    }
+
+
+
+
 
     //TODO Test Retrieval of Failed Transactions
     @Test

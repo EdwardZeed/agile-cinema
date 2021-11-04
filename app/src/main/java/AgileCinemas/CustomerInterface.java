@@ -264,7 +264,7 @@ public class CustomerInterface {
     }
 
     public String checkTimeOut(Scanner scan){
-        TimerInput TI = new TimerInput();
+        TimerInput TI = new TimerInput(this);
 
         try {
             return TI.getInput(scan).toLowerCase();
@@ -783,7 +783,7 @@ public class CustomerInterface {
      */
     public String inputCreditCardNumber(Scanner scan) {
 //        return PasswordField.readPassword("Please enter your credit card number:");
-        return new TimerInput().get_input_mask(scan, "Please enter your credit card number:");
+        return new TimerInput(this).get_input_mask(scan, "Please enter your credit card number:");
     }
 
     public boolean payWithGiftCard(Scanner scan){

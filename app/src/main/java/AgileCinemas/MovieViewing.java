@@ -19,6 +19,7 @@ public class MovieViewing {
     */
 
     public MovieViewing(int id, Movie movie, String dayOfWeek, String time, String location, String screenSize, int backseats, int middleseats,int frontseats) {
+        this.id = id;
         this.movie = movie;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
@@ -27,7 +28,8 @@ public class MovieViewing {
         this.backseats = backseats;
         this.middleseats = middleseats;
         this.frontseats = frontseats;
-        this.id = id;
+        this.availableSeats = backseats + middleseats + frontseats;
+        this.totalSeats = -1;
     }
 
     // TODO: getter methods
