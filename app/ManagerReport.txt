@@ -1,0 +1,12 @@
+User: EdwardHimself
+Time: Nov  2 2021  8:46AM
+Canceled Reason: Card Payment Failed
+
+User: EdwardHimself
+Time: Nov  4 2021  8:48AM
+Canceled Reason: Card Payment Failed
+
+User: Pauly601
+Time: Nov  1 2021  7:01AM
+Canceled Reason: timeout
+

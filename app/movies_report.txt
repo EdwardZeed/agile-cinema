@@ -1,0 +1,26 @@
+- - - - AGILE Cinemas Staff Upcoming Movies Report - - - -
+
+ID:             2
+Title:          Inside Out
+Synopsis:       Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.
+Classification: PG
+Release date:   June 2015
+Director:       Pete Docter
+Cast:           Amy Poehler, Phyllis Smith, Richard Kind, Mindy Kaling
+
+ID:             3
+Title:          The Social Network
+Synopsis:       Mark Zuckerberg creates a social networking site, Facebook, with his friend Eduardo's help. Though it turns out to be a successful venture, he severs ties with several people along the way.
+Classification: PG
+Release date:   January 2010
+Director:       David Fincher
+Cast:           Jesse Eisenberg, Andrew Garfield, Justin Timberlake, Armie Hammer
+
+ID:             1
+Title:          There Will Be Blood
+Synopsis:       Daniel Plainview is a ruthless oil prospector who goes on a relentless pursuit to become the most powerful oil tycoon. For this, he even resorts to manipulating and using his adopted son.
+Classification: R18+
+Release date:   February 2008
+Director:       Paul Thomas Anderson
+Cast:           Daniel Day-Lewis, Paul Dano, Dillon Freasier, Ciaran Hinds
+

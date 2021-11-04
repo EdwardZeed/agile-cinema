@@ -158,6 +158,16 @@ public class CustomerInterfaceTest {
     @Test
     public void displayOptionsTest() {
         CustomerInterface testCI = new CustomerInterface();
+        InputStream test1 = new ByteArrayInputStream("Bronze:burwood".getBytes());
+        System.setIn(test1);
+        assertTrue(testCI.displayMovies());
+
+        InputStream test2 = new ByteArrayInputStream("N".getBytes());
+        System.setIn(test2);
+        assertTrue(testCI.displayMovies());
+
+        InputStream test3 = new ByteArrayInputStream("hdfg".getBytes());
+        System.setIn(test3);
         assertTrue(testCI.displayMovies());
     }
 

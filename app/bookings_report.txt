@@ -1,0 +1,106 @@
+- - - - AGILE Cinemas Staff Session Bookings Report - - - -
+
+ID: 1
+Movie: Inside Out
+Location: Hornsby
+Date/time: Monday 10:00
+Screen size: Gold
+Seats booked: 2369
+Seats available: -2233
+
+ID: 2
+Movie: The Social Network
+Location: Broadway
+Date/time: Monday 13:00
+Screen size: Silver
+Seats booked: 120
+Seats available: 25
+
+ID: 3
+Movie: Inside Out
+Location: Burwood
+Date/time: Tuesday 14:00
+Screen size: Bronze
+Seats booked: 115
+Seats available: 30
+
+ID: 4
+Movie: Inside Out
+Location: Penrith
+Date/time: Wednesday 18:30
+Screen size: Bronze
+Seats booked: 110
+Seats available: 35
+
+ID: 5
+Movie: There Will Be Blood
+Location: Hornsby
+Date/time: Thursday 19:00
+Screen size: Bronze
+Seats booked: 103
+Seats available: 42
+
+ID: 6
+Movie: There Will Be Blood
+Location: Penrith
+Date/time: Friday 15:30
+Screen size: Bronze
+Seats booked: 105
+Seats available: 40
+
+ID: 7
+Movie: Inside Out
+Location: Burwood
+Date/time: Saturday 19:00
+Screen size: Silver
+Seats booked: 108
+Seats available: 22
+
+ID: 8
+Movie: The Social Network
+Location: Hornsby
+Date/time: Saturday 14:00
+Screen size: Bronze
+Seats booked: 102
+Seats available: 43
+
+ID: 9
+Movie: Inside Out
+Location: Broadway
+Date/time: Sunday 20:00
+Screen size: Gold
+Seats booked: 110
+Seats available: 14
+
+ID: 10
+Movie: Inside Out
+Location: Broadway
+Date/time: Friday 19:00
+Screen size: Bronze
+Seats booked: 26
+Seats available: 119
+
+ID: 304
+Movie: Inside Out
+Location: Broadway
+Date/time: Friday 19:00
+Screen size: Bronze
+Seats booked: 100
+Seats available: 45
+
+ID: 218
+Movie: Inside Out
+Location: Broadway
+Date/time: Friday 19:00
+Screen size: Bronze
+Seats booked: 100
+Seats available: 45
+
+ID: 219
+Movie: The Social Network
+Location: Hornsby
+Date/time: Tuesday 08:45
+Screen size: Silver
+Seats booked: 24
+Seats available: 106
+

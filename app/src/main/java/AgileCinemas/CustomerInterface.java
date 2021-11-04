@@ -219,7 +219,7 @@ public class CustomerInterface {
             System.out.println("    Release date: " + viewing.getMovie().getReleaseDate());
             // Display director
             System.out.println("    Director: " + viewing.getMovie().getDirector());
-            // Display cast 
+            // Display cast
             System.out.println("    Cast: " + viewing.getMovie().getCast());
             // Display upcoming times
             System.out.println("    Day: " + viewing.getDayOfWeek());
@@ -228,6 +228,43 @@ public class CustomerInterface {
             System.out.println("    Screen size: " + viewing.getScreenSize());
             System.out.println();
         }
+
+        System.out.println("Would you like to filter? If you like, Please type in '<ScreenSize>:<Location>' \nIf no, please enter 'N'");
+        Scanner userInput = new Scanner(System.in);
+        String filter = userInput.nextLine();
+        String[] filterArray = filter.split(":");
+        Map<Integer,MovieViewing> newmap = this.toHashMap();
+        if (filterArray.length == 2) {
+            Map<Integer,MovieViewing> filteredMap = filter_with_ScreenSize_location(newmap, filterArray[0], filterArray[1]);
+            for (Map.Entry<Integer, MovieViewing> viewing: filteredMap.entrySet()){
+                // Display title
+                System.out.println("\n" + viewing.getValue().getMovie().getTitle());
+                // Display location
+                System.out.println("    Cinema location: " + viewing.getValue().getLocation());
+                // Display synopsis
+                System.out.println("    Synopsis: " + viewing.getValue().getMovie().getTitle());
+                // Display classification
+                System.out.println("    Classification: " + viewing.getValue().getMovie().getClassification());
+                // Display release date
+                System.out.println("    Release date: " + viewing.getValue().getMovie().getReleaseDate());
+                // Display director
+                System.out.println("    Director: " + viewing.getValue().getMovie().getDirector());
+                // Display cast
+                System.out.println("    Cast: " + viewing.getValue().getMovie().getCast());
+                // Display upcoming times
+                System.out.println("    Day: " + viewing.getValue().getDayOfWeek());
+                System.out.println("    Time: " + viewing.getValue().getTime());
+                // Display screen size
+                System.out.println("    Screen size: " + viewing.getValue().getScreenSize());
+                System.out.println();
+            }
+        }else if(filter.equalsIgnoreCase("N")){
+            System.out.println("You can continue view the movie or start booking");
+        }
+        else{
+            System.out.println("Sorry, no match movie");
+        }
+
         return true;
     }
 
@@ -393,6 +430,20 @@ public class CustomerInterface {
         HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
         for (int i = 1; i <= MV.size(); i++) {
             movies.put(i, MV.get(i - 1));
+        }
+        return movies;
+    }
+
+    public Map<Integer, MovieViewing> filter_with_ScreenSize_location(Map<Integer, MovieViewing> m, String ScreenSize, String location) {
+        // Let the user choose the movie;
+        HashMap<Integer, MovieViewing> movies = new HashMap<Integer, MovieViewing>();
+        //  filter by movie name
+        int j = 1;
+        for (int i = 1; i <= m.size(); i++) {
+            if (m.get(i).getScreenSize().toLowerCase().equalsIgnoreCase(ScreenSize) && m.get(i).getLocation().toLowerCase().equalsIgnoreCase(location)) {
+                movies.put(j, m.get(i));
+                j += 1;
+            }
         }
         return movies;
     }
