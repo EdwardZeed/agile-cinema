@@ -7,15 +7,20 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
+    //TODO Test Movie Method Modification
+    @Test
+    public void isMovieEdited(){
+        assertTrue(Crud.modifyMovie(2, "Inside Out", "Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.",
+                "G", "June 2015", "Pete Docter", "Amy Poehler, Phyllis Smith, Richard Kind, Mindy Kaling"));
+        assertTrue(Crud.modifyMovie(2, "Inside Out", "Eleven-year-old Riley moves to San Francisco, leaving behind her life in Minnesota. She and her five core emotions, Fear, Anger, Joy, Disgust and Sadness, struggle to cope with her new life.",
+                "PG", "June 2015", "Pete Docter", "Amy Poehler, Phyllis Smith, Richard Kind, Mindy Kaling"));
+    }
+
     //TODO Create Test for Method that retrieves booked seats for a viewing id
     @Test
     public void doesRetrieveBookedSeats(){
         assertTrue(Crud.seatsBookedforViewing(2) > -1);
     }
-
-
-
-
 
     //TODO Test Retrieval of Failed Transactions
     @Test

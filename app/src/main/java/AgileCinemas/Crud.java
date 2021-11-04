@@ -4,6 +4,35 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Crud {
+    //TODO Create Method to modify data in a movie row
+    public static boolean modifyMovie(int id, String name, String synopsis, String rating, String date_release, String director, String cast){
+        Connection conn = null;
+        boolean result = false;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String modifyMovie = "UPDATE cinemas.dbo.movies SET " +
+                    "name = '" + name + "', synopsis = '" + synopsis + "', rating = '" + rating + "', date_release = '" + date_release + "', " +
+                    "director = '" + director + "', cast = '" + cast + "' " +
+                    "WHERE id = " + id;
+            statement.executeUpdate(modifyMovie);
+            result = true;
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return result;
+    }
+
+
     //TODO Create Method that returns amount of seats booked for a viewing id
     public static int seatsBookedforViewing(int id){
 
