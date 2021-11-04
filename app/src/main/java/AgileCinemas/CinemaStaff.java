@@ -162,7 +162,7 @@ public class CinemaStaff {
     /** 
      * Writes to a .csv file with the upcoming movies in the database and their details
     */
-    public static void reportUpcomingShows() {
+    public static boolean reportUpcomingShows() {
         // Get list of upcoming movies/shows
         ArrayList<MovieViewing> viewings = Crud.getViewings();
         ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -191,6 +191,7 @@ public class CinemaStaff {
         try {
             moviesFile.createNewFile(); // Create file if it doesn't already exist
             FileWriter moviesFileWriter = new FileWriter(moviesFile);
+            moviesFileWriter.write("- - - - AGILE Cinemas Staff Upcoming Movies Report - - - -\n\n");
             for (String line : lines) {
                 moviesFileWriter.write(line);
             }
@@ -198,27 +199,29 @@ public class CinemaStaff {
         } catch (IOException e) {
             System.out.println("Error! The upcoming movies report could not be generated.");
             e.printStackTrace();
-            return;
+            return false;
         }
         System.out.println("Upcoming movies report successfully generated.");
+        return true;
     }
     
     /** 
      * Writes to a .csv file with the upcoming movie sessions with the booking information
     */
-    public static void reportBookings() {
+    public static boolean reportBookings() {
         // Get list of upcoming viewings
         ArrayList<MovieViewing> viewings = Crud.getViewings();
         // TODO: Calculate seats booked from transactions table
+        for (MovieViewing viewing : viewings) {
+            viewing.setTotalSeats(Crud.seatsBookedforViewing(viewing.getId()));
+        }
 
         // Put viewing info in .txt format
         ArrayList<String> lines = new ArrayList<String>();
         for (MovieViewing viewing : viewings) {
             String line = "ID: " + viewing.getId() + "\nMovie: " + viewing.getMovie().getTitle() + "\nLocation: " + viewing.getLocation() +
                 "\nDate/time: " + viewing.getDayOfWeek() + " " + viewing.getTime() + "\nScreen size: " + viewing.getScreenSize() + 
-                "\nSeats booked: " + Integer.toString(viewing.getTotalSeats()) + "\nSeats available: " + Integer.toString(viewing.getAvailableSeats()) + 
-                "\n    Front: " + Integer.toString(viewing.getFrontseats()) + " Middle: " + Integer.toString(viewing.getMiddleseats()) + 
-                " Rear: " + Integer.toString(viewing.getBackseats()) + "\n\n";
+                "\nSeats booked: " + Integer.toString(viewing.getTotalSeats()) + "\nSeats available: " + Integer.toString(viewing.getAvailableSeats()) + "\n\n";
             lines.add(line);
         }
         // Write to file
@@ -226,6 +229,7 @@ public class CinemaStaff {
         try {
             bookingsFile.createNewFile(); // Create file if it doesn't already exist
             FileWriter bookingsFileWriter = new FileWriter(bookingsFile);
+            bookingsFileWriter.write("- - - - AGILE Cinemas Staff Session Bookings Report - - - -\n\n");
             for (String line : lines) {
                 bookingsFileWriter.write(line);
             }
@@ -233,12 +237,10 @@ public class CinemaStaff {
         } catch (IOException e) {
             System.out.println("Error! The upcoming session bookings report could not be generated.");
             e.printStackTrace();
-            return;
+            return false;
         }
         System.out.println("Upcoming session bookings report successfully generated.");
+        return true;
     }
 
-    public static void main(String[] args) {
-        reportBookings();
-    }
 }

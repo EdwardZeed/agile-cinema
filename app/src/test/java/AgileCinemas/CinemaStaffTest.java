@@ -139,5 +139,23 @@ public class CinemaStaffTest {
         assertFalse(CinemaStaff.enterGiftCard());
     }
 
+    /** 
+     * reportUpcomingShows() test
+     *   reportUpcomingShowsTest: Tests that the upcoming movies staff report is successfully generated; should return true
+    */
+    @Test
+    public void reportUpcomingShowsTest() {
+        assertTrue(CinemaStaff.reportUpcomingShows());
+    }
+
+    /** 
+     * reportBookings() test
+     *   reportBookingsTest: Tests that the bookings summary staff report is successfully generated; should return true
+    */
+    @Test
+    public void reportBookingsTest() {
+        assertTrue(CinemaStaff.reportBookings());
+    }
+
 
 }
