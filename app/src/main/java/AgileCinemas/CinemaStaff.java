@@ -55,12 +55,33 @@ public class CinemaStaff {
         System.out.printf("Movie deleted successfully.");
         return true;
     }
-    
-    // TODO
+
+    // Modify the movie data
     public static boolean modifyMovieData() {
+        Scanner userIn = new Scanner(System.in);
+        // Ask which movie want to update
+        System.out.println("Please enter the movie name that you want to update.");
+        String oldName = userIn.nextLine();
+        // Ask for input to update.
+        System.out.println("Please enter the details of the movies you would like to update in the format:");
+        System.out.println("<movie name>,<synopsis>,<rating>,<date_release>,<director>,<cast>");
+        System.out.println("Keep the value same if no changes on it.");
+        String[] movieDetails = userIn.nextLine().split(",");
+        // Check input amount
+        if (movieDetails.length != 6) {
+            System.out.println("Error! You entered the wrong number of movie details.");
+            return false;
+        }
+        // Update the value from input
+        if(Crud.modifyMovie(oldName,movieDetails[0],movieDetails[1], movieDetails[2], movieDetails[3], movieDetails[4], movieDetails[5])){
+            System.out.printf("Updated successfully.");
+            return true;
+        }
+        // Added failed
+        System.out.printf("There is something wrong. Please check your input.");
         return false;
     }
-    
+
     /**
      * Main method for adding a session into the database
      * @return true if the session was entered successfully, otherwise false
