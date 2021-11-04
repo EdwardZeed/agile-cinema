@@ -23,12 +23,37 @@ public class CinemaStaff {
 
     // TODO
     public static boolean insertMovieData() {
-        return false;
+        System.out.println("Please enter the details of the movies you would like to add in the format:");
+        System.out.println("<movie name>,<synopsis>,<rating>,<date_release>,<director>,<cast>");
+        System.out.println("Date format: Month Year eg. June 2006");
+        System.out.println("Rating: General (G), Parental Guidance (PG), Mature (M), Mature Accompanies (MA15+), Restricted (R18+)");
+        Scanner userIn = new Scanner(System.in);
+        String[] movieDetails = userIn.nextLine().split(",");
+        // Check input amount
+        if (movieDetails.length != 6) {
+            System.out.println("Error! You entered the wrong number of movie details.");
+            return false;
+        }
+        //Add movie into the database
+        Crud.addNewMovie(movieDetails[0],movieDetails[1], movieDetails[2], movieDetails[3], movieDetails[4], movieDetails[5]);
+        System.out.println("Success! Movie inserted into the database.");
+        return true;
     }
     
     // TODO
     public static boolean deleteMovieData() {
-        return false;
+        System.out.println("Please enter the movie name that you want to delete.");
+        Scanner userIn = new Scanner(System.in);
+        String movie_name = userIn.nextLine();
+        // Delete movie, return false if failed.
+        try{
+            Crud.delMovie(movie_name);
+        }catch (Exception e){
+            System.out.println("Error! Movie deleted faild, please check the the movie name is correct.");
+            return false;
+        }
+        System.out.printf("Movie deleted successfully.");
+        return true;
     }
     
     // TODO
@@ -120,7 +145,7 @@ public class CinemaStaff {
             }
         }
         //check if the gift card is already in the database
-        if (Crud.is_giftCard_exist(cardID)){
+        if (Crud.is_giftCard_exist(cardNumber)){
             System.out.println("This gift card already exist. Would you like to enter a new one? Y/N");
             if (scan.nextLine().equalsIgnoreCase("Y")){
                 return enterGiftCard();
@@ -131,7 +156,6 @@ public class CinemaStaff {
         }
 
         Crud.new_giftCard(cardNumber);
-        System.out.println(1);
         return true;
     }
     
@@ -215,6 +239,6 @@ public class CinemaStaff {
     }
 
     public static void main(String[] args) {
-        enterGiftCard();
+        reportBookings();
     }
 }

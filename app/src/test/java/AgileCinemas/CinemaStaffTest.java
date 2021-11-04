@@ -101,5 +101,43 @@ public class CinemaStaffTest {
 
     }
 
+    @Test
+    public void addGiftCardCanceled(){
+        String input = "c";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertFalse(CinemaStaff.enterGiftCard());
+
+    }
+
+    @Test
+    public void addGiftCardSuccess(){
+        String input = "1000000000000010GC";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertTrue(CinemaStaff.enterGiftCard());
+        Crud.del_row("gift_cards");
+    }
+
+    @Test
+    public void addGiftCardInvalid(){
+        String input = "100000000010GC\nN";
+        InputStream test1 = new ByteArrayInputStream(input.getBytes());
+        System.setIn(test1);
+        assertFalse(CinemaStaff.enterGiftCard());
+
+        InputStream test2 = new ByteArrayInputStream("1000000000000010FF\nN".getBytes());
+        System.setIn(test2);
+        assertFalse(CinemaStaff.enterGiftCard());
+
+        InputStream test3 = new ByteArrayInputStream("aaaaaaaaaaaaaaaaGC\nN".getBytes());
+        System.setIn(test3);
+        assertFalse(CinemaStaff.enterGiftCard());
+
+        InputStream test4 = new ByteArrayInputStream("1000000000000000GC\nN".getBytes());
+        System.setIn(test4);
+        assertFalse(CinemaStaff.enterGiftCard());
+    }
+
 
 }
