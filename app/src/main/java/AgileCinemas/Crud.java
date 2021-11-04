@@ -4,6 +4,55 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Crud {
+    //TODO Create Method that returns amount of seats booked for a viewing id
+    public static int seatsBookedforViewing(int id){
+
+        Connection conn = null;
+        ResultSet resultSet = null;
+        int i = 0;
+        String screen_type = "";
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String retrieveRemainingSeats = "SELECT screen_type, totalseats_remaining " +
+                    "FROM cinemas.dbo.viewings " +
+                    "WHERE id = " + id;
+            resultSet = statement.executeQuery(retrieveRemainingSeats);
+
+            while (resultSet.next()) {
+                screen_type = resultSet.getString(1);
+                i = Integer.parseInt(resultSet.getString(2));
+            }
+
+            if(screen_type.equalsIgnoreCase("Bronze")){
+                i = 45 - i;
+            }
+            else if(screen_type.equalsIgnoreCase("Silver")){
+                i = 30 - i;
+            }
+            else if(screen_type.equalsIgnoreCase("Gold")){
+                i = 24 - i;
+            }
+            else{
+                i = 0;
+            }
+
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return i;
+
+    }
+
     //TODO Create Method to Retrieve Transaction Data
     public static String[][] cancelledTransactions(){
         int num_cancelled = 0;
