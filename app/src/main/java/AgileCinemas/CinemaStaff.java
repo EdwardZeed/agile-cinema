@@ -42,7 +42,18 @@ public class CinemaStaff {
     
     // TODO
     public static boolean deleteMovieData() {
-        return false;
+        System.out.println("Please enter the movie name that you want to delete.");
+        Scanner userIn = new Scanner(System.in);
+        String movie_name = userIn.nextLine();
+        // Delete movie, return false if failed.
+        try{
+            Crud.delMovie(movie_name);
+        }catch (Exception e){
+            System.out.println("Error! Movie deleted faild, please check the the movie name is correct.");
+            return false;
+        }
+        System.out.printf("Movie deleted successfully.");
+        return true;
     }
     
     // TODO

@@ -160,6 +160,29 @@ public class Crud {
     return i;
     }
 
+    // Remove movie from database by its name
+    public static void delMovie(String movie_name){
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://soft2412-a2.cyg3iolyiokd.ap-southeast-2.rds.amazonaws.com:1433;", "admin", "gr0up!wo");
+            Statement statement = conn.createStatement();
+
+            String delStaffQuery = "DELETE FROM cinemas.dbo.movies " +
+                    "WHERE movies.name = '" + movie_name + "'";
+            statement.executeUpdate(delStaffQuery);
+
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
     //TODO Update Gift Card from not redeemed, to redeemed
     public static void changeGiftCardStatustoRedeemed(String giftcard){
         // 1 Means True. i.e. the gift card has been redeemed and IS NO LONGER ABLE TO BE USED
