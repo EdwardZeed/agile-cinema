@@ -5,8 +5,8 @@ Movie: Inside Out
 Location: Hornsby
 Date/time: Monday 10:00
 Screen size: Gold
-Seats booked: 2369
-Seats available: -2233
+Seats booked: 76
+Seats available: 48
 
 ID: 2
 Movie: The Social Network
@@ -77,8 +77,8 @@ Movie: Inside Out
 Location: Broadway
 Date/time: Friday 19:00
 Screen size: Bronze
-Seats booked: 26
-Seats available: 119
+Seats booked: 21
+Seats available: 124
 
 ID: 304
 Movie: Inside Out
@@ -103,4 +103,12 @@ Date/time: Tuesday 08:45
 Screen size: Silver
 Seats booked: 24
 Seats available: 106
+
+ID: 379
+Movie: There Will Be Blood
+Location: Burwood
+Date/time: Friday 19:00
+Screen size: Bronze
+Seats booked: -5
+Seats available: 150
 

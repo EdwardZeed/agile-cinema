@@ -1,3 +1,11 @@
+User: Pauly601
+Time: Nov  4 2021 11:22PM
+Canceled Reason: time out
+
+User: ikaros
+Time: Nov  4 2021 11:48PM
+Canceled Reason: time out
+
 User: EdwardHimself
 Time: Nov  2 2021  8:46AM
 Canceled Reason: Card Payment Failed
@@ -5,6 +13,14 @@ Canceled Reason: Card Payment Failed
 User: EdwardHimself
 Time: Nov  4 2021  8:48AM
 Canceled Reason: Card Payment Failed
+
+User: rachela
+Time: Nov  4 2021 11:26PM
+Canceled Reason: time out
+
+User: ikaros
+Time: Nov  4 2021 11:55PM
+Canceled Reason: time out
 
 User: Pauly601
 Time: Nov  1 2021  7:01AM
