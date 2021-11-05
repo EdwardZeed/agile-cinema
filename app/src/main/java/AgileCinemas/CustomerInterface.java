@@ -210,8 +210,6 @@ public class CustomerInterface {
         for (Map.Entry<Integer, MovieViewing> viewing: movies.entrySet()) {
             // Display title
             System.out.println("\n" + viewing.getValue().getMovie().getTitle());
-            // Display title
-            System.out.println("    ID: " + viewing.getKey());
             // Display location
             System.out.println("    Cinema location: " + viewing.getValue().getLocation());
             // Display synopsis
@@ -242,8 +240,6 @@ public class CustomerInterface {
             for (Map.Entry<Integer, MovieViewing> viewing: filteredMap.entrySet()){
                 // Display title
                 System.out.println("\n" + viewing.getValue().getMovie().getTitle());
-                // Display ID
-                System.out.println("    ID: " + viewing.getKey());
                 // Display location
                 System.out.println("    Cinema location: " + viewing.getValue().getLocation());
                 // Display synopsis
