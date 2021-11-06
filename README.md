@@ -4,6 +4,14 @@
   Please find features in Sprint Features below.
   
 ## Key Topic
+  * Tips
+    * Normal User login
+      * Type any word to get into customer interface.
+      * You can choose to skip login and view movies information as a guest.
+    * Staff login
+      * Type 12345 to access the staff interface.
+      * Use 4-digit staff id(Can be created by manager.)
+      * The system will check if you are manager by the staff id.
   * Sprint Features
     * Sprint One
       * Anyone(Guest/Customer) can view the available movies.
@@ -11,6 +19,7 @@
       * User can cancel as they wish.
       * User can enter booking screen and must log in before enter that.
       * Create Staff Interface.(Without any features.)
+    
     * Sprint Two
       * Customer can choose both the type or amount of the seats.
       * Customer might choose to pay by credit card or gift card when check out.
@@ -20,8 +29,10 @@
       
     * Sprint Three
       * Take user back to main menu when time out (2 mins)
-      * Staff abilities improved.
-      * Fit in all rights of manager.
+      * Staff can add/remove/modify the movie data.
+      * Staff can genereate the basic report including all booking details.
+      * Manager has the same ablities as staff's. 
+      * Manager can add or remove staff and generate Cancellation report including all the cancelled transactions.
   
   * How to run the program.
     * Make sure you have following tools updated before running the program.
